@@ -51,34 +51,14 @@ export default function Overview() {
 		userVolume,
 	} = useContext(DataContext);
 
-	// create a list of token balances in USDC
-	const tokenBalances = tokenList.map((tokenSymbol: string) => {
-		if (tokenSymbol === "USDC") {
-			return balances[tokenSymbol]?.holding ?? 0;
-		}
-		const token = tokens[tokenSymbol];
-		const balance: any = balances[tokenSymbol];
-		if (!trades[`SPOT_${tokenSymbol}_USDC`]) return 0;
-		const price = trades[`SPOT_${tokenSymbol}_USDC`][0]?.executed_price;
-		const holding = balance?.holding ?? 0;
-		const totalValue = holding * price;
-		return totalValue;
-	});
-
-	const totalUSDC = tokenBalances.reduce(
-		(partialSum: any, a: any) => partialSum + a,
-		0
-	);
-
+	
 	return (
 		<Flex h={'100%'} px={4} justify="end" align={"center"}>
 			<Box>
 				<Heading size={"sm"} color="whiteAlpha.700">
 					Portfolio
 				</Heading>
-				<Text mt={1} fontSize={"2xl"}>
-					{dollarFormatter.format(totalUSDC)}
-				</Text>
+				
 			</Box>
 		</Flex>
 	);

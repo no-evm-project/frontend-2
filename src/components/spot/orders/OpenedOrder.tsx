@@ -99,8 +99,7 @@ export default function OpenedOrder({ order, pair }: any) {
             .then((res: any) => {
                 console.log(res.data);
                 // handleExecution(order);
-            }
-            )
+            })
             .catch((err: any) => {
                 console.log(
                     "Failed to cancel order: ",
