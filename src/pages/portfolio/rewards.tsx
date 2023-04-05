@@ -31,10 +31,11 @@ export default function Rewards() {
 			</Head>
 
 			<Flex minH={"90vh"}>
-				<Flex bg="background.600" mx={1} my={1}>
+				<Flex bg="background.600">
 					<PortfolioNavBar />
 				</Flex>
-				<Flex w={"80%"} flexDir={"column"} my={1} bg={"background.600"}>
+				<Divider orientation="vertical" minH={'90vh'} />
+				<Flex w={"80%"} flexDir={"column"} bg={"background.600"}>
 					<Flex align={"start"} justify="space-between">
 						<Flex
 							flexDir={"column"}

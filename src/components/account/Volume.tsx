@@ -56,7 +56,7 @@ export default function Volume() {
 		</Flex>
 
 		{/* <Heading size={'md'} mb={4} px={6}>Fee Info</Heading> */}
-			<TableContainer>
+			<TableContainer maxW={'1000px'}>
 				<Table variant="simple">
 					<Thead>
 						<Tr>

@@ -43,7 +43,7 @@ const tabStyle = {
 	rounded: 0,
 	bg: "background.500",
 	_selected: {
-		bg: "whiteAlpha.100",
+		bg: "background.400",
 		color: "white",
 	}
 }
@@ -177,7 +177,8 @@ export default function TokenSelector({ pair }: any) {
 						position: "fixed",
 						width: "400px",
 						padding: "12px",
-						backgroundColor: "#1F113C",
+						backgroundColor: "#1A0F30",
+						border: "1px solid #2A1652",
 						zIndex: 100,
 					}}
 				>
@@ -206,7 +207,7 @@ export default function TokenSelector({ pair }: any) {
 							</InputLeftElement>
 							<Input
 								placeholder="Search Crypto Pairs"
-								bg={"whiteAlpha.200"}
+								bg={"background.400"}
 								border="0"
 								my={2}
 								h="44px"
@@ -216,7 +217,7 @@ export default function TokenSelector({ pair }: any) {
 						</InputGroup>
 
 						<Tabs isFitted size={"sm"} variant="soft-rounded">
-							<TabList mx={0} mb={2}>
+							<TabList mx={0} mr={2} mb={2}>
 								<Tab {...tabStyle}>
 									All
 								</Tab>

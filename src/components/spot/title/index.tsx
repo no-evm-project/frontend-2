@@ -1,6 +1,6 @@
 import { DataContext } from "@/contexts/DataProvider";
 import { useWalletSelector } from "@/contexts/WalletSelectorContext";
-import { Flex, Text, Box } from "@chakra-ui/react";
+import { Flex, Text, Box, Divider } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import TokenSelector from "./TokenSelector";
@@ -13,10 +13,13 @@ export default function Title({ pair }: any) {
 	// if (!trades[pair.symbol]) return <></>;
 	// if(!trades[pair.symbol][0]) return <></>
 	return (
-		<Flex w={"100%"} h={20} align="center" gap={1}>
-			<Flex justify={"center"} flexDir="column" minW={"400px"} h={"94%"} my={1}>
+		<Flex w={"100%"} h={20} align="center">
+			<Flex justify={"center"} flexDir="column" minW={"400px"} h={"100%"}>
 				<TokenSelector pair={pair} />
 			</Flex>
+			<Box>
+				<Divider orientation="vertical" h={'20'} />
+			</Box>
 
 			<Flex
 				color={
@@ -28,9 +31,8 @@ export default function Title({ pair }: any) {
 				minW={"300px"}
 				p={4}
 				bg="background.600"
-				h={"94%"}
+				h={"100%"}
 				justify="space-between"
-				my={1}
 			>
 				<Flex gap={1} align="center">
 					<Text fontSize={"2xl"} fontWeight="bold">
@@ -55,12 +57,16 @@ export default function Title({ pair }: any) {
 				</Box>
 			</Flex>
 
+			<Box>
+				<Divider orientation="vertical" h={'20'} />
+			</Box>
+
 			<Flex
 				flexGrow={1}
 				gap={16}
 				px={5}
 				bg="background.600"
-				h={"94%"}
+				h={"100%"}
 				align="center"
 			>
 				<Box

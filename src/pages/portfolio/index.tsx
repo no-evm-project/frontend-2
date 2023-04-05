@@ -55,12 +55,12 @@ export default function Portfolio() {
 				<title>Portfolio | ZEXE | Buy & Sell Crypto on ZEXE</title>
 				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
-
 			<Flex minH={'90vh'}>
-				<Flex bg='background.600' mx={1} my={1}>
+				<Flex bg='background.600' mx={0} my={0}>
 					<PortfolioNavBar/>
 				</Flex>
-				<Flex w={'80%'} flexDir={'column'} my={1} bg={'background.600'}>
+				<Divider orientation="vertical" h={'100vh'}/>
+				<Flex flexGrow={1} flexDir={'column'} my={0} bg={'background.600'}>
 					<Flex align={'start'} justify='space-between'>
 						<Flex flexDir={'column'} mb='50px' justify='space-between'>
 							<Heading size={'md'} px={6} mt={'50px'}>Overview</Heading>
@@ -75,7 +75,7 @@ export default function Portfolio() {
 							<PortfolioPie tokenBalances={tokenBalances}/>
 						</Flex> */}
 					</Flex>
-					<Box >
+					<Box maxW={'1000px'}>
 						<Balances tokenBalances={tokenBalances} />
 					</Box>
 				</Flex>

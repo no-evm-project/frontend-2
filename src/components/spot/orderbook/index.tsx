@@ -10,7 +10,7 @@ import Trades from "./Trades";
 const TabStyle = {
 	rounded: 0,
 	bg: "background.500",
-	_selected: { bg: "background.300", color: "white" },
+	_selected: { bg: "background.400", color: "white" },
 }
 
 export default function Index({ pair }: any) {

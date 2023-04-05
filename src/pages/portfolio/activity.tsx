@@ -1,5 +1,6 @@
 import React from "react";
 import {
+	Divider,
 	Flex,
 } from "@chakra-ui/react";
 
@@ -48,10 +49,11 @@ export default function Portfolio() {
 			</Head>
 
 			<Flex>
-				<Flex bg='background.600' mx={1} my={1}>
+				<Flex bg='background.600' >
 					<PortfolioNavBar/>
 				</Flex>
-				<Flex w={'80%'} minH='90vh' flexDir={'column'} my={1} bg={'background.600'}>
+				<Divider orientation="vertical" minH={'90vh'} />
+				<Flex flexGrow={1} minH='90vh' flexDir={'column'} bg={'background.600'}>
 					<Volume  />
 				</Flex>
 			</Flex>

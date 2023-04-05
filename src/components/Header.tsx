@@ -1,8 +1,19 @@
-import { Box, Button, Collapse, Divider, Flex, IconButton, Stack, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
+import {
+	Box,
+	Button,
+	Collapse,
+	Divider,
+	Flex,
+	IconButton,
+	Stack,
+	Text,
+	Tooltip,
+	useDisclosure,
+} from "@chakra-ui/react";
 import React from "react";
 import { useRouter } from "next/router";
 import ConnectButton from "./ConnectButton";
-import Image from 'next/image'
+import Image from "next/image";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { useWalletSelector } from "@/contexts/WalletSelectorContext";
 import Link from "next/link";
@@ -11,7 +22,7 @@ export default function Header() {
 	const router = useRouter();
 	const { isOpen, onToggle } = useDisclosure();
 	const { selector, modal, accounts, accountId } = useWalletSelector();
-	
+
 	return (
 		<>
 			<Flex
@@ -44,7 +55,7 @@ export default function Header() {
 					justify={{ base: "center", md: "start" }}
 					align="center"
 				>
-					<Link href={"/"} as='/'>
+					<Link href={"/"} as="/">
 						<Box py={2}>
 							<Image
 								src="/x.png"
@@ -73,24 +84,23 @@ export default function Header() {
 						justify={"flex-end"}
 						gap={0}
 					>
-						
-							<Flex gap={0}>
-			<Divider border='1px' h={'45px'} orientation="vertical" borderColor={'background.700'}/>
-
-							{
-								accountId && <>
-								<MenuOption href={"/portfolio"} title={"Portfolio"} size={"sm"} />
-			<Divider border='1px' h={'45px'} orientation="vertical" borderColor={'background.700'}/>
+						<Flex gap={0}>
+							{accountId && (
+								<>
+									<MenuOption
+										href={"/portfolio"}
+										title={"Portfolio"}
+										size={"sm"}
+									/>
 								</>
-
-							}
-							<ConnectButton/>
-			<Divider border='1px' h={'45px'} orientation="vertical" borderColor={'background.700'}/>
-
-							</Flex>
+							)}
+							<ConnectButton />
+						</Flex>
 					</Flex>
 				</Stack>
 			</Flex>
+			<Divider w={'100vw'}/>
+
 			<Collapse in={isOpen} animateOpacity>
 				<MobileNav />
 			</Collapse>
@@ -98,65 +108,72 @@ export default function Header() {
 	);
 }
 
-
-
 const MenuOption = ({ href, title, disabled = false, size = "sm" }: any) => {
 	const route = useRouter();
 	const isPath = route.pathname.includes(href);
 
 	return (
 		<>
-				<Tooltip
-					isDisabled={!disabled}
-					hasArrow
-					label="Coming Soon"
-					bg="background.400"
-					color={"white"}
-				>
-					<Link href={href} as={href}>
-						<Button
-							height={"45px"}
-							_hover={{ bg: "background.400" }}
-							bgColor={isPath ? "background.500" : "transparent" }
-							px={4}
-							py={2}
-							rounded={0}
-							variant={"unstyled"}
-							disabled={disabled}
-							color={
-								route.pathname.includes(href)
-									? "primary.400"
-									: "gray.200"
-							}
-							borderBottom='2px'
-							borderColor={route.pathname.includes(href)
+			<Tooltip
+				isDisabled={!disabled}
+				hasArrow
+				label="Coming Soon"
+				bg="background.400"
+				color={"white"}
+			>
+				<Link href={href} as={href}>
+					<Button
+						height={"45px"}
+						_hover={{ bg: "background.400" }}
+						bgColor={isPath ? "background.500" : "transparent"}
+						borderX={isPath ? '1px': 0}
+						borderLeftColor={"whiteAlpha.100"}
+						borderRightColor={"whiteAlpha.100"}
+
+						px={4}
+						py={2}
+						rounded={0}
+						variant={"unstyled"}
+						disabled={disabled}
+						color={
+							route.pathname.includes(href)
+								? "primary.400"
+								: "gray.200"
+						}
+						borderBottom="2px"
+						borderColor={
+							route.pathname.includes(href)
 								? "primary"
-								: "transparent"}
-							// textUnderlineOffset="4px"
-							size={size}
-							fontSize="sm"
-							// fontFamily={"Poppins"}
-						>
-							{title}
-						</Button>
-					</Link>
-				</Tooltip>
-			
+								: "transparent"
+						}
+						// textUnderlineOffset="4px"
+						size={size}
+						fontSize="sm"
+						// fontFamily={"Poppins"}
+					>
+						{title}
+					</Button>
+				</Link>
+			</Tooltip>
 		</>
 	);
 };
+
+const DividerStyle = {
+	orientation: "vertical"
+}
 
 const DesktopNav = () => {
 	return (
 		<Flex align="center">
 			{/* <Divider orientation='vertical'/> */}
-			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
+			{/* <Divider orientation="vertical" /> */}
 			<MenuOption href={"/spot"} title={"Spot"} />
-			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
-			<MenuOption href={"/swap"} title={"Swap"} disabled={true}/>
-			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
-			<MenuOption href={"/perps"} title={"Perps"} disabled={true}/>
-			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
+			{/* <Divider orientation="vertical" /> */}
+			<MenuOption href={"/swap"} title={"Swap"} disabled={true} />
+			{/* <Divider orientation="vertical" /> */}
+			<MenuOption href={"/perps"} title={"Perps"} disabled={true} />
+			{/* <Divider orientation="vertical" /> */}
 
 			{/* <Divider orientation='vertical'/> */}
 			{/* <MenuOption href={'/lend'} title={'Money Market'} /> */}

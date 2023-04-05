@@ -11,7 +11,7 @@ import OrderHistory from "./OrderHistory";
 const tabStyle = {
 	rounded: 0,
 	bg: "background.500",
-	_selected: { bg: "background.300", color: "white" },
+	_selected: { bg: "background.400", color: "white" },
 	fontSize: 'sm',
 	py: 2.5
 };

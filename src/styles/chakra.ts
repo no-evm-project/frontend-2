@@ -132,6 +132,12 @@ const theme = extendTheme({
         borderRadius: '0px'
       }
     },
+    Divider: {
+      baseStyle: {
+        borderColor: '#371775',
+        border: '2px'
+      }
+    }
   }
 })
 

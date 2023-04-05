@@ -4,7 +4,7 @@ import Orders from "@/components/spot/orders";
 import Title from "@/components/spot/title";
 import Trade from "@/components/spot/trade";
 import { DataContext } from "@/contexts/DataProvider";
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Divider, Flex, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
@@ -63,8 +63,11 @@ export default function Pair() {
 			<Box>
 				<Title pair={pair} />
 			</Box>
-			<Flex gap={1}>
-				<Flex flexDir={"column"} gap={1} minW="400px">
+			<Box>
+				<Divider />
+				</Box>
+			<Flex justify={'stretch'}>
+				<Flex flexDir={"column"} minW="400px">
 					<Box bg="background.600">
 						{isDepositOpen ? (
 							<Deposit
@@ -85,6 +88,9 @@ export default function Pair() {
 							/>
 						)}
 					</Box>
+					<Box>
+				<Divider />
+				</Box>
 					<Box bg="background.600" flexGrow={1}>
 						<Balances
 							pair={pair}
@@ -97,14 +103,22 @@ export default function Pair() {
 						/>
 					</Box>
 				</Flex>
+				<Box>
+				<Divider orientation="vertical" h={'100%'} />
+				</Box>
 				<Box minW="300px" bg="background.600">
 					<Orderbook pair={pair} />
 				</Box>
-
+				<Box>
+				<Divider orientation="vertical" h={'100%'} />
+				</Box>
 				<Flex flexDir={'column'} flexGrow={1}>
-					<Box mb={1} mt={"0.5px"} >
+					<Box mt={"0.5px"} >
 						<Graph pair={pair} />
 					</Box>
+					<Box>
+				<Divider />
+				</Box>
 					<Box flexGrow={1} bg={"background.600"}>
 						<Orders pair={pair} />
 					</Box>

@@ -13,7 +13,7 @@ import Sell from "./Sell";
 
 const OrderTypeStyle = {
 	bg: "background.500",
-	_selected: { bg: "background.300", color: "white" },
+	_selected: { bg: "background.400", color: "white" },
 	rounded: 0,
 };
 
