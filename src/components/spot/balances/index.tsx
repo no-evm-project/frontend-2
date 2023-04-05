@@ -38,9 +38,9 @@ export default function Balances({
 						<Button
 							size={"sm"}
 							rounded={"full"}
-							_hover={{ opacity: 0.7 }}
+							_hover={{ bg: 'background.300' }}
 							bg={
-								isDepositOpen ? "primary.400" : "whiteAlpha.200"
+								isDepositOpen ? "primary.400" : "background.400"
 							}
 							onClick={
 								isDepositOpen ? onDepositClose : onDepositOpen
@@ -62,11 +62,11 @@ export default function Balances({
 						<Button
 							size={"sm"}
 							rounded={"full"}
-							_hover={{ opacity: 0.7 }}
+							_hover={{ bg: 'background.300' }}
 							bg={
 								isWithdrawOpen
 									? "primary.400"
-									: "whiteAlpha.200"
+									: "background.400"
 							}
 							onClick={
 								isWithdrawOpen

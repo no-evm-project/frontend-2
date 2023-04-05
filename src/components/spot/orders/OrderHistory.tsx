@@ -60,7 +60,7 @@ export default function OrderHistory() {
 								<Th borderColor={'whiteAlpha.100'}>Pair</Th>
 								<Th borderColor={'whiteAlpha.100'}>Type</Th>
 								<Th borderColor={'whiteAlpha.100'}>Status</Th>
-								<Th borderColor={'whiteAlpha.100'}>Executed Price</Th>
+								<Th borderColor={'whiteAlpha.100'}>Price</Th>
 								<Th borderColor={'whiteAlpha.100'} h='40.5px' isNumeric>Quantity</Th>
 							</Tr>
 						</Thead>
@@ -121,7 +121,7 @@ export default function OrderHistory() {
                     </Flex>
 										</Td>
 										<Td borderColor={'whiteAlpha.100'}><Flex gap={2} align='center'>
-                        <Tag bg={order.side == 'BUY' ? 'green2': 'red2'}>
+                        <Tag bg={order.side == 'BUY' ? 'buy.700': 'sell.400'}>
                             <Text fontSize={'xs'} >{order.side}</Text>
                         </Tag>
                         <Text fontSize={'sm'}>{order.type}</Text>

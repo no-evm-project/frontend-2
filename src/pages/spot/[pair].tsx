@@ -54,9 +54,7 @@ export default function Pair() {
 			<Head>
 				<title>
 					{" "}
-					{trades[pair?.symbol]?.[0]?.executed_price.toFixed(
-						tickToPrecision(pair?.quote_tick)
-					)}{" "}
+					{trades[pair?.symbol]?.[0]?.executed_price}{" "}
 					{pair?.symbol.split("_")[1]}/{pair?.symbol.split("_")[2]} |
 					ZEXE
 				</title>
@@ -65,9 +63,9 @@ export default function Pair() {
 			<Box>
 				<Title pair={pair} />
 			</Box>
-			<Flex>
+			<Flex gap={1}>
 				<Flex flexDir={"column"} gap={1} minW="400px">
-					<Box bg="background2">
+					<Box bg="background.600">
 						{isDepositOpen ? (
 							<Deposit
 								pair={pair}
@@ -87,7 +85,7 @@ export default function Pair() {
 							/>
 						)}
 					</Box>
-					<Box bg="background2" flexGrow={1}>
+					<Box bg="background.600" flexGrow={1}>
 						<Balances
 							pair={pair}
 							isDepositOpen={isDepositOpen}
@@ -99,7 +97,7 @@ export default function Pair() {
 						/>
 					</Box>
 				</Flex>
-				<Box minW="300px" bg="background2" mx={1}>
+				<Box minW="300px" bg="background.600">
 					<Orderbook pair={pair} />
 				</Box>
 
@@ -107,7 +105,7 @@ export default function Pair() {
 					<Box mb={1} mt={"0.5px"} >
 						<Graph pair={pair} />
 					</Box>
-					<Box flexGrow={1} bg={"background2"}>
+					<Box flexGrow={1} bg={"background.600"}>
 						<Orders pair={pair} />
 					</Box>
 				</Flex>

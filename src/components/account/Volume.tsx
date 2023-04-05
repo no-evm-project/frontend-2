@@ -19,23 +19,16 @@ import {
 	Heading,
     Tag
 } from "@chakra-ui/react";
-import { ASSET_NAMES, FAUCET } from "@/constants";
-import { transactions } from 'near-api-js';
-import Deposit from "./Deposit";
-import Big from "big.js";
 import { dollarFormatter, tickToPrecision } from '../../utils';
-import DepositModal from '@/components/spot/balances/DepositModal';
-import WithdrawModal from "../spot/balances/WithdrawModal";
-import TestTokens from "./TestTokens";
 
 export default function Volume() {
-	const { tokens, tokenList, balances, account, pairs, accountInfo, trades, userVolume, feeInfo } = useContext(DataContext);
+	const {accountInfo, userVolume, feeInfo } = useContext(DataContext);
 
 
 	return (
-		<Box bg={'background2'} py={5}>
-		<Flex flexDir={'column'} h='150px' mb='50px' justify='center' px={6}>
-			<Heading size={'md'}>
+		<Box bg={'background.600'} py={5}>
+		<Flex flexDir={'column'} mb='50px' justify='center' px={6}>
+			<Heading size={'md'} mt={7}>
 				Activity
 			</Heading>
 			<Flex gap={16} mt={8}>
@@ -62,7 +55,7 @@ export default function Volume() {
 			</Flex>
 		</Flex>
 
-		<Heading size={'md'} mb={4} px={6}>Fee Info</Heading>
+		{/* <Heading size={'md'} mb={4} px={6}>Fee Info</Heading> */}
 			<TableContainer>
 				<Table variant="simple">
 					<Thead>
@@ -76,7 +69,7 @@ export default function Volume() {
 					<Tbody>
 						{Object.keys(feeInfo).map((tokenSymbol: any, index: number) => {
 							return (
-								<Tr key={index} bg={accountInfo.tier == feeInfo[tokenSymbol].tier ? 'whiteAlpha.100': 'transparent'}>
+								<Tr key={index} bg={accountInfo.tier == feeInfo[tokenSymbol].tier ? 'background.500': 'transparent'}>
 									<Td borderColor={'whiteAlpha.200'}>
                                         <Flex align={'center'} gap={2}>
                                             <Text>{feeInfo[tokenSymbol].tier}</Text>

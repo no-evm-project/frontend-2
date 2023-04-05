@@ -1,5 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@font-face {
+  font-family: "BG";
+  src: url('/fonts/basement_grotesque/BasementGrotesque-Black_v1.202.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+*{
+  font-family: 'Poppins', sans-serif;
+  }
+  
 .theme-dark:root {
-    --tv-color-platform-background: #130B25;
-    --tv-color-pane-background: #130B25;
-    --tv-color-pane-background-secondary: #130B25;
+    --tv-color-platform-background: #1A0F30;
+    --tv-color-pane-background: #1A0F30;
+    --tv-color-pane-background-secondary: #1A0F30;
+    --tv-color-toolbar-button-background-hover: #1F113C;
+    --tv-color-toolbar-button-background-secondary-hover: #1F113C;
+    --tv-color-toolbar-button-background-expanded: #1F113C;
 }

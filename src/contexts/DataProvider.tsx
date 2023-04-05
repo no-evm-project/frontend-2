@@ -34,6 +34,7 @@ interface DataValue {
 	handleExecution: (order: any) => void;
 	userVolume: any;
 	refresh: number;
+	volumeStat: any;
 }
 
 function DataProvider({ children }: any) {
@@ -56,6 +57,7 @@ function DataProvider({ children }: any) {
 	const [feeInfo, setFeeInfo] = React.useState<any>({});
 	const [accountInfo, setAccountInfo] = React.useState<any>({});
 	const [userVolume, setUserVolume] = React.useState<any>({});
+	const [volumeStat, setVolumeStat] = React.useState<any>({});
 
 	const [isSubscribedToMarket, setIsSubscribedToMarket] = React.useState<boolean>(false);
 
@@ -67,9 +69,17 @@ function DataProvider({ children }: any) {
 	}, [account, pairs, balances]);
 
 	const initMarket = () : Promise<any> => {
+		console.log("Init market");
 		return new Promise((resolve, reject) => {
+			if(status === "fetching") reject("Alredy fetching");
 			setStatus("fetching");
-			Promise.all([axios.get(API_ENDPOINT + "/v1/public/info"), axios.get(API_ENDPOINT + "/v1/public/system_info"), axios.get(API_ENDPOINT + "/v1/public/token"), axios.get(API_ENDPOINT + "/v1/public/fee/program")])
+			Promise.all([
+				axios.get(API_ENDPOINT + "/v1/public/info"), 
+				axios.get(API_ENDPOINT + "/v1/public/system_info"), 
+				axios.get(API_ENDPOINT + "/v1/public/token"), 
+				axios.get(API_ENDPOINT + "/v1/public/fee/program"),
+				axios.get(API_ENDPOINT + "/v1/public/volume/stats?broker_id=" + BROKER_ID)
+			])
 				.then(async (res) => {
 					const _pairs = res[0].data.data.rows;
 					setPairs(_pairs);
@@ -86,11 +96,14 @@ function DataProvider({ children }: any) {
 					setTokens(_tokens);
 					setTokenList(_tokenList);
 					setFeeInfo(res[3].data.data.rows);
+					setVolumeStat(res[4].data.data);
+					setStatus("fetched");
 					resolve({pairs: _pairs, tokens: _tokens});
 				})
 				.catch(async (err) => {
 					console.log("Error init:", err, "Trying again...");
-					await new Promise(() => setTimeout(initMarket, 1500));
+					setStatus("error");
+					await new Promise(() => setTimeout(initMarket, 2500));
 				})
 		})
 	};
@@ -433,7 +446,7 @@ function DataProvider({ children }: any) {
 
 	return (
 		<DataContext.Provider
-			value={{ refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
+			value={{ volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
 		>
 			{children}
 		</DataContext.Provider>

@@ -12,35 +12,34 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import Sell from "./Sell";
 
 const OrderTypeStyle = {
-	bg: "whiteAlpha.50",
-	_selected: { bg: "whiteAlpha.300", color: "white" },
+	bg: "background.500",
+	_selected: { bg: "background.300", color: "white" },
 	rounded: 0,
 };
+
+const OrderTabStyle = (color: string) => {
+	return {
+		rounded: 0,
+		h: 10,
+		bg: "background.500",
+		_selected: { bg: color, color: "white" }
+	}
+}
 
 export default function Trade({ pair, isOpen }: any) {
 	return (
 		<SlideFade offsetY={"20px"} in={isOpen}>
 			<Tabs isFitted size={"md"} variant="soft-rounded">
 				<TabList mt={4} mb={2} px={4}>
-					<Tab
-						rounded={0}
-						h={10}
-						bg="whiteAlpha.100"
-						_selected={{ bg: "green2", color: "white" }}
-					>
+					<Tab {...OrderTabStyle("buy.700")}>
 						Buy
 					</Tab>
-					<Tab
-						rounded={0}
-						h={10}
-						bg="whiteAlpha.100"
-						_selected={{ bg: "red2", color: "white" }}
-					>
+					<Tab {...OrderTabStyle("red.400")}>
 						Sell
 					</Tab>
 				</TabList>
 				<TabPanels>
-					<TabPanel px={0} m={0}>
+					<TabPanel px={0} py={2} m={0}>
 						<Tabs isFitted size={"sm"} variant="soft-rounded">
 							<TabList px={4}>
 								<Tab {...OrderTypeStyle}>Limit</Tab>
@@ -49,6 +48,7 @@ export default function Trade({ pair, isOpen }: any) {
 									pl="6"
 									{...OrderTypeStyle}
 									isDisabled={true}
+									opacity='1'
 								>
 									Stop <RiArrowDropDownLine size={"25px"} />
 								</Tab>
@@ -63,7 +63,7 @@ export default function Trade({ pair, isOpen }: any) {
 							</TabPanels>
 						</Tabs>
 					</TabPanel>
-					<TabPanel px={0} m={0}>
+					<TabPanel px={0} py={2} m={0}>
 						<Tabs isFitted size={"sm"} variant="soft-rounded">
 							<TabList px={4}>
 								<Tab {...OrderTypeStyle}>Limit</Tab>
@@ -72,6 +72,7 @@ export default function Trade({ pair, isOpen }: any) {
 									pl="6"
 									{...OrderTypeStyle}
 									isDisabled={true}
+									opacity='1'
 								>
 									Stop <RiArrowDropDownLine size={"25px"} />
 								</Tab>

@@ -10,10 +10,11 @@ function getLanguageFromURL() {
 		: decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-const GREEN = "#18B05F";
-const RED = "#C83232";
+const GREEN = "#33ffbc";
+const RED = "#ed3383";
 
-const BACKGROUND = "#130B25"
+const BACKGROUND = "#1A0F30"
+const BACKGROUND2 = "#1A0F30"
 
 export class Graph extends React.PureComponent {
 	static defaultProps = {
@@ -69,7 +70,7 @@ export class Graph extends React.PureComponent {
 				link: "https://www.zexe.io/"
 			},
 			theme: 'dark',
-			toolbar_bg: 'transparent',
+			toolbar_bg: BACKGROUND,
 			loading_screen: {
 				backgroundColor: "transparent",
 			},
@@ -83,8 +84,8 @@ export class Graph extends React.PureComponent {
 				"mainSeriesProperties.candleStyle.downColor": RED,
 				"mainSeriesProperties.candleStyle.borderUpColor": GREEN,
 				"mainSeriesProperties.candleStyle.borderDownColor": RED,
-				"paneProperties.vertGridProperties.color": "#363c4e",
-				"paneProperties.horzGridProperties.color": "#363c4e",
+				"paneProperties.vertGridProperties.color": "#371775",
+				"paneProperties.horzGridProperties.color": "#371775",
 				editorFontsList: ['Poppins']
 		   },
 			// enabled_features: ["study_templates"],
@@ -96,7 +97,7 @@ export class Graph extends React.PureComponent {
 			// autosize: this.props.autosize,
 			// studies_overrides: this.props.studiesOverrides,
 			theme: 'dark',
-			toolbar_bg: '#130B25',
+			toolbar_bg: BACKGROUND2,
 
 			width: '100%',
 			height: '650',
@@ -139,7 +140,7 @@ export class Graph extends React.PureComponent {
 				link: "https://www.zexe.io/"
 			},
 			theme: 'dark',
-			toolbar_bg: 'transparent',
+			toolbar_bg: BACKGROUND,
 			loading_screen: {
 				backgroundColor: "transparent",
 			},
@@ -153,8 +154,8 @@ export class Graph extends React.PureComponent {
 				"mainSeriesProperties.candleStyle.downColor": RED,
 				"mainSeriesProperties.candleStyle.borderUpColor": GREEN,
 				"mainSeriesProperties.candleStyle.borderDownColor": RED,
-				"paneProperties.vertGridProperties.color": "#363c4e",
-				"paneProperties.horzGridProperties.color": "#363c4e",
+				"paneProperties.vertGridProperties.color": "#371775",
+				"paneProperties.horzGridProperties.color": "#371775",
 		   },
 			// enabled_features: ["study_templates"],
 			// charts_storage_url: this.props.chartsStorageUrl,

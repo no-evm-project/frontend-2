@@ -162,7 +162,7 @@ export default function OpenedOrder({ order, pair }: any) {
 				</Td>
 				<Td borderColor={"whiteAlpha.100"}>
                     <Flex gap={2} align='center'>
-                        <Tag bg={order.side == 'BUY' ? 'green2': 'red2'}>
+                        <Tag bg={order.side == 'BUY' ? 'buy.700': 'sell.400'}>
                             <Text fontSize={'xs'} >{order.side}</Text>
                         </Tag>
                         <Text fontSize={'sm'}>{order.type}</Text>

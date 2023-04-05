@@ -91,7 +91,7 @@ export default function Sell({ pair, market }: any) {
 			};
 
 			if(hidden){
-				params.visibleQuantity = '0';
+				params.visible_quantity = '0';
 			}
 		}
 		console.log(params);
@@ -224,6 +224,7 @@ export default function Sell({ pair, market }: any) {
 				<Flex flexDir={"column"} gap={1}>
 					<Text fontSize={"sm"}>Price ({token1})</Text>
 					<NumberInput
+						bg={'background.500'}
 						isDisabled={market}
 						min={0}
 						precision={tickToPrecision(pair?.quote_tick)}
@@ -249,6 +250,7 @@ export default function Sell({ pair, market }: any) {
 						</Text>
 					</Flex>
 						<NumberInput
+							bg={'background.500'}
 							min={0}
 							precision={tickToPrecision(pair.base_tick)}
 							value={quoteAmount}
@@ -300,20 +302,20 @@ export default function Sell({ pair, market }: any) {
 									isChecked={orderType == key}
 								>
 									<Tooltip
-							label={ORDER_DESCRIPTIONS[key]}
-							bg={"background1"}
-							maxW="200px"
-							color="white"
-						>
-									<Text
-										cursor={'help'}
-										fontSize={"sm"}
-										textDecor={"underline"}
-										textUnderlineOffset="2px"
-										textDecorationStyle={"dotted"}
+										label={ORDER_DESCRIPTIONS[key]}
+										bg={"background.700"}
+										maxW="200px"
+										color="white"
 									>
-										{ORDERTYPES[key].split("_").join(" ")}
-									</Text>
+										<Text
+											cursor={'help'}
+											fontSize={"sm"}
+											textDecor={"underline"}
+											textUnderlineOffset="2px"
+											textDecorationStyle={"dotted"}
+										>
+											{ORDERTYPES[key].split("_").join(" ")}
+										</Text>
 									</Tooltip>
 								</Checkbox>
 							))}
@@ -328,7 +330,7 @@ export default function Sell({ pair, market }: any) {
 						/>
 						<Tooltip
 							label="Order would be hidden from the orderbook"
-							bg={"background1"}
+							bg={"background.700"}
 							maxW="200px"
 							color="white"
 						>
@@ -349,6 +351,7 @@ export default function Sell({ pair, market }: any) {
 					onClick={sell} 
 					size='md'
 					isDisabled={!validate().valid}
+					bg={'background.300'}
 				>
 					{validate().message}
 				</Button>
@@ -357,7 +360,7 @@ export default function Sell({ pair, market }: any) {
 					<Tooltip
 						placement="bottom"
 						p={0}
-						bg="background2"
+						bg="background.600"
 						// closeDelay={1000}
 						label={
 							<>
@@ -376,13 +379,6 @@ export default function Sell({ pair, market }: any) {
 												Tier {accountInfo.tier}
 											</Text>
 										</Box>
-										{/* <Box >
-									<Link href={'/fees'} as={'/fees'}>
-										<Text textAlign={'right'} cursor='pointer' color={'primary.100'}>
-											Level Up
-										</Text>
-									</Link>
-								</Box> */}
 									</Flex>
 									<Text fontSize={"xs"}>
 										Maker Fee:{" "}

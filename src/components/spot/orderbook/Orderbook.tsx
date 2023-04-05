@@ -1,10 +1,11 @@
 import { AppDataContext } from "@/contexts/AppData";
 import { DataContext } from "@/contexts/DataProvider";
 import { tickToPrecision } from "@/utils";
-import { Box, Divider, Flex, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Divider, Flex, Progress, Text, Tooltip } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { useWalletSelector } from "../../../contexts/WalletSelectorContext";
+import ConnectButton from '../../ConnectButton';
 
 function Order({
 	order,
@@ -23,7 +24,7 @@ function Order({
 			)}
 			<Flex
 				justify="space-between"
-				color={orderType == "BID" ? "green2" : "red2"}
+				color={orderType == "BID" ? "buy.400" : "sell.400"}
 				py={"2.5px"}
 				px={4}
 				mb={0}
@@ -107,16 +108,14 @@ export default function Orderbook({ pair }: any) {
 		<>
 			{!accountId ? (
 				<>
-					<Box>
-						<Text textAlign={"center"} mt={5}>
-							Connect Your Wallet
-						</Text>
-					</Box>
+					<Flex justify='center' m={5}>
+						<ConnectButton />
+					</Flex>
 				</>
 			) : (
 				<>
 					<Box>
-						<Flex justify="space-between" px={4} py={2}>
+						<Flex justify="space-between" px={4} py={2} >
 							<Text
 								w={"30%"}
 								fontSize={"xs"}
@@ -153,7 +152,7 @@ export default function Orderbook({ pair }: any) {
 									.map((ask: any, index: number) => (
 										// <Order order={ask} key={ask[0]} orderType='ASK' total={maxAsk} pair={pair} />
 										<Tooltip
-											bg={"background1"}
+											bg={"background.700"}
 											hasArrow
 											placement="right"
 											p={0}
@@ -190,13 +189,13 @@ export default function Orderbook({ pair }: any) {
 											</Box>
 										</Tooltip>
 									))}
-								<Flex py={4} px={4} justify="space-between">
+								<Flex py={4} px={4} justify="space-between" bg={'background.500'}>
 									<Flex
 										color={
 											trades[pair.symbol][0]?.side ==
 											"BUY"
-												? "green2"
-												: "red2"
+												? "buy.400"
+												: "sell.400"
 										}
 										align="center"
 									>
@@ -238,7 +237,7 @@ export default function Orderbook({ pair }: any) {
 									.slice(0, 15)
 									.map((bid: any, index: number) => (
 										<Tooltip
-											bg={"background1"}
+											bg={"background.700"}
 											hasArrow
 											placement="right"
 											p={0}
@@ -278,7 +277,8 @@ export default function Orderbook({ pair }: any) {
 							</>
 						) : (
 							<>
-								<Text>Loading</Text>
+								<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
+								<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
 							</>
 						)}
 					</Box>

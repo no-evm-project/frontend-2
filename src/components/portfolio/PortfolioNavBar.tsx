@@ -1,8 +1,14 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 import Account from '../account/Account'
+import {MdViewColumn} from 'react-icons/md'
+import {BiHomeAlt2} from 'react-icons/bi'
+import { GiTwoCoins } from 'react-icons/gi'
+import {FaGalacticRepublic, FaUserFriends} from 'react-icons/fa'
+import { VscActivateBreakpoints } from 'react-icons/vsc'
+import { AiTwotoneHome } from 'react-icons/ai'
 
 export default function PortfolioNavBar() {
   return (
@@ -11,22 +17,28 @@ export default function PortfolioNavBar() {
         <Box py={10}>
             <Account/>
         </Box>
-
-        <NavLink link={'/portfolio'} text={'Overview'}/>
-        <NavLink link={'/portfolio/activity'} text={'Activity'}/>
-
+        <Divider/>
+        <NavLink link={'/portfolio'} text={'Overview'} icon={<AiTwotoneHome/>}/>
+        <Divider/>
+        <NavLink link={'/portfolio/activity'} text={'Activity'} icon={<VscActivateBreakpoints />}/>
+        <Divider/>
+        <NavLink link={'/portfolio/refer'} text={'Refer and Earn'} icon={<FaUserFriends/>}/>
+        <Divider/>
+        <NavLink link={'/portfolio/rewards'} text={'Rewards'} icon={<GiTwoCoins/>}/>
+        <Divider/>
     </Flex>
     </>
   )
 }
 
-function NavLink ({link, text}: any) {
+function NavLink ({link, text, icon}: any) {
     const router = useRouter()
     return (
-        <Link href={link}>
-            <Box px={6} py={4} bg={link == router.pathname ? 'whiteAlpha.50' : 'transparent'} _hover={{bg: 'whiteAlpha.200'}} borderLeft={'2px'} borderLeftColor={link == router.pathname ? 'primary.400': 'transparent'}>
-                <Text fontSize={'md'} fontWeight='medium'>{text}</Text>
-            </Box>
+        <Link href={link} as={link}>
+            <Flex align={'center'} gap={2} px={6} py={4} bg={link == router.pathname ? 'background.500' : 'background.600'} _hover={{bg: 'background.500'}} borderLeft={'4px'} borderLeftColor={link == router.pathname ? 'primary.400': 'transparent'}>
+                {icon}
+                <Heading size={'sm'} >{text}</Heading>
+            </Flex>
         </Link>
     )
 }

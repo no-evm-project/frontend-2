@@ -8,7 +8,7 @@ function Order({ trade, pair }: any) {
 
 	return (
 		<Flex justify="space-between"
-			color={trade.side == 'BUY' ? 'green2' : 'red2'}
+			color={trade.side == 'BUY' ? 'buy.400' : 'sell.400'}
 			py={'2.5px'}
 			px={4}
 			mb={0}

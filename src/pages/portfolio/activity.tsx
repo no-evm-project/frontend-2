@@ -1,32 +1,12 @@
 import React from "react";
 import {
-	Avatar,
-	Box,
-	Button,
-	Divider,
 	Flex,
-	Heading,
-	Progress,
-	Text,
 } from "@chakra-ui/react";
 
 import Head from "next/head";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { FaKey } from "react-icons/fa";
-import { BiExit, BiStats, BiTag } from "react-icons/bi";
-import { RiDashboardFill } from "react-icons/ri";
-import { useWalletSelector } from "@/contexts/WalletSelectorContext";
-import Overview from "@/components/account/Overview";
-import SignOut from "@/components/account/SignOut";
-import ComingSoon from "@/components/account/ComingSoon";
 import { useContext } from "react";
 import { DataContext, DataProvider } from "@/contexts/DataProvider";
-import BN from "bn.js";
 import Volume from "@/components/account/Volume";
-import Account from "@/components/account/Account";
-import Balances from "@/components/account/Balances";
-import PortfolioPie from "@/components/account/PortfolioPie";
-import { dollarFormatter } from "@/utils";
 import PortfolioNavBar from "@/components/portfolio/PortfolioNavBar";
 
 export default function Portfolio() {
@@ -68,10 +48,10 @@ export default function Portfolio() {
 			</Head>
 
 			<Flex>
-				<Flex bg='background2' mx={1} my={1}>
+				<Flex bg='background.600' mx={1} my={1}>
 					<PortfolioNavBar/>
 				</Flex>
-				<Flex w={'80%'} minH='90vh' flexDir={'column'} my={1} bg={'background2'}>
+				<Flex w={'80%'} minH='90vh' flexDir={'column'} my={1} bg={'background.600'}>
 					<Volume  />
 				</Flex>
 			</Flex>

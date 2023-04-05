@@ -1,10 +1,11 @@
-import { Box, Button, Collapse, Flex, IconButton, Stack, Text, Tooltip, useDisclosure, Link } from "@chakra-ui/react";
+import { Box, Button, Collapse, Divider, Flex, IconButton, Stack, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useRouter } from "next/router";
 import ConnectButton from "./ConnectButton";
 import Image from 'next/image'
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { useWalletSelector } from "@/contexts/WalletSelectorContext";
+import Link from "next/link";
 
 export default function Header() {
 	const router = useRouter();
@@ -16,7 +17,7 @@ export default function Header() {
 			<Flex
 				justifyContent="space-between"
 				align="center"
-				bgColor={"background2"}
+				bgColor={"background.600"}
 				pl={6}
 				pr={2}
 			>
@@ -43,7 +44,7 @@ export default function Header() {
 					justify={{ base: "center", md: "start" }}
 					align="center"
 				>
-					<Link href={"/"}>
+					<Link href={"/"} as='/'>
 						<Box py={2}>
 							<Image
 								src="/x.png"
@@ -74,11 +75,18 @@ export default function Header() {
 					>
 						
 							<Flex gap={0}>
+			<Divider border='1px' h={'45px'} orientation="vertical" borderColor={'background.700'}/>
+
 							{
-								accountId &&
+								accountId && <>
 								<MenuOption href={"/portfolio"} title={"Portfolio"} size={"sm"} />
+			<Divider border='1px' h={'45px'} orientation="vertical" borderColor={'background.700'}/>
+								</>
+
 							}
 							<ConnectButton/>
+			<Divider border='1px' h={'45px'} orientation="vertical" borderColor={'background.700'}/>
+
 							</Flex>
 					</Flex>
 				</Stack>
@@ -102,35 +110,36 @@ const MenuOption = ({ href, title, disabled = false, size = "sm" }: any) => {
 					isDisabled={!disabled}
 					hasArrow
 					label="Coming Soon"
-					bg="white"
-					color={"gray.800"}
+					bg="background.400"
+					color={"white"}
 				>
-					<Button
-						height={"45px"}
-						_hover={{ bg: "whiteAlpha.200" }}
-						bgColor={isPath ? "whiteAlpha.50" : "transparent" }
-						px={4}
-						py={2}
-						rounded={0}
-						variant={"unstyled"}
-						disabled={disabled}
-						color={
-							route.pathname.includes(href)
-								? "primary.400"
-								: "gray.200"
-						}
-						// textUnderlineOffset="4px"
-						size={size}
-						fontSize="sm"
-						fontFamily={"Poppins"}
-						onClick={() => {
-							if (!disabled) {
-								route.push(href);
+					<Link href={href} as={href}>
+						<Button
+							height={"45px"}
+							_hover={{ bg: "background.400" }}
+							bgColor={isPath ? "background.500" : "transparent" }
+							px={4}
+							py={2}
+							rounded={0}
+							variant={"unstyled"}
+							disabled={disabled}
+							color={
+								route.pathname.includes(href)
+									? "primary.400"
+									: "gray.200"
 							}
-						}}
-					>
-						{title}
-					</Button>
+							borderBottom='2px'
+							borderColor={route.pathname.includes(href)
+								? "primary"
+								: "transparent"}
+							// textUnderlineOffset="4px"
+							size={size}
+							fontSize="sm"
+							// fontFamily={"Poppins"}
+						>
+							{title}
+						</Button>
+					</Link>
 				</Tooltip>
 			
 		</>
@@ -141,9 +150,13 @@ const DesktopNav = () => {
 	return (
 		<Flex align="center">
 			{/* <Divider orientation='vertical'/> */}
+			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
 			<MenuOption href={"/spot"} title={"Spot"} />
+			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
 			<MenuOption href={"/swap"} title={"Swap"} disabled={true}/>
+			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
 			<MenuOption href={"/perps"} title={"Perps"} disabled={true}/>
+			<Divider border='1px' orientation="vertical" borderColor={'background.700'}/>
 
 			{/* <Divider orientation='vertical'/> */}
 			{/* <MenuOption href={'/lend'} title={'Money Market'} /> */}
@@ -156,7 +169,7 @@ const DesktopNav = () => {
 
 const MobileNav = ({}: any) => {
 	return (
-		<Stack bg="background1" p={4} display={{ md: "none" }}>
+		<Stack bg="background.700" p={4} display={{ md: "none" }}>
 			<MenuOption href={"/spot"} title={"Spot"} />
 			{/* <MenuOption href={'/lend'} title={'Money Market'} /> */}
 			{/* <MenuOption href={"/margin"} title={"Margin"} disabled={true} /> */}

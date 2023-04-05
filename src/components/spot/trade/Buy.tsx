@@ -26,7 +26,7 @@ import { useEffect } from "react";
 import { BASIS_POINTS } from "@/constants";
 import { HiOutlineReceiptPercent } from "react-icons/hi2";
 import { Radio, RadioGroup, Stack, SlideFade, Divider } from "@chakra-ui/react";
-import { ORDERTYPES, ORDER_DESCRIPTIONS } from '../../../constants';
+import { ORDERTYPES, ORDER_DESCRIPTIONS, BROKER_ID } from '../../../constants';
 import { motion } from "framer-motion";
 import { RiArrowDropDownLine } from "react-icons/ri";
 
@@ -80,11 +80,11 @@ export default function Buy({ pair, market }: any) {
 		let params: any;
 		if (market) {
 			params = {
-				order_amount: Number(quoteAmount).toString(),
+				order_amount: Number(quoteAmount),
 				order_type: "MARKET",
 				side: "BUY",
 				symbol: pair?.symbol,
-				broker_id: "zexe_dex",
+				broker_id: BROKER_ID
 			};
 		} else {
 			let _orderType = 'LIMIT';
@@ -98,15 +98,16 @@ export default function Buy({ pair, market }: any) {
 				order_type: _orderType,
 				side: "BUY",
 				symbol: pair?.symbol,
-				broker_id: "zexe_dex",
+				broker_id: BROKER_ID
 			};
 			if(hidden){
-				params.visibleQuantity = '0';
+				params.visible_quantity = '0';
 			}
 		}
 		account
 			?.createPostRequest("POST", "/v1/order", params)
 			.then((res: any) => {
+				console.log("Order created", res.data.data);
 				addOrder(res.data.data.order_id);
 			})
 			.catch((err: any) => {
@@ -134,9 +135,14 @@ export default function Buy({ pair, market }: any) {
 				valid: false,
 				message: `Minimum notional is ${pair?.min_notional} ${token1}`,
 			};
+		} else if (Number(quoteAmount) > balance()) {
+			return {
+				valid: false,
+				message: `Insufficient ${token1} balance`,
+			};
 		} else if(market) {
 			// go thru orderbook and check quoteAmount is sufficient to buy pair.base_min
-			if(Number(quoteAmount) < orderbook[pair.symbol].asks[0][0] * pair.base_min){
+			if(Number(quoteAmount) < orderbook[pair.symbol]?.asks[0][0] * pair.base_min){
 				return {
 					valid: false,
 					message: `Amount too low`,
@@ -146,11 +152,6 @@ export default function Buy({ pair, market }: any) {
 				valid: true,
 				message: `Place Market Order`,
 			}
-		} else if (Number(quoteAmount) > balance()) {
-			return {
-				valid: false,
-				message: `Insufficient ${token1} balance`,
-			};
 		} else if (Number(baseAmount) < pair?.base_min) {
 			return {
 				valid: false,
@@ -267,6 +268,7 @@ export default function Buy({ pair, market }: any) {
 				<Flex flexDir={"column"} gap={1}>
 					<Text fontSize={"sm"}>Price ({token1})</Text>
 					<NumberInput
+						bg={'background.500'}
 						isDisabled={market}
 						min={0}
 						precision={tickToPrecision(pair?.quote_tick)}
@@ -293,6 +295,7 @@ export default function Buy({ pair, market }: any) {
 							</Text>
 						</Flex>
 						<NumberInput
+							bg={'background.500'}
 							min={0}
 							precision={tickToPrecision(pair.base_tick)}
 							value={baseAmount}
@@ -324,13 +327,14 @@ export default function Buy({ pair, market }: any) {
 
 					<NumberInputWithSlider
 						max={balance()}
-						tick={pair?.quote_tick}
+						tick={pair.quote_tick}
 						asset={token1}
 						onUpdate={updateQuoteAmount}
 						value={quoteAmount}
-						color="green2"
+						color="buy.700"
 					/>
 				</Flex>
+				
 				{!market && <>
 				<Divider mt={1} mb={2} />
 				<Flex mb={4} justify={"space-between"}>
@@ -351,20 +355,20 @@ export default function Buy({ pair, market }: any) {
 									}}
 								>
 									<Tooltip
-							label={ORDER_DESCRIPTIONS[key]}
-							bg={"background1"}
-							maxW="200px"
-							color="white"
-						>
-									<Text
-										cursor={'help'}
-										fontSize={"sm"}
-										textDecor={"underline"}
-										textUnderlineOffset="2px"
-										textDecorationStyle={"dotted"}
+										label={ORDER_DESCRIPTIONS[key]}
+										bg={"background.700"}
+										maxW="200px"
+										color="white"
 									>
-										{ORDERTYPES[key].split("_").join(" ")}
-									</Text>
+										<Text
+											cursor={'help'}
+											fontSize={"sm"}
+											textDecor={"underline"}
+											textUnderlineOffset="2px"
+											textDecorationStyle={"dotted"}
+										>
+											{ORDERTYPES[key].split("_").join(" ")}
+										</Text>
 									</Tooltip>
 								</Checkbox>
 							))}
@@ -379,7 +383,7 @@ export default function Buy({ pair, market }: any) {
 						/>
 						<Tooltip
 							label="Order would be hidden from the orderbook"
-							bg={"background1"}
+							bg={"background.700"}
 							maxW="200px"
 							color="white"
 						>
@@ -396,7 +400,7 @@ export default function Buy({ pair, market }: any) {
 					</Flex>
 				</Flex></>}
 
-				<Button onClick={buy} size="md" isDisabled={!validate().valid}>
+				<Button onClick={buy} size="md" bg={'background.300'} _hover={{bg: 'background.500'}} isDisabled={!validate().valid}>
 					{validate().message}
 				</Button>
 
@@ -404,7 +408,7 @@ export default function Buy({ pair, market }: any) {
 					<Tooltip
 						placement="bottom"
 						p={0}
-						bg="background2"
+						bg="background.600"
 						// closeDelay={1000}
 						label={
 							<>
@@ -418,18 +422,11 @@ export default function Buy({ pair, market }: any) {
 										<Box textAlign={"right"}>
 											<Text
 												fontWeight={"bold"}
-												color={"primary.100"}
+												color={"primary.400"}
 											>
 												Tier {accountInfo.tier}
 											</Text>
 										</Box>
-										{/* <Box >
-									<Link href={'/fees'} as={'/fees'}>
-										<Text textAlign={'right'} cursor='pointer' color={'primary.100'}>
-											Level Up
-										</Text>
-									</Link>
-								</Box> */}
 									</Flex>
 									<Text fontSize={"xs"}>
 										Maker Fee:{" "}

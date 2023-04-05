@@ -149,7 +149,7 @@ export class LocalAccount {
 
         const config = {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json;charset=utf-8",
                 "orderly-account-id": this.accountId,
                 "orderly-key": this.orderlyPublicKey,
                 "orderly-trading-key": this.tradingKey.slice(2),

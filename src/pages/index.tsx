@@ -1,5 +1,4 @@
 import {
-	Link as ChakraLink,
 	Text,
 	Code,
 	List,
@@ -30,12 +29,12 @@ const featuresTitle = {
 	fontSize: "xl",
 	fontWeight: "bold",
 	mt: 2,
-	fontFamily: "Poppins",
+	// fontFamily: "Poppins",
 };
 
 const featuresText = {
 	fontSize: "sm",
-	fontFamily: "Poppins",
+	// fontFamily: "Poppins",
 };
 
 const featuresIcon = {
@@ -44,8 +43,11 @@ const featuresIcon = {
 
 import { NextSeo } from "next-seo";
 import SocialFollow from "@/components/SocialFollow";
+import { DataContext } from '@/contexts/DataProvider';
 
 const Index = () => {
+	const {volumeStat} = useContext(DataContext);
+
 	const dividerStyle = {
 		borderColor: { xs: "transparent", sm: "transparent", md: "#E50EC0" },
 		mx: 4,
@@ -218,7 +220,7 @@ const Index = () => {
 						</Flex>
 
 						<Flex gap={2} mt={"60px"} mb={"20px"} wrap={"wrap"}>
-							<Link href={"/spot"}>
+							<Link href={"/spot"} as='/spot'>
 								<Button
 									size={"lg"}
 									bgColor="#E50EC0"

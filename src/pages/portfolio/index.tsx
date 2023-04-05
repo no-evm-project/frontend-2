@@ -11,19 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import Head from "next/head";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { FaKey } from "react-icons/fa";
-import { BiExit, BiStats, BiTag } from "react-icons/bi";
-import { RiDashboardFill } from "react-icons/ri";
-import { useWalletSelector } from "@/contexts/WalletSelectorContext";
-import Overview from "@/components/account/Overview";
-import SignOut from "@/components/account/SignOut";
-import ComingSoon from "@/components/account/ComingSoon";
 import { useContext } from "react";
 import { DataContext, DataProvider } from "@/contexts/DataProvider";
-import BN from "bn.js";
-import Volume from "@/components/account/Volume";
-import Account from "@/components/account/Account";
 import Balances from "@/components/account/Balances";
 import PortfolioPie from "@/components/account/PortfolioPie";
 import { dollarFormatter } from "@/utils";
@@ -67,24 +56,26 @@ export default function Portfolio() {
 				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
 
-			<Flex>
-				<Flex bg='background2' mx={1} my={1}>
+			<Flex minH={'90vh'}>
+				<Flex bg='background.600' mx={1} my={1}>
 					<PortfolioNavBar/>
 				</Flex>
-				<Flex w={'80%'} flexDir={'column'} my={1} bg={'background2'}>
-					<Heading size={'md'} mt={10} px={6}>Overview</Heading>
-					<Flex align={'center'}>
-						<Box w={'40%'}>
-							<Heading size={'sm'} mt={6} px={6} color='whiteAlpha.700'>Trading Balance</Heading>
-							<Text mt={1} px={6} fontSize={"2xl"}>
-								{dollarFormatter.format(totalUSDC)}
-							</Text>
-						</Box>
-						<Flex justify={'end'} h={250} w={'60%'}>
-							<PortfolioPie tokenBalances={tokenBalances}/>
+				<Flex w={'80%'} flexDir={'column'} my={1} bg={'background.600'}>
+					<Flex align={'start'} justify='space-between'>
+						<Flex flexDir={'column'} mb='50px' justify='space-between'>
+							<Heading size={'md'} px={6} mt={'50px'}>Overview</Heading>
+							<Box mt={8}>
+								<Heading size={'sm'} px={6} color='whiteAlpha.700'>Trading Balance</Heading>
+								<Text mt={1} px={6} fontSize={"2xl"}>
+									{dollarFormatter.format(totalUSDC)}
+								</Text>
+							</Box>
 						</Flex>
+						{/* <Flex justify={'end'} h={300} w={'60%'}>
+							<PortfolioPie tokenBalances={tokenBalances}/>
+						</Flex> */}
 					</Flex>
-					<Box mt={0}>
+					<Box >
 						<Balances tokenBalances={tokenBalances} />
 					</Box>
 				</Flex>

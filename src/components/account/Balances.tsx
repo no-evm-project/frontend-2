@@ -16,12 +16,9 @@ import {
 	Flex,
 	Image,
 	Box,
-	Heading,
-	Tooltip,
 } from "@chakra-ui/react";
 import { ASSET_NAMES, FAUCET } from "@/constants";
 import { transactions } from "near-api-js";
-import Deposit from "./Deposit";
 import Big from "big.js";
 import { dollarFormatter, tickToPrecision } from "../../utils";
 import DepositModal from "@/components/spot/balances/DepositModal";
@@ -51,8 +48,10 @@ export default function Balances({ tokenBalances }: any) {
 						<Th borderColor={"whiteAlpha.200"}>Asset</Th>
 						<Th borderColor={"whiteAlpha.200"}>Trading Account</Th>
 						<Th borderColor={"whiteAlpha.200"}>In Order</Th>
+						<Th borderColor={"whiteAlpha.200"}>Wallet</Th>
+
 						<Th borderColor={"whiteAlpha.200"} isNumeric>
-							Wallet
+							
 						</Th>
 					</Tr>
 				</Thead>
@@ -111,14 +110,8 @@ export default function Balances({ tokenBalances }: any) {
 									{balances[tokenSymbol]?.pending_short < 0 &&
 										tokenSymbol}
 								</Td>
-								<Td borderColor={"whiteAlpha.200"} isNumeric>
-									{
-										<Flex
-											flexDir={"column"}
-											align={"end"}
-											justify="center"
-											gap={2}
-										>
+								<Td borderColor={"whiteAlpha.200"}>
+									
 											<Text>
 												{Big(
 													balances[tokenSymbol]
@@ -131,19 +124,22 @@ export default function Balances({ tokenBalances }: any) {
 													)
 													.toFixed(
 														tickToPrecision(
-															0.000001
+															tokens[tokenSymbol].minimum_increment
 														)
 													)}{" "}
 												{tokenSymbol}
 											</Text>
-											<Flex gap={2}>
-												<DepositModal
-													_tokenSymbol={tokenSymbol}
-												/>
-												<WithdrawModal
-													_tokenSymbol={tokenSymbol}
-												/>
-											</Flex>
+									
+								</Td>
+								<Td borderColor={"whiteAlpha.200"} isNumeric>
+									{
+										<Flex gap={2} justify='end'>
+											<DepositModal
+												_tokenSymbol={tokenSymbol}
+											/>
+											<WithdrawModal
+												_tokenSymbol={tokenSymbol}
+											/>
 										</Flex>
 									}
 								</Td>

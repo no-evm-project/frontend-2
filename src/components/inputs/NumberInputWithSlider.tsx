@@ -5,11 +5,7 @@ import {
 	NumberInputStepper,
 	NumberIncrementStepper,
 	NumberDecrementStepper,
-	InputRightAddon,
-	Text,
 	InputGroup,
-	Input,
-	InputLeftAddon,
 	Box,
 	Slider,
 	SliderTrack,
@@ -38,9 +34,22 @@ export default function NumberInputWithSlider({
 		onUpdate(__value);
 	};
 
-	const labelStyles = {
-		mt: "-4px",
-		ml: "-1.5",
+	const labelStyles = (limit: number) => {
+		let __value = (value * 100) / max;
+		if (max == 0) {
+			__value = 0;
+		}
+
+		return {
+			mt: "-5px",
+			ml: "-1.5",
+			zIndex: '1',
+			opacity: '1',
+			borderRadius: 100,
+			bgColor: __value > limit ? color : "background.400",
+			// border: "1px solid",
+			// borderColor: __value > limit ? color : "background.800",
+		}
 	};
 
 	useEffect(() => {
@@ -56,12 +65,12 @@ export default function NumberInputWithSlider({
 		}
 
 		return {
-			h: 2,
-			w: 2,
-			borderRadius: 100,
-			bgColor: __value > limit ? color : "background1",
-			border: "1px solid",
-			borderColor: __value > limit ? color : "gray.800",
+			h: 2.5,
+			w: 2.5,
+			// borderRadius: 100,
+			// bgColor: __value > limit ? color : "background.600",
+			// border: "1px solid",
+			// borderColor: __value > limit ? color : "background.800",
 		};
 	};
 
@@ -69,6 +78,7 @@ export default function NumberInputWithSlider({
 		<Box>
 			<InputGroup>
 				<NumberInput
+					bg={'background.500'}
 					width={"100%"}
 					value={value}
 					onChange={handleChange}
@@ -89,34 +99,37 @@ export default function NumberInputWithSlider({
 			<Slider
 				defaultValue={30}
 				onChange={(e) => handleChange(Big(e).mul(max).div(100).toFixed(tickToPrecision(tick)))}
-				value={max ? Big(value).mul(100).div(max).toNumber() : 0}
+				value={max ? Big(isValidAndPositiveNS(value) ? value : 0).mul(100).div(max).toNumber() : 0}
 				focusThumbOnChange={false}
 				mt={2}
 				step={0.1}
 				width="97%"
 				ml={1.5}
+				
 			>
-				<SliderMark value={0} {...labelStyles}>
+				<SliderMark value={0} {...labelStyles(0)}>
 					<Box {...boxStyle(0)}></Box>
 				</SliderMark>
-				<SliderMark value={25} {...labelStyles}>
+				<SliderMark value={25} {...labelStyles(25)}>
 					<Box {...boxStyle(25)}></Box>
 				</SliderMark>
-				<SliderMark value={50} {...labelStyles}>
+				<SliderMark value={50} {...labelStyles(50)}>
 					<Box {...boxStyle(50)}></Box>
 				</SliderMark>
-				<SliderMark value={75} {...labelStyles}>
+				<SliderMark value={75} {...labelStyles(75)}>
 					<Box {...boxStyle(75)}></Box>
 				</SliderMark>
-				<SliderMark value={100} {...labelStyles} opacity="1">
+				<SliderMark value={100} {...labelStyles(100)} opacity="1">
 					<Box {...boxStyle(100)}></Box>
 				</SliderMark>
 
-				<SliderTrack>
+				<SliderTrack bg='background.400'>
 					<SliderFilledTrack bgColor={color} />
 				</SliderTrack>
 				<Tooltip
-					fontSize={"xs"}
+					bg={'background.400'}
+					color='white'
+					fontSize={"sm"}
 					label={
 						(isNaN((value * 100) / max)
 							? 0

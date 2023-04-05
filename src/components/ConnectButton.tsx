@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { DataContext } from "@/contexts/DataProvider";
 import { Transaction } from "@near-wallet-selector/core";
 import { LocalAccount } from "@/auth/LocalAccount";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 import {
 	Menu,
@@ -19,14 +20,16 @@ import {
 	MenuGroup,
 	MenuOptionGroup,
 	MenuDivider,
-  } from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import router from "next/router";
 import { utils } from "near-api-js";
+
+let isInit = false;
 
 export default function ConnectButton() {
 	const { selector, modal, accounts, accountId } = useWalletSelector();
 	const [loading, setLoading] = React.useState<boolean>(false);
-	const [refresh, setRefresh] = React.useState<boolean>(false);
+	const [_init, _setInit] = React.useState<number>(0);
 
 	const { initMarket, initUser, pairs, account, setAccount } =
 		useContext(DataContext);
@@ -59,20 +62,26 @@ export default function ConnectButton() {
 
 	useEffect(() => {
 		setLoading(true);
-		initMarket().then(({ pairs, tokens }) => {
-			init().then(async (nextAccount) => {
-				setAccount(nextAccount);
-				setLoading(false);
-				handleRegister(nextAccount).then((_account) => {
-					initUser(nextAccount, tokens);
-				});
-			})
-			.catch((err) => {
-				setLoading(false);
-				console.log(err);
+		if(_init == 0) _setInit(1);
+		else if (_init == 1 && !isInit) {
+			isInit = true;
+			_setInit(2);
+			initMarket().then(({ pairs, tokens }) => {
+				init()
+					.then(async (nextAccount) => {
+						setAccount(nextAccount);
+						setLoading(false);
+						handleRegister(nextAccount).then((_account) => {
+							initUser(nextAccount, tokens);
+						});
+					})
+					.catch((err) => {
+						setLoading(false);
+						console.log(err);
+					});
 			});
-		});
-	}, [accountId, refresh]);
+		}
+	}, [loading]);
 
 	const handleRegister = (_account: LocalAccount): Promise<LocalAccount> => {
 		return new Promise(async (resolve, reject) => {
@@ -132,7 +141,9 @@ export default function ConnectButton() {
 											account_id: _account.accountId!,
 										},
 										gas: "100000000000000",
-										deposit: new BN(STORAGE_BALANCE_BOUNDS.min).toString()					
+										deposit: new BN(
+											STORAGE_BALANCE_BOUNDS.min
+										).toString(),
 									},
 								},
 								{
@@ -143,13 +154,14 @@ export default function ConnectButton() {
 											account_id: _account.accountId!,
 										},
 										gas: "100000000000000",
-										deposit: utils.format.parseNearAmount("0.1")!.toString()
+										deposit: utils.format
+											.parseNearAmount("0.1")!
+											.toString(),
 									},
 								},
 							],
 						});
-					} 
-					else if (
+					} else if (
 						new BN(STORAGE_BALANCE_OF.available).lt(
 							new BN(STORAGE_BALANCE_BOUNDS.min)
 						)
@@ -166,7 +178,9 @@ export default function ConnectButton() {
 											account_id: _account.accountId,
 										},
 										gas: "100000000000000",
-										deposit: utils.format.parseNearAmount("0.1")!.toString()
+										deposit: utils.format
+											.parseNearAmount("0.1")!
+											.toString(),
 									},
 								},
 							],
@@ -214,19 +228,28 @@ export default function ConnectButton() {
 								const IS_TRADING_KEY_SET = Boolean(res[1]);
 
 								// const TRADING_KEY_HASH = (res as any)[2];
-								
-								console.log("IS_ORDERLY_KEY_ANNOUNCED", IS_ORDERLY_KEY_ANNOUNCED);
-								console.log("IS_TRADING_KEY_SET", IS_TRADING_KEY_SET);
+
+								console.log(
+									"IS_ORDERLY_KEY_ANNOUNCED",
+									IS_ORDERLY_KEY_ANNOUNCED
+								);
+								console.log(
+									"IS_TRADING_KEY_SET",
+									IS_TRADING_KEY_SET
+								);
 								await initKeys(
 									IS_ORDERLY_KEY_ANNOUNCED,
 									IS_TRADING_KEY_SET,
 									_account
-								)
+								);
 
 								resolve(_account);
 							})
 							.catch(async (err) => {
-								console.log("Error while checking is_orderly_key_announced / is_trading_key_set / get_user_trading_key", err);
+								console.log(
+									"Error while checking is_orderly_key_announced / is_trading_key_set / get_user_trading_key",
+									err
+								);
 								console.log(err.message, txs);
 								// if(err.message.includes('orderly key was not announced')){
 								// 	await initKeys(false, false, '', _account)
@@ -241,57 +264,44 @@ export default function ConnectButton() {
 		});
 	};
 
-	const initKeys = async (IS_ORDERLY_KEY_ANNOUNCED: boolean, IS_TRADING_KEY_SET: boolean, _account: LocalAccount) => {
+	const initKeys = async (
+		IS_ORDERLY_KEY_ANNOUNCED: boolean,
+		IS_TRADING_KEY_SET: boolean,
+		_account: LocalAccount
+	) => {
 		const tradingKeyHash = Buffer.from(
-			keccak256(
-				_account.tradingKey!.slice(
-					2
-				)
-			).toString("hex")
+			keccak256(_account.tradingKey!.slice(2)).toString("hex")
 		).toString("base64");
 
 		if (!IS_ORDERLY_KEY_ANNOUNCED) {
 			console.log("Announcing orderly key...");
 			try {
-				await _account.signAndSendTransaction(
-					"user_announce_key",
-					{}
-				);
-				console.log(
-					"orderly key is announced now🚀"
-				);
+				await _account.signAndSendTransaction("user_announce_key", {});
+				console.log("orderly key is announced now🚀");
 			} catch (err) {
-				console.log(
-					"Unable to set orderly key",
-					err
-				);
+				console.log("Unable to set orderly key", err);
 			}
 		} else {
-			console.log(
-				"orderly key is announced already🚀"
-			);
+			console.log("orderly key is announced already🚀");
 		}
 
-		if(!IS_TRADING_KEY_SET){
+		if (!IS_TRADING_KEY_SET) {
 			console.log("Setting trading key...");
 			try {
 				await _account.signAndSendTransaction(
 					"user_request_set_trading_key",
 					{
-						key: tradingKeyHash
+						key: tradingKeyHash,
 					}
 				);
 				console.log("trading key is set now🚀");
 			} catch (err) {
-				console.log(
-					"Unable to set trading key",
-					err
-				);
+				console.log("Unable to set trading key", err);
 			}
 		} else {
 			console.log("trading key is set already🚀");
 		}
-	}
+	};
 
 	const handleSignIn = () => {
 		modal.show();
@@ -300,15 +310,16 @@ export default function ConnectButton() {
 	const handleSignOut = async () => {
 		const wallet = await selector.wallet();
 
-		wallet.signOut()
-		.then((_) => {
-			router.push('/spot');
-			window.location.reload();
-		})
-		.catch((err) => {
-			console.log("Failed to sign out");
-			console.error(err);
-		});
+		wallet
+			.signOut()
+			.then((_) => {
+				router.push("/spot");
+				window.location.reload();
+			})
+			.catch((err) => {
+				console.log("Failed to sign out");
+				console.error(err);
+			});
 	};
 
 	const handleSwitchWallet = () => {
@@ -317,26 +328,59 @@ export default function ConnectButton() {
 
 	return (
 		<>
-			{loading && <Text>Loading...</Text>}
 			{account ? (
-				<Menu>
-				<MenuButton as={Button} height={"45px"} _hover={{ bg: "whiteAlpha.50" }} bg='transparent' color={'white'}>
-				  {account.accountId}
-				</MenuButton>
-				<MenuList rounded={0} bg='background2'>
-				  <MenuGroup title='Wallet'>
-					<MenuItem onClick={handleSwitchWallet} bg={'transparent'} _hover={{bg: 'whiteAlpha.200'}}>Switch Wallet</MenuItem>
-					<MenuItem onClick={handleSignOut} bg={'transparent'} _hover={{bg: 'whiteAlpha.200'}}>Sign Out</MenuItem>
-				  </MenuGroup>
-				  <MenuDivider />
-				  <MenuGroup title='Help'>
-					<MenuItem bg={'transparent'} _hover={{bg: 'whiteAlpha.200'}}>Docs</MenuItem>
-					<MenuItem bg={'transparent'} _hover={{bg: 'whiteAlpha.200'}}>FAQ</MenuItem>
-				  </MenuGroup>
-				</MenuList>
-			  </Menu>
+				<Menu matchWidth>
+					<MenuButton
+						fontSize={"sm"}
+						as={Button}
+						height={"45px"}
+						_hover={{ bg: "whiteAlpha.50" }}
+						bg="transparent"
+						color={"white"}
+					>
+						<Flex align={"center"} mr={-3}>
+							{account.accountId}
+							<RiArrowDropDownLine size={30} />
+						</Flex>
+					</MenuButton>
+					<MenuList rounded={0} bg="background.600">
+						<MenuGroup title="Wallet">
+							<MenuItem
+								onClick={handleSwitchWallet}
+								bg={"transparent"}
+								_hover={{ bg: "whiteAlpha.200" }}
+							>
+								Switch Wallet
+							</MenuItem>
+							<MenuItem
+								onClick={handleSignOut}
+								bg={"transparent"}
+								_hover={{ bg: "whiteAlpha.200" }}
+							>
+								Sign Out
+							</MenuItem>
+						</MenuGroup>
+						<MenuDivider />
+						<MenuGroup title="Help">
+							<MenuItem
+								bg={"transparent"}
+								_hover={{ bg: "whiteAlpha.200" }}
+							>
+								Docs
+							</MenuItem>
+							<MenuItem
+								bg={"transparent"}
+								_hover={{ bg: "whiteAlpha.200" }}
+							>
+								FAQ
+							</MenuItem>
+						</MenuGroup>
+					</MenuList>
+				</Menu>
 			) : (
-				<Button onClick={handleSignIn}>Sign In</Button>
+				<Button onClick={handleSignIn} h="45px">
+					Connect Wallet
+				</Button>
 			)}
 		</>
 	);

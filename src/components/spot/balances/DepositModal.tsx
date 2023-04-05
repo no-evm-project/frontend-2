@@ -108,8 +108,8 @@ export default function DepositModal({ _tokenSymbol }: any) {
 			</Button>
 
 			<Modal isCentered isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay bg="whiteAlpha.50" backdropFilter="blur(30px)" />
-				<ModalContent bg={"background2"}>
+				<ModalOverlay bg="blackAlpha.400" backdropFilter="blur(30px)" />
+				<ModalContent bg={"background.600"}>
 					<ModalHeader>Deposit</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
@@ -144,7 +144,7 @@ export default function DepositModal({ _tokenSymbol }: any) {
 											<Flex
 												align={"center"}
 												justify="space-between"
-												bg="background2"
+												bg="background.600"
 												h={"100%"}
 											>
 												<Flex gap={2} align="center">
@@ -282,7 +282,7 @@ export default function DepositModal({ _tokenSymbol }: any) {
 														<Flex
 															align={"center"}
 															justify="space-between"
-															bg="background2"
+															bg="background.600"
 															h={"100%"}
 															rounded={"lg"}
 															p={2}
@@ -422,8 +422,8 @@ export default function DepositModal({ _tokenSymbol }: any) {
 							width={"100%"}
 							loadingText="Sign the transaction"
 							isLoading={loading}
-							_hover={{ opacity: "0.7" }}
-							colorScheme="primary"
+							_hover={{ opacity: "0.6" }}
+							bg="primary.400"
 							color={"white"}
 							mb={2}
 							onClick={deposit}

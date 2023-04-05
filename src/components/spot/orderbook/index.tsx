@@ -9,12 +9,11 @@ import Trades from "./Trades";
 
 const TabStyle = {
 	rounded: 0,
-	bg: "whiteAlpha.50",
-	_selected: { bg: "whiteAlpha.200", color: "white" },
+	bg: "background.500",
+	_selected: { bg: "background.300", color: "white" },
 }
 
 export default function Index({ pair }: any) {
-	const { orderbook, bbos, trades } = useContext(DataContext);
 
 	return (
 		<>
