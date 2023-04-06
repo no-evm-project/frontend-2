@@ -1,5 +1,8 @@
 import { extendTheme, ThemeConfig } from '@chakra-ui/react'
 import { mode, StyleFunctionProps } from '@chakra-ui/theme-tools'
+import '@fontsource/space-grotesk'
+import '@fontsource/poppins'
+import '@fontsource/silkscreen'
 
 const fonts = { mono: `'Menlo', monospace` }
 
@@ -109,7 +112,7 @@ const theme = extendTheme({
     },
     Heading: {
       baseStyle: {
-        fontFamily: 'Schibsted Grotesk',
+        fontFamily: 'Space Grotesk',
         // fontWeight: '700'
       }
     },

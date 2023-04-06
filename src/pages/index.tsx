@@ -24,6 +24,7 @@ import { RiExchangeFundsFill } from "react-icons/ri";
 import { GiBank, GiCardExchange } from "react-icons/gi";
 import { useContext } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import '@fontsource/silkscreen'
 
 const featuresTitle = {
 	fontSize: "xl",
