@@ -5,12 +5,13 @@ import {
 	Divider,
 	Flex,
 	IconButton,
+	Progress,
 	Stack,
 	Text,
 	Tooltip,
 	useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import ConnectButton from "./ConnectButton";
 import Image from "next/image";
@@ -22,6 +23,29 @@ export default function Header() {
 	const router = useRouter();
 	const { isOpen, onToggle } = useDisclosure();
 	const { selector, modal, accounts, accountId } = useWalletSelector();
+    const [loading, setLoading] = useState(false);
+	const [refresh, setRefresh] = useState(0);
+
+    useEffect(() => {
+        const handleStart = (url: any) => {
+			setLoading(true);
+			setRefresh(Math.random());
+		}
+        const handleComplete = (url: any) => {
+			setLoading(false);
+			setRefresh(Math.random());
+		}
+
+        router.events.on('routeChangeStart', handleStart)
+        router.events.on('routeChangeComplete', handleComplete)
+        router.events.on('routeChangeError', handleComplete)
+
+        return () => {
+            router.events.off('routeChangeStart', handleStart)
+            router.events.off('routeChangeComplete', handleComplete)
+            router.events.off('routeChangeError', handleComplete)
+        }
+    }, [loading, refresh])
 
 	return (
 		<>
@@ -99,7 +123,13 @@ export default function Header() {
 					</Flex>
 				</Stack>
 			</Flex>
+			<Box >
+			</Box>
+
 			<Divider w={'100vw'}/>
+			<Box mb={'-4px'}>
+			{loading ? <Progress size="xs" bg={'background.600'} h={'4px'} colorScheme='background' isIndeterminate /> : <Box h={'4px'} bg='background.600'></Box>}
+			</Box>
 
 			<Collapse in={isOpen} animateOpacity>
 				<MobileNav />
@@ -114,13 +144,6 @@ const MenuOption = ({ href, title, disabled = false, size = "sm" }: any) => {
 
 	return (
 		<>
-			<Tooltip
-				isDisabled={!disabled}
-				hasArrow
-				label="Coming Soon"
-				bg="background.400"
-				color={"white"}
-			>
 				<Link href={href} as={href}>
 					<Button
 						height={"45px"}
@@ -129,7 +152,7 @@ const MenuOption = ({ href, title, disabled = false, size = "sm" }: any) => {
 						borderX={isPath ? '1px': 0}
 						borderLeftColor={"whiteAlpha.100"}
 						borderRightColor={"whiteAlpha.100"}
-
+						fontFamily='Space Grotesk'
 						px={4}
 						py={2}
 						rounded={0}
@@ -154,7 +177,6 @@ const MenuOption = ({ href, title, disabled = false, size = "sm" }: any) => {
 						{title}
 					</Button>
 				</Link>
-			</Tooltip>
 		</>
 	);
 };

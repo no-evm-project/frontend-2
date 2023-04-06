@@ -8,10 +8,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
-*{
-  font-family: 'Poppins', sans-serif;
-  }
   
 .theme-dark:root {
     --tv-color-platform-background: #1A0F30;

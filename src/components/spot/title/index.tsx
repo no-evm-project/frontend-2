@@ -6,6 +6,11 @@ import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import TokenSelector from "./TokenSelector";
 import { tickToPrecision } from "../../../utils";
 
+const DividerStyle = {
+	mx: 5, 
+	borderColor: 'background.400',
+	h: 10
+}
 export default function Title({ pair }: any) {
 	const { bbos, trades, tickers } = useContext(DataContext);
 	const { accountId } = useWalletSelector();
@@ -63,7 +68,6 @@ export default function Title({ pair }: any) {
 
 			<Flex
 				flexGrow={1}
-				gap={16}
 				px={5}
 				bg="background.600"
 				h={"100%"}
@@ -100,40 +104,43 @@ export default function Title({ pair }: any) {
 						}
 					/>
 				</Box>
+
+				<Divider orientation="vertical" {...DividerStyle} />
 				<Param
 					title="24H Volume"
 					subtitle={(tickers[pair.symbol]?.volume ?? 0).toFixed(
 						tickToPrecision(pair?.quote_tick)
 					)}
 				/>
-
+				<Divider orientation="vertical" {...DividerStyle} />
 				<Param
 					title="24H Open"
 					subtitle={(tickers[pair.symbol]?.open ?? 0).toFixed(
 						(pair?.quote_tick ?? 0.001).toString().length - 2
 					)}
 				/>
-
+				<Divider orientation="vertical" {...DividerStyle} />
 				<Param
 					title="24H Close"
 					subtitle={(tickers[pair.symbol]?.close ?? 0).toFixed(
 						(pair?.quote_tick ?? 0.001).toString().length - 2
 					)}
 				/>
-
+				<Divider orientation="vertical" {...DividerStyle} />
 				<Param
 					title="24H High"
 					subtitle={(tickers[pair.symbol]?.high ?? 0).toFixed(
 						(pair?.quote_tick ?? 0.001).toString().length - 2
 					)}
 				/>
-
+				<Divider orientation="vertical" {...DividerStyle} />
 				<Param
 					title="24H Low"
 					subtitle={(tickers[pair.symbol]?.low ?? 0).toFixed(
 						(pair?.quote_tick ?? 0.001).toString().length - 2
 					)}
 				/>
+				<Divider orientation="vertical" {...DividerStyle} />
 			</Flex>
 		</Flex>
 	);

@@ -27,6 +27,17 @@ const OrderTabStyle = (color: string) => {
 }
 
 export default function Trade({ pair, isOpen }: any) {
+	const [dontShow, setDontShow] = React.useState<boolean | null>(null);
+
+	const checkIt = (e: any) => {
+        if (e.target.checked) {
+			localStorage.removeItem("dontShowBuyModal");
+			setDontShow(false);
+        } else {
+            localStorage.setItem("dontShowBuyModal", "true");
+            setDontShow(true);
+        }
+    }
 	return (
 		<SlideFade offsetY={"20px"} in={isOpen}>
 			<Tabs isFitted size={"md"} variant="soft-rounded">
@@ -55,10 +66,10 @@ export default function Trade({ pair, isOpen }: any) {
 							</TabList>
 							<TabPanels>
 								<TabPanel m={0} mt={1}>
-									<Buy pair={pair} market={false} />
+									<Buy dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={false} />
 								</TabPanel>
 								<TabPanel m={0} mt={1}>
-									<Buy pair={pair} market={true} />
+									<Buy dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={true} />
 								</TabPanel>
 							</TabPanels>
 						</Tabs>
@@ -79,10 +90,10 @@ export default function Trade({ pair, isOpen }: any) {
 							</TabList>
 							<TabPanels>
 								<TabPanel m={0} mt={1}>
-									<Sell pair={pair} market={false} />
+									<Sell dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={false} />
 								</TabPanel>
 								<TabPanel m={0} mt={1}>
-									<Sell pair={pair} market={true} />
+									<Sell dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={true} />
 								</TabPanel>
 							</TabPanels>
 						</Tabs>

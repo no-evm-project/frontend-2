@@ -27,6 +27,7 @@ import {useEffect} from 'react';
 import { AxiosError, AxiosResponse } from "axios";
 import { BASIS_POINTS, ORDERTYPES, ORDER_DESCRIPTIONS } from "@/constants";
 import { HiOutlineReceiptPercent } from "react-icons/hi2";
+import SellButton from "./SellButton";
 
 interface ValidationResult {
 	valid: boolean;
@@ -51,7 +52,7 @@ interface ValidationResult {
  * 
  * price * quantity should greater than min_notional
  */
-export default function Sell({ pair, market }: any) {
+export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: any) {
 	const token0 = pair?.symbol?.split("_")[2];
 	const token1 = pair?.symbol?.split("_")[1];
 	const [initalCheck, setInitialCheck] = React.useState('');
@@ -65,111 +66,10 @@ export default function Sell({ pair, market }: any) {
 	const [quoteAmount, setQuoteAmount] = React.useState("0");
 	const [baseAmount, setBaseAmount] = React.useState("0");
 
-	const sell = () => {
-		let params: any;
-		if (market) {
-			params = {
-				order_quantity: Number(baseAmount).toString(),
-				order_type: "MARKET",
-				side: "SELL",
-				symbol: pair?.symbol,
-				broker_id: "zexe_dex",
-			};
-		} else {
-			let _orderType = 'LIMIT';
-			if(Number(orderType) > 1){
-				_orderType = ORDERTYPES[orderType];
-			}
-			
-			params = {
-				order_price: Number(price).toString(),
-				order_quantity: Number(baseAmount).toString(),
-				order_type: _orderType,
-				side: "SELL",
-				symbol: pair?.symbol,
-				broker_id: "zexe_dex",
-			};
-
-			if(hidden){
-				params.visible_quantity = '0';
-			}
-		}
-		console.log(params);
-		account
-			?.createPostRequest("POST", "/v1/order", params)
-			.then((res: AxiosResponse) => {
-				addOrder(res.data.data.order_id);
-			})
-			.catch((err: AxiosError) => {
-				console.log(err.response?.data ?? err);
-			});
-	};
 
 	const balance = () => {
 		return (balances[token1]?.holding ?? 0) + (balances[token1]?.pending_short ?? 0);
 	};
-	
-	const validate = (): ValidationResult => {
-		if(Number(baseAmount) == 0 && Number(quoteAmount) == 0){
-			return {
-				valid: false,
-				message: `Enter an amount`,
-			};
-		} else if (Number(baseAmount) < pair?.base_min) {
-			return {
-				valid: false,
-				message: `Minimum order quantity is ${pair?.base_min} ${token1}`,
-			};
-		} else if (Number(baseAmount) > pair?.base_max) {
-			return {
-				valid: false,
-				message: `Maximum order quantity is ${pair?.base_max} ${token1}`,
-			};
-		} else if (Number(baseAmount) > balance()) {
-			return {
-				valid: false,
-				message: `Insufficient ${token1} balance`,
-			};
-		} else if(market) {
-			return {
-				valid: true,
-				message: `Place Market Order`,
-			}
-		} else if (Number(price) < pair?.base_min * price) {
-			return {
-				valid: false,
-				message: `Minimum order amount is ${(pair?.base_min * price).toFixed(tickToPrecision(pair?.base_tick))} ${token1}`,
-			};
-		} else if (Number(price) > pair?.quote_max) {
-			return {
-				valid: false,
-				message: `Maximum order amount is ${pair?.quote_max} ${token1}`,
-			};
-		} 
-		// (price - quote_min) % quote_tick should equal to zero
-		else if (pair?.quote_min > 0 && Number(price) - pair?.quote_min % pair?.quote_tick !== 0) {
-			return {
-				valid: false,
-				message: `Price must be a multiple of ${pair?.quote_tick}`,
-			};
-		}
-		else if (Number(price) < orderbook[pair?.symbol]?.bids[0][0] * (1 - pair?.price_range)) {
-			return {
-				valid: false,
-				message: `Price is too high`,
-			};
-		} else if(Number(price) * Number(baseAmount) < pair?.min_notional){
-			return {
-				valid: false,
-				message: `Minimum notional is ${pair?.min_notional} ${token1}`,
-			};
-		} else {
-			return {
-				valid: true,
-				message: "Place Buy Order",
-			};
-		}
-	}
 
 	const updateQuoteAmount = (e: string) => {
 		setQuoteAmount(e);
@@ -347,16 +247,23 @@ export default function Sell({ pair, market }: any) {
 					</Flex>
 				</Flex></>}
 
-				<Button 
-					onClick={sell} 
-					size='md'
-					isDisabled={!validate().valid}
-					bg={'background.300'}
-				>
-					{validate().message}
-				</Button>
+				<SellButton
+					quoteAmount={quoteAmount}
+					baseAmount={baseAmount}
+					price={price}
+					pair={pair}
+					token0={token0}
+					token1={token1}
+					balance={balance}
+					market={market}
+					orderType={orderType}
+					hidden={hidden}
+					dontShow={dontShow}
+					setDontShow={setDontShow}
+					checkIt={checkIt}
+				/>
 
-				<Box w={"32%"}>
+				<Flex justify={'space-between'}>
 					<Tooltip
 						placement="bottom"
 						p={0}
@@ -374,7 +281,7 @@ export default function Sell({ pair, market }: any) {
 										<Box textAlign={"right"}>
 											<Text
 												fontWeight={"bold"}
-												color={"primary.100"}
+												color={"primary.400"}
 											>
 												Tier {accountInfo.tier}
 											</Text>
@@ -405,7 +312,9 @@ export default function Sell({ pair, market }: any) {
 							<Text fontSize={"sm"}>Fees</Text>
 						</Flex>
 					</Tooltip>
-				</Box>
+
+					<Checkbox size={'sm'} isChecked={!dontShow as boolean} onChange={checkIt} colorScheme='primary'>Show Confirmation</Checkbox>
+				</Flex>
 			</Flex>
 		</>
 	);

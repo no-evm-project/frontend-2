@@ -27,34 +27,11 @@ import { BASIS_POINTS } from "@/constants";
 import { HiOutlineReceiptPercent } from "react-icons/hi2";
 import { Radio, RadioGroup, Stack, SlideFade, Divider } from "@chakra-ui/react";
 import { ORDERTYPES, ORDER_DESCRIPTIONS, BROKER_ID } from '../../../constants';
-import { motion } from "framer-motion";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import BuyButton from "./BuyButton";
 
-interface ValidationResult {
-	valid: boolean;
-	message: string;
-}
 
-/**
- * Pair = {"symbol":"SPOT_REF_USDC","quote_min":0,"quote_max":100000,"quote_tick":0.0001,"base_min":1,"base_max":1000000,"base_tick":0.1,"min_notional":1,"price_range":0.1,"created_time":1679297811861,"updated_time":1679380414999}
- * Price filter
- *
- * price >= quote_min
- * price <= quote_max
- * (price - quote_min) % quote_tick should equal to zero
- * price <= asks[0].price * (1 + price_range) when BUY
- * price >= bids[0].price * (1 - price_range) when SELL
- *
- * Size filter
- *
- * base_min <= quantity <= base_max
- * (quantity - base_min) % base_tick should equal to zero
- *
- * Min Notional filter
- *
- * price * quantity should greater than min_notional
- */
-export default function Buy({ pair, market }: any) {
+
+export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: any) {
 	const token0 = pair?.symbol?.split("_")[1];
 	const token1 = pair?.symbol?.split("_")[2];
 	const [initalCheck, setInitialCheck] = React.useState("");
@@ -76,127 +53,11 @@ export default function Buy({ pair, market }: any) {
 	const [quoteAmount, setQuoteAmount] = React.useState("0");
 	const [baseAmount, setBaseAmount] = React.useState("0");
 
-	const buy = () => {
-		let params: any;
-		if (market) {
-			params = {
-				order_amount: Number(quoteAmount),
-				order_type: "MARKET",
-				side: "BUY",
-				symbol: pair?.symbol,
-				broker_id: BROKER_ID
-			};
-		} else {
-			let _orderType = 'LIMIT';
-			if(Number(orderType) > 1){
-				_orderType = ORDERTYPES[orderType];
-			}
-			
-			params = {
-				order_price: Number(price).toString(),
-				order_quantity: Number(baseAmount).toString(),
-				order_type: _orderType,
-				side: "BUY",
-				symbol: pair?.symbol,
-				broker_id: BROKER_ID
-			};
-			if(hidden){
-				params.visible_quantity = '0';
-			}
-		}
-		account
-			?.createPostRequest("POST", "/v1/order", params)
-			.then((res: any) => {
-				console.log("Order created", res.data.data);
-				addOrder(res.data.data.order_id);
-			})
-			.catch((err: any) => {
-				console.log(err.response.data.message);
-			});
-	};
-
 	const balance = () => {
 		return (
 			(balances[token1]?.holding ?? 0) +
 			(balances[token1]?.pending_short ?? 0)
 		);
-	};
-
-	// console.log(pair);
-
-	const validate = (): ValidationResult => {
-		if (Number(baseAmount) == 0 && Number(quoteAmount) == 0) {
-			return {
-				valid: false,
-				message: `Enter an amount`,
-			};
-		} else if (Number(quoteAmount) < pair?.min_notional) {
-			return {
-				valid: false,
-				message: `Minimum notional is ${pair?.min_notional} ${token1}`,
-			};
-		} else if (Number(quoteAmount) > balance()) {
-			return {
-				valid: false,
-				message: `Insufficient ${token1} balance`,
-			};
-		} else if(market) {
-			// go thru orderbook and check quoteAmount is sufficient to buy pair.base_min
-			if(Number(quoteAmount) < orderbook[pair.symbol]?.asks[0][0] * pair.base_min){
-				return {
-					valid: false,
-					message: `Amount too low`,
-				};
-			}
-			return {
-				valid: true,
-				message: `Place Market Order`,
-			}
-		} else if (Number(baseAmount) < pair?.base_min) {
-			return {
-				valid: false,
-				message: `Minimum order quantity is ${pair?.base_min} ${token0}`,
-			};
-		} else if (Number(baseAmount) > pair?.base_max) {
-			return {
-				valid: false,
-				message: `Maximum order quantity is ${pair?.base_max} ${token0}`,
-			};
-		} else if (Number(price) < pair?.quote_min) {
-			return {
-				valid: false,
-				message: `Minimum order amount is ${pair?.quote_min} ${token1}`,
-			};
-		} else if (Number(price) > pair?.quote_max) {
-			return {
-				valid: false,
-				message: `Maximum order amount is ${pair?.quote_max} ${token1}`,
-			};
-		}
-		
-		// (price - quote_min) % quote_tick should equal to zero
-		else if (
-			pair?.quote_min > 0 &&
-			Number(price) - (pair?.quote_min % pair?.quote_tick) !== 0
-		) {
-			return {
-				valid: false,
-				message: `Price must be a multiple of ${pair?.quote_tick}`,
-			};
-		} else if (
-			Number(price) >
-			orderbook[pair?.symbol]?.asks[0][0] * (1 + pair?.price_range)
-		) {
-			return {
-				valid: false,
-				message: `Price is too high`,
-			};
-		} else {
-			return {
-				valid: true,
-				message: "Place Buy Order",
-			};
-		}
 	};
 
 	const updateQuoteAmount = (e: string) => {
@@ -232,9 +93,7 @@ export default function Buy({ pair, market }: any) {
 
 	useEffect(() => {
 		if (
-			price == "0" &&
-			trades[pair.symbol] &&
-			pair.symbol !== initalCheck
+			trades[pair.symbol]
 		) {
 			const _price = trades[pair.symbol][0].executed_price.toFixed(
 				tickToPrecision(pair?.quote_tick)
@@ -245,7 +104,7 @@ export default function Buy({ pair, market }: any) {
 		} else {
 			onPriceChange(price);
 		}
-	}, [price, pair, initalCheck]);
+	}, [pair, trades, initalCheck]);
 
 	const onPriceChange = (e: string) => {
 		setPrice(e);
@@ -400,11 +259,23 @@ export default function Buy({ pair, market }: any) {
 					</Flex>
 				</Flex></>}
 
-				<Button onClick={buy} size="md" bg={'background.300'} _hover={{bg: 'background.500'}} isDisabled={!validate().valid}>
-					{validate().message}
-				</Button>
+				<BuyButton
+					quoteAmount={quoteAmount}
+					baseAmount={baseAmount}
+					price={price}
+					pair={pair}
+					token0={token0}
+					token1={token1}
+					balance={balance}
+					market={market}
+					orderType={orderType}
+					hidden={hidden} 
+					dontShow={dontShow}
+					setDontShow={setDontShow}
+					checkIt={checkIt}
+					/>
 
-				<Box w={"32%"}>
+				<Flex justify={'space-between'}>
 					<Tooltip
 						placement="bottom"
 						p={0}
@@ -453,7 +324,9 @@ export default function Buy({ pair, market }: any) {
 							<Text fontSize={"sm"}>Fees</Text>
 						</Flex>
 					</Tooltip>
-				</Box>
+
+					<Checkbox size={'sm'} isChecked={!dontShow as boolean} onChange={checkIt} colorScheme='primary'>Show Confirmation</Checkbox>
+				</Flex>
 			</Flex>
 		</>
 	);

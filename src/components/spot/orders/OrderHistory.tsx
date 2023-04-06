@@ -61,7 +61,7 @@ export default function OrderHistory() {
 								<Th borderColor={'whiteAlpha.100'}>Type</Th>
 								<Th borderColor={'whiteAlpha.100'}>Status</Th>
 								<Th borderColor={'whiteAlpha.100'}>Price</Th>
-								<Th borderColor={'whiteAlpha.100'} h='40.5px' isNumeric>Quantity</Th>
+								<Th borderColor={'whiteAlpha.100'} isNumeric>Quantity</Th>
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -115,9 +115,14 @@ export default function OrderHistory() {
 												alt={order.symbol}
 											/>
                                             </Flex>
-                                            <Text fontWeight={'medium'}>
-					{order.symbol.split("_").slice(1).join("/")}
-                                            </Text>
+                                            <Box>
+						<Text fontWeight={"medium"}>
+							{order.symbol.split("_")[1]}
+						</Text>
+						<Text fontSize={'xs'}>
+							{order.symbol.split("_")[2]}
+						</Text>
+						</Box>
                     </Flex>
 										</Td>
 										<Td borderColor={'whiteAlpha.100'}><Flex gap={2} align='center'>

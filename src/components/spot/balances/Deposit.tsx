@@ -144,6 +144,7 @@ export default function Deposit({ pair, onClose, isOpen }: any) {
 											<Heading
 												fontSize={"xl"}
 												className="name-group"
+												fontWeight={'black'}
 											>
 												{ASSET_NAMES[tokenSymbol]} (
 												{tokenSymbol})

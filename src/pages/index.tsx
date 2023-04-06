@@ -92,7 +92,7 @@ const Index = () => {
 				<title>
 					ZEXE | Buy and Sell Crypto with Low Fees and High Liquidity
 				</title>
-				<link rel="icon" type="image/x-icon" href="/favicon.png"></link>
+				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
 
 			<Flex
@@ -132,20 +132,20 @@ const Index = () => {
 							justify={"center"}
 							mt={{ xs: "80px", sm: "120px", md: "180px" }}
 							mb={"60px"}
-							fontFamily={"BG"}
 							fontSize={{ xs: "38", sm: "40px", md: "68.5px" }}
 							lineHeight={"121%"}
 							mr={"10%"}
 						>
-							<Text fontWeight="bold">ORDERBOOK DEX</Text>
+							<Text fontWeight="bold" fontFamily={"BG"}>ORDERBOOK DEX</Text>
 							<Text
 								className={"stroke"}
 								color="transparent"
 								fontWeight="bold"
+								fontFamily={"BG"}
 							>
 								WITH SPOT AND
 							</Text>
-							<Text fontWeight="bold">DERIVATIVES MARKETS</Text>
+							<Text fontWeight="bold" fontFamily={"BG"}>DERIVATIVES MARKETS</Text>
 						</Flex>
 
 						<Flex wrap={"wrap"} gap={5}>

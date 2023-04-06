@@ -23,6 +23,9 @@ import {
 } from "@chakra-ui/react";
 import router from "next/router";
 import { utils } from "near-api-js";
+import { BiDockLeft, BiLogInCircle } from "react-icons/bi";
+import { FaQuestionCircle } from "react-icons/fa";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 let isInit = false;
 
@@ -62,7 +65,7 @@ export default function ConnectButton() {
 
 	useEffect(() => {
 		setLoading(true);
-		if(_init == 0) _setInit(1);
+		if (_init == 0) _setInit(1);
 		else if (_init == 1 && !isInit) {
 			isInit = true;
 			_setInit(2);
@@ -322,8 +325,31 @@ export default function ConnectButton() {
 			});
 	};
 
-	const handleSwitchWallet = () => {
+	const handleSwitchWallet = async () => {
 		modal.show();
+	};
+
+	const handleSwitchAccount = async () => {
+		const currentIndex = accounts.findIndex((x) => x.accountId === accountId);
+		const nextIndex = currentIndex < accounts.length - 1 ? currentIndex + 1 : 0;
+
+		const nextAccountId = accounts[nextIndex].accountId;
+
+		selector.setActiveAccount(nextAccountId);
+		initMarket().then(({ pairs, tokens }) => {
+			init()
+				.then(async (nextAccount) => {
+					setAccount(nextAccount);
+					setLoading(false);
+					handleRegister(nextAccount).then((_account) => {
+						initUser(nextAccount, tokens);
+					});
+				})
+				.catch((err) => {
+					setLoading(false);
+					console.log(err);
+				});
+		});
 	};
 
 	return (
@@ -343,9 +369,9 @@ export default function ConnectButton() {
 							<RiArrowDropDownLine size={30} />
 						</Flex>
 					</MenuButton>
-					<MenuList rounded={0} bg="background.600">
+					<MenuList minW={0} rounded={0} bg="background.600">
 						<MenuGroup title="Wallet">
-							<MenuItem
+							{/* <MenuItem
 								onClick={handleSwitchWallet}
 								bg={"transparent"}
 								_hover={{ bg: "whiteAlpha.200" }}
@@ -353,11 +379,21 @@ export default function ConnectButton() {
 								Switch Wallet
 							</MenuItem>
 							<MenuItem
+								onClick={handleSwitchAccount}
+								bg={"transparent"}
+								_hover={{ bg: "whiteAlpha.200" }}
+							>
+								Switch Account
+							</MenuItem> */}
+							<MenuItem
 								onClick={handleSignOut}
 								bg={"transparent"}
 								_hover={{ bg: "whiteAlpha.200" }}
 							>
-								Sign Out
+								<Flex align={'center'} gap={1}>
+									<BiLogInCircle />
+									<Text>Sign Out</Text>
+								</Flex>
 							</MenuItem>
 						</MenuGroup>
 						<MenuDivider />
@@ -366,19 +402,25 @@ export default function ConnectButton() {
 								bg={"transparent"}
 								_hover={{ bg: "whiteAlpha.200" }}
 							>
-								Docs
+								<Flex align={'center'} gap={1}>
+									<BiDockLeft />
+									<Text>Docs</Text>
+								</Flex>
 							</MenuItem>
 							<MenuItem
 								bg={"transparent"}
 								_hover={{ bg: "whiteAlpha.200" }}
 							>
-								FAQ
+								<Flex align={'center'} gap={1}>
+									<AiOutlineQuestionCircle />
+									<Text>FAQ</Text>
+								</Flex>
 							</MenuItem>
 						</MenuGroup>
 					</MenuList>
 				</Menu>
 			) : (
-				<Button onClick={handleSignIn} h="45px">
+				<Button onClick={handleSignIn} h="45px" isLoading={loading} loadingText='Connecting' fontSize={"sm"}>
 					Connect Wallet
 				</Button>
 			)}

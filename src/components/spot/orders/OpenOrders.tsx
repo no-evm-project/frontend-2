@@ -56,7 +56,7 @@ export default function OpenOrders({pair}: any) {
 								<Th borderColor={'whiteAlpha.100'}>Price</Th>
 								<Th borderColor={'whiteAlpha.100'}>Filled | Total</Th>
 								<Th borderColor={'whiteAlpha.100'} isNumeric>
-									<Button size='sm' px={4} variant={'unstyled'}>Cancel All</Button>
+									{/* <Button size='sm' px={4} variant={'unstyled'}>Cancel All</Button> */}
 								</Th>
 							</Tr>
 						</Thead>

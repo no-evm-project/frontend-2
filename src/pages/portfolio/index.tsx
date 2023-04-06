@@ -59,7 +59,7 @@ export default function Portfolio() {
 				<Flex bg='background.600' mx={0} my={0}>
 					<PortfolioNavBar/>
 				</Flex>
-				<Divider orientation="vertical" h={'100vh'}/>
+				<Divider orientation="vertical" h={'90vh'}/>
 				<Flex flexGrow={1} flexDir={'column'} my={0} bg={'background.600'}>
 					<Flex align={'start'} justify='space-between'>
 						<Flex flexDir={'column'} mb='50px' justify='space-between'>

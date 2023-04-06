@@ -60,7 +60,7 @@ export default function Rewards() {
 										Placing bids
 									</Heading>
 									<Text mt={2} fontSize={"sm"} color='whiteAlpha.800'>
-										You can earn ZEXE tokens by placing bids
+										You can earn $ZEX tokens by placing bids
 										on any trading pair. Depends on how close
 										your bid is to the current trading price
 										and how long your bid stays in the order
@@ -73,10 +73,10 @@ export default function Rewards() {
 										Trading volume
 									</Heading>
 									<Text mt={2} fontSize={"sm"} color='whiteAlpha.800'>
-										You can also earn ZEXE tokens by having
+										You can also earn $ZEX tokens by having
 										a high trading volume on any trading
 										pair. The higher your trading volume,
-										the more ZEXE tokens you earn.
+										the more $ZEX tokens you earn.
 									</Text>
 								</Box>
 							</Flex>
