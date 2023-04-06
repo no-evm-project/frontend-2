@@ -38,8 +38,11 @@ export default function ConnectButton() {
 		useContext(DataContext);
 
 	const init = useCallback(async (): Promise<LocalAccount> => {
+		setLoading(true);
+
 		return new Promise(async (resolve, reject) => {
 			if (!accountId) {
+				setLoading(false);
 				reject("No account selected");
 			} else if (account == null) {
 				const nextAccount = new LocalAccount(
@@ -55,9 +58,11 @@ export default function ConnectButton() {
 					);
 				}
 				setAccount(nextAccount);
+				setLoading(false);
 				resolve(nextAccount);
 			} else {
 				// subscribeUser(account);
+				setLoading(false);
 				resolve(account);
 			}
 		});
@@ -69,11 +74,11 @@ export default function ConnectButton() {
 		else if (_init == 1 && !isInit) {
 			isInit = true;
 			_setInit(2);
-			initMarket().then(({ pairs, tokens }) => {
+			initMarket()
+			.then(({ pairs, tokens }) => {
 				init()
 					.then(async (nextAccount) => {
 						setAccount(nextAccount);
-						setLoading(false);
 						handleRegister(nextAccount).then((_account) => {
 							initUser(nextAccount, tokens);
 						});
@@ -82,7 +87,7 @@ export default function ConnectButton() {
 						setLoading(false);
 						console.log(err);
 					});
-			});
+			})
 		}
 	}, [loading]);
 
@@ -420,7 +425,7 @@ export default function ConnectButton() {
 					</MenuList>
 				</Menu>
 			) : (
-				<Button onClick={handleSignIn} h="45px" isLoading={loading} loadingText='Connecting' fontSize={"sm"}>
+				<Button onClick={handleSignIn} h="45px" fontSize={"sm"}>
 					Connect Wallet
 				</Button>
 			)}
