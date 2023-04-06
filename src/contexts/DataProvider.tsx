@@ -384,14 +384,12 @@ function DataProvider({ children }: any) {
 	}
 
 	const handleExecution = (order: any) => {
-		console.log("execution report", order, orders);
 		const _orders = orders;
 		for(let i = 0; i < _orders.length; i++){
 			if(_orders[i].order_id == order.order_id){
 				_orders[i] = order;
 			}
 		}
-		console.log("setting orders", _orders);
 		setOrders(_orders);
 		setRefresh(Math.random());
 	} 

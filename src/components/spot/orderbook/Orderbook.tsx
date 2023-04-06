@@ -16,6 +16,9 @@ function Order({
 	orderIndex,
 }: any) {
 	const { setExchangeRate } = useContext(AppDataContext);
+	const { orders } = useContext(DataContext);
+
+	const exists = orders.find((o: any) => o.price == order[0] && o.status !== "FILLED" && o.status !== "CANCELLED");
 
 	return (
 		<Box>
@@ -26,7 +29,8 @@ function Order({
 				justify="space-between"
 				color={orderType == "BID" ? "buy.400" : "sell.400"}
 				py={"2.5px"}
-				px={4}
+				pl={3}
+				pr={4}
 				mb={0}
 				bgColor={
 					(orderType == "BID" && hoveredOrder >= orderIndex) ||
@@ -51,6 +55,8 @@ function Order({
 						order[0].toFixed(tickToPrecision(pair?.quote_tick))
 					)
 				}
+				borderLeft='2px'
+				borderLeftColor={exists ? orderType == "BID" ? 'buy.400' : 'sell.400' : 'transparent'}
 			>
 				<Text w={"30%"}>
 					{order[0].toFixed(tickToPrecision(pair?.quote_tick))}

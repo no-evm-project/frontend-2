@@ -45,7 +45,7 @@ export default function Trade({ pair, isOpen }: any) {
 					<Tab {...OrderTabStyle("buy.700")}>
 						Buy
 					</Tab>
-					<Tab {...OrderTabStyle("red.400")}>
+					<Tab {...OrderTabStyle("sell.400")}>
 						Sell
 					</Tab>
 				</TabList>

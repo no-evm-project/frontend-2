@@ -181,13 +181,13 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 						asset={token1}
 						onUpdate={updateBaseAmount}
 						value={baseAmount}
-						color="green2"
+						color="sell.400"
 					/>
 				</Flex>
 
 				{!market && <>
 				<Divider mt={1} mb={2} />
-				<Flex mb={4} justify={"space-between"}>
+				<Flex mb={2} justify={"space-between"}>
 					<CheckboxGroup>
 						<Stack direction="row">
 							{Object.keys(ORDERTYPES).map((key) => (

@@ -56,6 +56,7 @@ export default function EditOrder({ order, editedPrice, setIsEditingPrice }: any
 				});
                 order.price = Number(editedPrice);
                 setIsEditingPrice(false);
+				_onClose();
 			})
 			.catch((err: any) => {
 				console.log(

@@ -128,7 +128,8 @@ export default function TokenSelector({ pair }: any) {
 
 							<Flex align={"center"} color="whiteAlpha.600">
 								<Text fontSize={"sm"}>
-									{isOpen ? "Tap to close" : "All Markets"}
+									{isOpen ? "Tap to close" : "View All"} 
+									{/* All Markets */}
 								</Text>
 								<motion.div
 									variants={{

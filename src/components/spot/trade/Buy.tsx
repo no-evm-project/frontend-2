@@ -190,13 +190,13 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 						asset={token1}
 						onUpdate={updateQuoteAmount}
 						value={quoteAmount}
-						color="buy.700"
+						color="buy.400"
 					/>
 				</Flex>
 				
 				{!market && <>
 				<Divider mt={1} mb={2} />
-				<Flex mb={4} justify={"space-between"}>
+				<Flex mb={2} justify={"space-between"}>
 					<CheckboxGroup>
 						<Stack direction="row">
 							{Object.keys(ORDERTYPES).map((key) => (

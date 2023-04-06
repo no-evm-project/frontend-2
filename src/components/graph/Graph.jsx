@@ -16,6 +16,8 @@ const RED = "#ed3383";
 const BACKGROUND = "#1A0F30"
 const BACKGROUND2 = "#1A0F30"
 
+const HEIGHT = 550;
+
 export class Graph extends React.PureComponent {
 	static defaultProps = {
 		symbol: "BTC_USDC",
@@ -100,7 +102,7 @@ export class Graph extends React.PureComponent {
 			toolbar_bg: BACKGROUND2,
 
 			width: '100%',
-			height: '650',
+			height: HEIGHT,
 			header_widget_buttons_mode: 'compact'
 		};
 
@@ -169,7 +171,7 @@ export class Graph extends React.PureComponent {
 			toolbar_bg: BACKGROUND,
 
 			width: '100%',
-			height: '650',
+			height: HEIGHT,
 			header_widget_buttons_mode: 'compact'
 		};
 

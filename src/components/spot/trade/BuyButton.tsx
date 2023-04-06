@@ -216,9 +216,10 @@ export default function BuyButton({
 			<Button
 				onClick={_onOpen}
 				size="md"
-				bg={"background.300"}
-				_hover={{ bg: "background.500" }}
+				bg={"buy.700"}
+				_hover={{ opacity: 0.7 }}
 				isDisabled={!validate().valid}
+				_disabled={{ opacity: 0.7, cursor: 'not-allowed', bg: 'buy.700' }}
 			>
 				{validate().message}
 			</Button>

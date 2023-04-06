@@ -112,7 +112,8 @@ const theme = extendTheme({
     },
     Heading: {
       baseStyle: {
-        fontFamily: 'Space Grotesk',
+        fontFamily: 'BG',
+        fontSize: 'md'
         // fontWeight: '700'
       }
     },
@@ -148,7 +149,7 @@ const theme = extendTheme({
     },
     Divider: {
       baseStyle: {
-        borderColor: '#371775',
+        // borderColor: '#371775',
         border: '2px'
       }
     }

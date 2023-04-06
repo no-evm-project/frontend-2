@@ -26,7 +26,7 @@ import { AiFillDelete, AiOutlineSwap } from "react-icons/ai";
 import { tickToPrecision } from "@/utils";
 
 export default function DeleteOrder({ order }: any) {
-	const { orderbook, account, addOrder } = useContext(DataContext);
+	const { orderbook, account, addOrder, handleExecution } = useContext(DataContext);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [loading, setLoading] = React.useState(false);
 	const [error, setError] = React.useState(false);
@@ -40,8 +40,9 @@ export default function DeleteOrder({ order }: any) {
 		account
 			?.createDeleteRequest("DELETE", "/v1/order", params)
 			.then((res: any) => {
-				console.log(res.data);
-				// handleExecution(order);
+				order.status = "CANCELLED";
+				handleExecution(order);
+				_onClose();
 			})
 			.catch((err: any) => {
 				console.log("Failed to cancel order: ", err.response.data);

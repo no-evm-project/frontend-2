@@ -46,7 +46,7 @@ export default function NumberInputWithSlider({
 			zIndex: '1',
 			opacity: '1',
 			borderRadius: 100,
-			bgColor: __value > limit ? color : "background.400",
+			bgColor: __value > limit ? color : "gray.800",
 			// border: "1px solid",
 			// borderColor: __value > limit ? color : "background.800",
 		}
@@ -123,7 +123,7 @@ export default function NumberInputWithSlider({
 					<Box {...boxStyle(100)}></Box>
 				</SliderMark>
 
-				<SliderTrack bg='background.400'>
+				<SliderTrack bg='gray.800'>
 					<SliderFilledTrack bgColor={color} />
 				</SliderTrack>
 				<Tooltip

@@ -127,7 +127,7 @@ export default function BuyButton({
 		} else {
 			return {
 				valid: true,
-				message: "Place Buy Order",
+				message: "Place Sell Order",
 			};
 		}
 	}
@@ -192,9 +192,10 @@ export default function BuyButton({
 			<Button
 				onClick={_onOpen}
 				size="md"
-				bg={"background.300"}
-				_hover={{ bg: "background.500" }}
+				bg={"sell.400"}
+				_hover={{ opacity: 0.7 }}
 				isDisabled={!validate().valid}
+				_disabled={{ opacity: 0.7, cursor: 'not-allowed', bg: 'sell.400' }}
 			>
 				{validate().message}
 			</Button>

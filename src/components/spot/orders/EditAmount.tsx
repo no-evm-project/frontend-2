@@ -56,6 +56,7 @@ export default function EditOrder({ order, editedAmount, setIsEditingAmount }: a
 				});
                 order.quantity = Number(editedAmount);
                 setIsEditingAmount(false);
+				_onClose();
 			})
 			.catch((err: any) => {
 				console.log(
