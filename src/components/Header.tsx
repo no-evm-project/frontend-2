@@ -128,7 +128,7 @@ export default function Header() {
 
 			<Divider w={'100vw'}/>
 			<Box mb={'-4px'}>
-			{loading ? <Progress size="xs" bg={'background.600'} h={'4px'} colorScheme='background' isIndeterminate /> : <Box h={'4px'} bg='background.600'></Box>}
+			{loading ? <Progress size="xs" bg={'transparent'} h={'4px'} colorScheme='background' isIndeterminate /> : <Box h={'4px'} bg='transparent'></Box>}
 			</Box>
 
 			<Collapse in={isOpen} animateOpacity>
