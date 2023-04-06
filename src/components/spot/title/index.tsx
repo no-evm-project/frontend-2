@@ -93,7 +93,7 @@ export default function Title({ pair }: any) {
 										(100 *
 											(trades[pair.symbol]?.[0]?.executed_price -
 												(tickers[pair.symbol]?.open ?? 0))) /
-										trades[pair.symbol]?.[0]?.executed_price
+												(tickers[pair.symbol]?.open ?? 1)
 								  ).toFixed(2) +
 								  "%)"
 								: "-"

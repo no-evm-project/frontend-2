@@ -102,6 +102,17 @@ const theme = extendTheme({
     }),
   },
   components: {
+    Text: {
+      baseStyle: {
+        fontFamily: 'Poppins',
+      }
+    },
+    Heading: {
+      baseStyle: {
+        fontFamily: 'Schibsted Grotesk',
+        // fontWeight: '700'
+      }
+    },
     Button: {
       baseStyle: {
         borderRadius: '0px'

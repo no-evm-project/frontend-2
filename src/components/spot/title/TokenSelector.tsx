@@ -176,6 +176,7 @@ export default function TokenSelector({ pair }: any) {
 						flexDirection: "column",
 						position: "fixed",
 						width: "400px",
+						height: '72vh',
 						padding: "12px",
 						backgroundColor: "#1A0F30",
 						border: "1px solid #2A1652",
@@ -301,7 +302,7 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 						key={index}
 					>
 						<Flex
-							_hover={{ bg: "whiteAlpha.100" }}
+							_hover={{ bg: "background.500" }}
 							cursor="pointer"
 							mx={-3}
 							py={4}
@@ -376,8 +377,8 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 													?.executed_price -
 													tickers[_pair.symbol]
 														.open)) /
-											trades[_pair.symbol][0]
-												?.executed_price
+														tickers[_pair.symbol]
+														.open
 										).toFixed(2) + "%"}
 									</Text>
 								)}

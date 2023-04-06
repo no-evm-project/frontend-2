@@ -79,7 +79,7 @@ export default function WithdrawModal({ _tokenSymbol }: any) {
 
 	return (
 		<>
-			<Button size={"sm"} rounded={"full"} onClick={onOpen}>
+			<Button size={"sm"} bg='background.400' _hover={{opacity: '0.6'}} rounded={"full"} onClick={onOpen}>
 				Withdraw
 			</Button>
 
@@ -240,108 +240,76 @@ export default function WithdrawModal({ _tokenSymbol }: any) {
 												},
 											}}
 										>
-											{Object.keys(balances).map(
-												(token) => (
-													<motion.li
-														whileHover={{
-															scale: 1.02,
-														}}
-														whileTap={{
-															scale: 0.98,
-														}}
-														key={token}
-														style={{
-															marginBottom:
-																"12px",
-														}}
-													>
-														<Flex
-															align={"center"}
-															justify="space-between"
-															bg="background.600"
-															h={"100%"}
-															rounded={"lg"}
-															p={2}
-															onClick={() => {
-																setTokenSymbol(
-																	token
-																);
-																setSelectOpen(
-																	false
-																);
-															}}
-															cursor="pointer"
+											{Object.keys(tokens).map((token) => (
+										<motion.li
+											whileHover={{ scale: 1.02 }}
+											whileTap={{ scale: 0.98 }}
+											key={token}
+											style={{ marginBottom: "12px" }}
+										>
+											<Flex
+												align={"center"}
+												justify="space-between"
+												h={"100%"}
+												rounded={"lg"}
+												p={2}
+												onClick={() => {
+													setTokenSymbol(token);
+													setSelectOpen(false);
+												}}
+												cursor="pointer"
+											>
+												<Flex gap={2} align="center">
+													<Image
+														className="name-group"
+														rounded={"full"}
+														src={`https://oss.woo.network/static/symbol_logo/${token}.png`}
+														w={8}
+														alt={token}
+													/>
+													<Box>
+														<Heading
+															fontSize={"lg"}
+															className="name-group"
 														>
-															<Flex
-																gap={2}
-																align="center"
-															>
-																<Image
-																	className="name-group"
-																	rounded={
-																		"full"
-																	}
-																	src={`https://oss.woo.network/static/symbol_logo/${token}.png`}
-																	w={8}
-																	alt={token}
-																/>
-																<Box>
-																	<Heading
-																		fontSize={
-																			"lg"
-																		}
-																		className="name-group"
-																	>
-																		{
-																			ASSET_NAMES[
-																				token
-																			]
-																		}
-																	</Heading>
-																	<Text
-																		fontSize={
-																			"sm"
-																		}
-																	>
-																		{token}
-																	</Text>
-																</Box>
-															</Flex>
-															<Box
-																textAlign={
-																	"right"
-																}
-															>
-																<Text
-																	fontSize={
-																		"xs"
-																	}
-																>
-																	Available
-																</Text>
-																<Text
-																	fontSize={
-																		"sm"
-																	}
-																	color={
-																		max(
-																			token
-																		) == 0
-																			? "whiteAlpha.400"
-																			: "white"
-																	}
-																>
-																	{max(
-																		token
-																	).toFixed(
-																		6
-																	)}
-																</Text>
-															</Box>
-														</Flex>
-													</motion.li>
-												)
-											)}
+															{ASSET_NAMES[token]}
+														</Heading>
+														<Text fontSize={"sm"}>
+															{token}
+														</Text>
+													</Box>
+												</Flex>
+												<Box textAlign={"right"}>
+													<Text fontSize={"xs"}>
+														Balance
+													</Text>
+													<Text
+														fontSize={"sm"}
+														color={
+															(balances[token]
+																?.wallet ??
+																0) == 0
+																? "whiteAlpha.400"
+																: "white"
+														}
+													>
+														{(
+															(balances[token]
+																?.wallet ?? 0) /
+															10 **
+																tokens[token]
+																	.decimals
+														).toFixed(
+															tickToPrecision(
+																tokens[token]
+																	.minimum_increment
+															)
+														)}
+													</Text>
+												</Box>
+											</Flex>
+										</motion.li>
+									))}
 										</motion.div>
 									</motion.ul>
 								</motion.nav>

@@ -246,20 +246,20 @@ const Index = () => {
 
 						<Divider mt={{ xs: 16, sm: 20, md: 28 }} mb={10} />
 					</Box>
-					<Box py={5} pb={20}>
+					<Box py={0} pb={20}>
 						<Flex ml="10%" gap={10}>
 							<Flex align={"center"} gap={4} color="gray.400">
 								<Image
 									src="/built_on_rev.png"
 									alt="zexe"
 									rounded={"full"}
-									height={10}
+									height={8}
 								/>
 							</Flex>
 
 							<Divider
 								orientation="vertical"
-								h={20}
+								h={12}
 								borderColor={"white"}
 							/>
 
@@ -268,18 +268,18 @@ const Index = () => {
 									src="https://pbs.twimg.com/profile_images/1610066785025523713/2iij3ydV_400x400.jpg"
 									alt="zexe"
 									rounded={"full"}
-									height={16}
+									height={12}
 								/>
 								<Box>
 									<Text
-										fontSize={"sm"}
+										fontSize={"xs"}
 										color="gray.300"
 										mb={0}
 									>
 										Powered by
 									</Text>
 									<Text
-										fontSize={"2xl"}
+										fontSize={"xl"}
 										color="white"
 										fontWeight={"bold"}
 									>

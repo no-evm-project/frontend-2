@@ -32,8 +32,8 @@ function Order({
 					(orderType == "BID" && hoveredOrder >= orderIndex) ||
 					(orderType == "ASK" && hoveredOrder <= orderIndex)
 						? orderType == "BID"
-							? "rgba(24, 176, 95, 8%)"
-							: "rgba(200, 50, 50, 8%)"
+							? "rgba(108, 62, 199, 8%)"
+							: "rgba(108, 62, 199, 8%)"
 						: "transparent"
 				}
 				bgGradient={
@@ -152,7 +152,7 @@ export default function Orderbook({ pair }: any) {
 									.map((ask: any, index: number) => (
 										// <Order order={ask} key={ask[0]} orderType='ASK' total={maxAsk} pair={pair} />
 										<Tooltip
-											bg={"background.700"}
+											bg={"background.300"}
 											hasArrow
 											placement="right"
 											p={0}
@@ -165,7 +165,7 @@ export default function Orderbook({ pair }: any) {
 													side="ASKS"
 												/>
 											}
-											animation="none"
+											// animation="none"
 										>
 											<Box
 												onMouseEnter={() =>
@@ -237,7 +237,7 @@ export default function Orderbook({ pair }: any) {
 									.slice(0, 15)
 									.map((bid: any, index: number) => (
 										<Tooltip
-											bg={"background.700"}
+											bg={"background.300"}
 											hasArrow
 											placement="right"
 											p={0}
@@ -327,7 +327,7 @@ const HoveredState = ({ pair, orderIndex, side }: any) => {
 				p={2}
 				px={3}
 				// border="2px"
-				bg={"whiteAlpha.200"}
+				// bg={"background.400"}
 				// borderColor={"whiteAlpha.300"}
 				color="white"
 			>
