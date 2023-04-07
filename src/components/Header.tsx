@@ -104,7 +104,7 @@ export default function Header() {
 					justify={"flex-end"}
 					align="center"
 					direction={"row"}
-					display={{ base: "none", md: "flex" }}
+					// display={{ base: "none", md: "flex" }}
 				>
 					<Flex
 						display={{ sm: "none", md: "flex" }}
@@ -113,6 +113,8 @@ export default function Header() {
 						gap={0}
 					>
 						<Flex gap={0}>
+						<Box display={{ base: "none", md: "flex" }}>
+								
 							{accountId && (
 								<>
 									<MenuOption
@@ -122,8 +124,11 @@ export default function Header() {
 									/>
 								</>
 							)}
+							</Box>
 							<ConnectButton />
-							<Notifications />
+							<Box display={{ base: "none", md: "flex" }}>
+								<Notifications />
+							</Box>
 						</Flex>
 					</Flex>
 				</Stack>

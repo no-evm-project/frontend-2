@@ -80,7 +80,13 @@ export default function BuyButton({
 	});
 
 	const validate = (): ValidationResult => {
-		if (Number(baseAmount) == 0 && Number(quoteAmount) == 0) {
+		if(!account){
+			return {
+				valid: false,
+				message: `Please connect your wallet`,
+			};
+		}
+		else if (Number(baseAmount) == 0 && Number(quoteAmount) == 0) {
 			return {
 				valid: false,
 				message: `Enter an amount`,
