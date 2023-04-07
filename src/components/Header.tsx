@@ -215,9 +215,9 @@ const MobileNav = ({}: any) => {
 			{/* <MenuOption href={'/'} title={'Options'} disabled={true} /> */}
 			{/* {isConnected && <MenuOption href={'/faucet'} title={'💰 Faucet'} />} */}
 			<MenuOption href={"/portfolio"} title={"Portfolio"} />
-			<Box width={"100%"}>
+			{/* <Box width={"100%"}>
 				<ConnectButton />
-			</Box>
+			</Box> */}
 		</Stack>
 	);
 };

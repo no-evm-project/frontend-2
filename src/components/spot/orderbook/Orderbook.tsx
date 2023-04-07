@@ -115,7 +115,8 @@ export default function Orderbook({ pair }: any) {
 			{!accountId ? (
 				<>
 					<Flex justify='center' m={5}>
-						<ConnectButton />
+						{/* <ConnectButton /> */}
+						<Text>Connect your wallet</Text>
 					</Flex>
 				</>
 			) : (
@@ -350,11 +351,11 @@ const HoveredState = ({ pair, orderIndex, side }: any) => {
 				</Text>
 				<Text>
 					{totalQuote.toFixed(tickToPrecision(pair.base_tick))}{" "}
-					{pair.symbol.split("_")[1]}
+					{pair.symbol.split("_")[2]}
 				</Text>
 				<Text>
 					{totalBase.toFixed(tickToPrecision(pair.base_tick))}{" "}
-					{pair.symbol.split("_")[2]}
+					{pair.symbol.split("_")[1]}
 				</Text>
 			</Box>
 		</>

@@ -38,8 +38,7 @@ export default function ConnectButton() {
 		useContext(DataContext);
 
 	const init = useCallback(async (): Promise<LocalAccount> => {
-		setLoading(true);
-
+		
 		return new Promise(async (resolve, reject) => {
 			if (!accountId) {
 				setLoading(false);
@@ -49,6 +48,7 @@ export default function ConnectButton() {
 					accountId!,
 					selector.options.network
 				);
+				console.log("nextAccount", nextAccount);
 				await nextAccount.setBalance();
 				if (nextAccount.balance.isZero()) {
 					const wallet = await selector.wallet();
@@ -58,38 +58,41 @@ export default function ConnectButton() {
 					);
 				}
 				setAccount(nextAccount);
-				setLoading(false);
 				resolve(nextAccount);
 			} else {
-				// subscribeUser(account);
-				setLoading(false);
 				resolve(account);
 			}
 		});
 	}, [accountId, selector]);
 
 	useEffect(() => {
-		setLoading(true);
-		if (_init == 0) _setInit(1);
-		else if (_init == 1 && !isInit) {
+		if (_init == 0) {
+			setLoading(true); 
+			_setInit(1);
+		}
+		else if (_init == 1) {
 			isInit = true;
 			_setInit(2);
 			initMarket()
 			.then(({ pairs, tokens }) => {
 				init()
 					.then(async (nextAccount) => {
+						setLoading(false);
+						_setInit(3);
 						setAccount(nextAccount);
+						
 						handleRegister(nextAccount).then((_account) => {
 							initUser(nextAccount, tokens);
 						});
 					})
 					.catch((err) => {
 						setLoading(false);
+						_setInit(3);
 						console.log(err);
 					});
 			})
 		}
-	}, [loading]);
+	}, [_init]);
 
 	const handleRegister = (_account: LocalAccount): Promise<LocalAccount> => {
 		return new Promise(async (resolve, reject) => {
@@ -334,28 +337,6 @@ export default function ConnectButton() {
 		modal.show();
 	};
 
-	const handleSwitchAccount = async () => {
-		const currentIndex = accounts.findIndex((x) => x.accountId === accountId);
-		const nextIndex = currentIndex < accounts.length - 1 ? currentIndex + 1 : 0;
-
-		const nextAccountId = accounts[nextIndex].accountId;
-
-		selector.setActiveAccount(nextAccountId);
-		initMarket().then(({ pairs, tokens }) => {
-			init()
-				.then(async (nextAccount) => {
-					setAccount(nextAccount);
-					setLoading(false);
-					handleRegister(nextAccount).then((_account) => {
-						initUser(nextAccount, tokens);
-					});
-				})
-				.catch((err) => {
-					setLoading(false);
-					console.log(err);
-				});
-		});
-	};
 
 	return (
 		<>
@@ -425,7 +406,7 @@ export default function ConnectButton() {
 					</MenuList>
 				</Menu>
 			) : (
-				<Button onClick={handleSignIn} h="45px" fontSize={"sm"}>
+				<Button onClick={handleSignIn} h="45px" isLoading={loading} loadingText='Connecting' fontSize={"sm"}>
 					Connect Wallet
 				</Button>
 			)}
