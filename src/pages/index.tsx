@@ -102,14 +102,14 @@ const Index = () => {
 				bgRepeat={"no-repeat"}
 				bgSize={{ xs: "0", sm: "contain", md: "contain" }}
 				bgPosition={"center top"}
-				h={'100vh'}
+				// h={'100vh'}
 			>
 				<Box
 					bgImage="/Rectangle2.png"
 					bgRepeat={"no-repeat"}
 					bgSize={{ xs: "0", sm: "1000px", md: "contain" }}
 					bgPosition={"center bottom"}
-					h={'100vh'}
+					// h={'100vh'}
 				>
 					<Box mr={"10%"} ml={"10%"}>
 						<Flex align={"center"} justify="space-between">

@@ -190,7 +190,7 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 						asset={token1}
 						onUpdate={updateQuoteAmount}
 						value={quoteAmount}
-						color="buy.400"
+						color="buy.700"
 					/>
 				</Flex>
 				

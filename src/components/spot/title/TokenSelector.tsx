@@ -326,7 +326,7 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 								<Box>
 									<Heading
 										fontSize={"md"}
-										fontWeight="medium"
+										fontFamily="Space Grotesk"
 									>
 										{
 											ASSET_NAMES[

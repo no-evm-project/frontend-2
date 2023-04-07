@@ -37,7 +37,7 @@ function NavLink ({link, text, icon}: any) {
         <Link href={link} as={link}>
             <Flex align={'center'} gap={2} px={6} py={4} bg={link == router.pathname ? 'background.500' : 'background.600'} _hover={{bg: 'background.500'}} borderLeft={'4px'} borderLeftColor={link == router.pathname ? 'primary.400': 'transparent'}>
                 {icon}
-                <Heading size={'sm'} fontWeight='medium'>{text}</Heading>
+                <Heading size={'sm'} fontWeight='bold' fontFamily={'Space Grotesk'}>{text}</Heading>
             </Flex>
         </Link>
     )
