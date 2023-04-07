@@ -18,6 +18,7 @@ import Image from "next/image";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { useWalletSelector } from "@/contexts/WalletSelectorContext";
 import Link from "next/link";
+import Notifications from "./Notifications";
 
 export default function Header() {
 	const router = useRouter();
@@ -119,6 +120,7 @@ export default function Header() {
 								</>
 							)}
 							<ConnectButton />
+							<Notifications />
 						</Flex>
 					</Flex>
 				</Stack>

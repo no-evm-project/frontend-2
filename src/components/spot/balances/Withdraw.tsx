@@ -93,7 +93,7 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 							initial={false}
 							animate={isSelectOpen ? "open" : "closed"}
 							className="menu"
-							style={{ width: "100%", height: "100%" }}
+							style={{ width: "100%", height: "50px" }}
 							id="menu-list-123"
 						>
 							<Flex zIndex={2} h={"100%"}>
@@ -120,8 +120,7 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 												fontSize={"xl"}
 												className="name-group"
 											>
-												{ASSET_NAMES[tokenSymbol]} (
-												{tokenSymbol})
+												{ASSET_NAMES[tokenSymbol]}
 											</Heading>
 										</Flex>
 
@@ -186,8 +185,8 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 									listStyle: "none",
 									display: "flex",
 									flexDirection: "column",
-									position: "fixed",
-									width: "400px",
+									position: "relative",
+									width: "100%",
 									padding: "12px",
 									paddingBottom: "18px",
 									backgroundColor: "#1E1238",

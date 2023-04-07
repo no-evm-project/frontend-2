@@ -118,7 +118,7 @@ export default function Deposit({ pair, onClose, isOpen }: any) {
 							initial={false}
 							animate={isSelectOpen ? "open" : "closed"}
 							className="menu"
-							style={{ width: "100%", height: "100%" }}
+							style={{ width: "100%", height: "50px" }}
 							id="menu-list-123"
 						>
 							<Flex zIndex={2} h={"100%"}>
@@ -146,8 +146,8 @@ export default function Deposit({ pair, onClose, isOpen }: any) {
 												className="name-group"
 												fontWeight={'black'}
 											>
-												{ASSET_NAMES[tokenSymbol]} (
-												{tokenSymbol})
+												{ASSET_NAMES[tokenSymbol]} 
+												{/* ({tokenSymbol}) */}
 											</Heading>
 										</Flex>
 
@@ -212,11 +212,11 @@ export default function Deposit({ pair, onClose, isOpen }: any) {
 									listStyle: "none",
 									display: "flex",
 									flexDirection: "column",
-									position: "fixed",
-									width: "365px",
+									position: "relative",
+									width: "100%",
 									padding: "12px",
 									backgroundColor: "#1E1238",
-									zIndex: 100,
+									zIndex: 101,
 									marginTop: "10px",
 								}}
 							>
@@ -268,6 +268,7 @@ export default function Deposit({ pair, onClose, isOpen }: any) {
 														<Heading
 															fontSize={"lg"}
 															className="name-group"
+															fontFamily={"Space Grotesk"}
 														>
 															{ASSET_NAMES[token]}
 														</Heading>

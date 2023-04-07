@@ -61,6 +61,7 @@
     "framer-motion": "^10.0.1",
     "js-sha256": "^0.9.0",
     "keccak256": "^1.0.6",
+    "moment": "^2.29.4",
     "near-api-js": "^1.1.0",
     "near-wallet-selector": "^2.1.0",
     "next": "13.2.1",

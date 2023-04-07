@@ -35,6 +35,7 @@ interface DataValue {
 	userVolume: any;
 	refresh: number;
 	volumeStat: any;
+	notifications: any;
 }
 
 function DataProvider({ children }: any) {
@@ -58,6 +59,7 @@ function DataProvider({ children }: any) {
 	const [accountInfo, setAccountInfo] = React.useState<any>({});
 	const [userVolume, setUserVolume] = React.useState<any>({});
 	const [volumeStat, setVolumeStat] = React.useState<any>({});
+	const [notifications, setNotifications] = React.useState<any>([]);
 
 	const [isSubscribedToMarket, setIsSubscribedToMarket] = React.useState<boolean>(false);
 
@@ -110,7 +112,8 @@ function DataProvider({ children }: any) {
 
 	const initUser = async (_account: LocalAccount|null = account, _tokens = tokens) => {
 		if(!_account) return;
-		_setOrders(_account)
+		_setOrders(_account);
+		_setNotifications(_account);
 		Promise.all([_account.createGetRequest("GET", "/v1/client/holding?all=true"), _account.createGetRequest("GET", "/v1/client/info"), _account.createGetRequest("GET", `/v1/volume/user/stats?broker_id=${BROKER_ID}`)])
 			.then(async ([res, accountInfo, userVolume]) => {
 				const _balances: any = {};
@@ -154,6 +157,21 @@ function DataProvider({ children }: any) {
 			if(err.response.data.code == -1003){
 				console.log("Trying again...");
 				setTimeout(() => _setOrders(_account), 1500);
+			}
+		})
+	}
+
+	const _setNotifications = async (_account: LocalAccount) => {
+		_account.createGetRequest("GET", `/notification/inbox/notifications?size=100&page=0&type=TRADE`).then((res) => {
+			console.log("Notifications:", res.data.data);
+			const _not = res.data.data.rows;
+			setNotifications(_not);
+		})
+		.catch(err => {
+			console.log("Error fetching notifications:", err);
+			if(err.message == 'Network Error' || err.response?.data.code == -1003){
+				console.log("Trying again...");
+				setTimeout(() => _setNotifications(_account), 1500);
 			}
 		})
 	}
@@ -444,7 +462,7 @@ function DataProvider({ children }: any) {
 
 	return (
 		<DataContext.Provider
-			value={{ volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
+			value={{ notifications, volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
 		>
 			{children}
 		</DataContext.Provider>

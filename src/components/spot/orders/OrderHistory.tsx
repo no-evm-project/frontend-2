@@ -1,5 +1,5 @@
 import { DataContext } from "@/contexts/DataProvider";
-import { Box, Flex, IconButton, Tag } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Tag, Tooltip } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useContext } from "react";
 
@@ -28,6 +28,7 @@ import {
 } from "@ajna/pagination";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { tickToPrecision } from '../../../utils';
+import moment from "moment";
 
 
 export default function OrderHistory() {
@@ -72,18 +73,13 @@ export default function OrderHistory() {
                                 if(order.status === "FILLED" || order.status == "CANCELLED") return (
 									<Tr key={index} h='57px'>
 										<Td borderColor={'whiteAlpha.100'}>
+											<Tooltip label={moment(order.created_time).format('MMMM Do YYYY, h:mm:ss a')} bg='background.400' color={'white'} m={0} >
                                             <Box fontSize={'sm'}>
                                         <Text>
-											{new Date(
-                                                order.created_time
-                                                ).toDateString().slice(4)}
-                                        </Text>
-                                        <Text>
-											{new Date(
-                                                order.created_time
-                                                ).toLocaleString().slice(12)}
+										{moment(order.created_time).calendar()}
                                         </Text>
                                                 </Box>
+												</Tooltip>
 										</Td>
 										<Td borderColor={'whiteAlpha.100'}>
 										<Flex align={'center'} gap={1}>

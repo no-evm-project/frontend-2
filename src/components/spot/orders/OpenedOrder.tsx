@@ -1,5 +1,5 @@
 import { EditIcon, CloseIcon, CheckIcon } from "@chakra-ui/icons";
-import { Box, Td, Tr, Text, Flex, IconButton, Tag } from "@chakra-ui/react";
+import { Box, Td, Tr, Text, Flex, IconButton, Tag, Tooltip } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -18,6 +18,7 @@ import { useEffect } from "react";
 import DeleteOrder from "./DeleteOrder";
 import EditPrice from "./EditPrice";
 import EditAmount from "./EditAmount";
+import moment from "moment";
 export default function OpenedOrder({ order, pair }: any) {
 	const [isEditingPrice, setIsEditingPrice] = React.useState(false);
 	const [isEditingAmount, setIsEditingAmount] = React.useState(false);
@@ -34,18 +35,14 @@ export default function OpenedOrder({ order, pair }: any) {
 		<>
 			<Tr>
 				<Td borderColor={"whiteAlpha.100"}>
+				<Tooltip label={moment(order.created_time).format('MMMM Do YYYY, h:mm:ss a')} bg='background.400' color={'white'} m={0} >
 					<Box fontSize={"sm"}>
 						<Text>
-							{new Date(order.created_time)
-								.toDateString()
-								.slice(4)}
-						</Text>
-						<Text>
-							{new Date(order.created_time)
-								.toLocaleString()
-								.slice(12)}
+							{moment(order.created_time)
+								.calendar()}
 						</Text>
 					</Box>
+				</Tooltip>
 				</Td>
 				<Td borderColor={"whiteAlpha.100"}>
 					<Flex align={"center"} gap={1}>

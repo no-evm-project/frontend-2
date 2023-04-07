@@ -11,18 +11,15 @@ import Buy from "./Buy";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import Sell from "./Sell";
 
-const OrderTypeStyle = {
-	bg: "background.500",
-	_selected: { bg: "background.400", color: "white" },
-	rounded: 0,
-};
+const OrderTypeStyle = {};
 
 const OrderTabStyle = (color: string) => {
 	return {
-		rounded: 0,
 		h: 10,
+		fontSize: 'md',
 		bg: "background.500",
-		_selected: { bg: color, color: "white" }
+		rounded: 8,
+		_selected: { bg: color, color: "white"},
 	}
 }
 
@@ -50,13 +47,13 @@ export default function Trade({ pair, isOpen }: any) {
 					</Tab>
 				</TabList>
 				<TabPanels>
-					<TabPanel px={0} py={2} m={0}>
-						<Tabs isFitted size={"sm"} variant="soft-rounded">
-							<TabList px={4}>
+					<TabPanel px={0} py={1} m={0}>
+						<Tabs size={"sm"} mx={4} colorScheme='buy'>
+							<TabList>
 								<Tab {...OrderTypeStyle}>Limit</Tab>
 								<Tab {...OrderTypeStyle}>Market</Tab>
 								<Tab
-									pl="6"
+									pl="3"
 									{...OrderTypeStyle}
 									isDisabled={true}
 									opacity='1'
@@ -65,22 +62,22 @@ export default function Trade({ pair, isOpen }: any) {
 								</Tab>
 							</TabList>
 							<TabPanels>
-								<TabPanel m={0} mt={1}>
+								<TabPanel m={0} mx={-4} mt={1}>
 									<Buy dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={false} />
 								</TabPanel>
-								<TabPanel m={0} mt={1}>
+								<TabPanel m={0} mx={-4} mt={1}>
 									<Buy dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={true} />
 								</TabPanel>
 							</TabPanels>
 						</Tabs>
 					</TabPanel>
-					<TabPanel px={0} py={2} m={0}>
-						<Tabs isFitted size={"sm"} variant="soft-rounded">
-							<TabList px={4}>
+					<TabPanel px={0} py={1} m={0}>
+						<Tabs size={"sm"} mx={4} colorScheme='sell'>
+							<TabList>
 								<Tab {...OrderTypeStyle}>Limit</Tab>
 								<Tab {...OrderTypeStyle}>Market</Tab>
 								<Tab
-									pl="6"
+									pl="3"
 									{...OrderTypeStyle}
 									isDisabled={true}
 									opacity='1'
@@ -89,10 +86,10 @@ export default function Trade({ pair, isOpen }: any) {
 								</Tab>
 							</TabList>
 							<TabPanels>
-								<TabPanel m={0} mt={1}>
+								<TabPanel m={0} mx={-4} mt={1}>
 									<Sell dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={false} />
 								</TabPanel>
-								<TabPanel m={0} mt={1}>
+								<TabPanel m={0} mx={-4} mt={1}>
 									<Sell dontShow={dontShow} setDontShow={setDontShow} checkIt={checkIt} pair={pair} market={true} />
 								</TabPanel>
 							</TabPanels>

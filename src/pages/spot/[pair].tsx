@@ -66,9 +66,9 @@ export default function Pair() {
 			<Box>
 				<Divider />
 				</Box>
-			<Flex justify={'stretch'}>
+			<Flex  justify={'stretch'}>
 				<Flex flexDir={"column"} minW="400px">
-					<Box bg="background.600">
+					<Box bg="background.600" px={1}>
 						{isDepositOpen ? (
 							<Deposit
 								pair={pair}
@@ -91,7 +91,7 @@ export default function Pair() {
 					<Box>
 				<Divider />
 				</Box>
-					<Box bg="background.600" flexGrow={1}>
+					<Box bg="background.600" flexGrow={1} px={1}>
 						<Balances
 							pair={pair}
 							isDepositOpen={isDepositOpen}

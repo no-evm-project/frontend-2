@@ -41,11 +41,6 @@ const GamingSymbols = ["SWEAT"];
 
 const tabStyle = {
 	rounded: 0,
-	bg: "background.500",
-	_selected: {
-		bg: "background.400",
-		color: "white",
-	}
 }
 
 export default function TokenSelector({ pair }: any) {
@@ -175,9 +170,9 @@ export default function TokenSelector({ pair }: any) {
 						listStyle: "none",
 						display: "flex",
 						flexDirection: "column",
-						position: "fixed",
+						position: "relative",
 						width: "400px",
-						height: '72vh',
+						// height: '72vh',
 						padding: "12px",
 						backgroundColor: "#1A0F30",
 						border: "1px solid #2A1652",
@@ -218,7 +213,7 @@ export default function TokenSelector({ pair }: any) {
 							/>
 						</InputGroup>
 
-						<Tabs isFitted size={"sm"} variant="soft-rounded">
+						<Tabs isFitted size={"sm"} colorScheme='primary'>
 							<TabList mx={0} mr={2} mb={2}>
 								<Tab {...tabStyle}>
 									All
