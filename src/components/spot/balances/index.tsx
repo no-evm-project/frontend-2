@@ -118,7 +118,7 @@ function TokenBalance({ token }: any) {
 						src={`https://oss.woo.network/static/symbol_logo/${token}.png`}
 						w={8}
 						h={8}
-						zIndex={1}
+						zIndex={1} 
 						alt={token}
 					/>
 					<Box>
