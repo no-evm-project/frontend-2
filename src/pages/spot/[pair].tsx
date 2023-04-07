@@ -65,9 +65,9 @@ export default function Pair() {
 			</Box>
 			<Box>
 				<Divider />
-				</Box>
-			<Flex  justify={'stretch'}>
-				<Flex flexDir={"column"} minW="400px">
+			</Box>
+			<Flex flexDir={{xs: 'column', sm: 'column', md: 'row'}} justify={"stretch"}>
+				<Flex order={{ xs: 3, sm: 3, md: 1}} flexDir={"column"} minW="400px">
 					<Box bg="background.600" px={1}>
 						{isDepositOpen ? (
 							<Deposit
@@ -89,8 +89,8 @@ export default function Pair() {
 						)}
 					</Box>
 					<Box>
-				<Divider />
-				</Box>
+						<Divider />
+					</Box>
 					<Box bg="background.600" flexGrow={1} px={1}>
 						<Balances
 							pair={pair}
@@ -103,27 +103,46 @@ export default function Pair() {
 						/>
 					</Box>
 				</Flex>
-				<Box>
-				<Divider orientation="vertical" h={'100%'} />
+
+				<Box order={{ xs: 2, sm: 2, md: 2}}>
+					<ResponsiveDivider />
 				</Box>
-				<Box minW="300px" bg="background.600">
+
+				<Box order={{ xs: 5, sm: 5, md: 3}} minW="300px" bg="background.600">
 					<Orderbook pair={pair} />
 				</Box>
-				<Box>
-				<Divider orientation="vertical" h={'100%'} />
+
+				<Box order={{ xs: 4, sm: 4, md: 4}}>
+					<ResponsiveDivider />
 				</Box>
-				<Flex flexDir={'column'} flexGrow={1}>
-					<Box mt={"0.5px"} >
+
+				<Flex order={{xs: 1, sm: 1, md: 5}} flexDir={"column"} flexGrow={1}>
+					<Box mt={"0.5px"}>
 						<Graph pair={pair} />
 					</Box>
-					<Box>
-				<Divider />
-				</Box>
-					<Box flexGrow={1} bg={"background.600"}>
+					<Box display={{xs: 'none', sm: 'none', md: 'block'}} >
+						<Divider />
+					</Box>
+					<Box flexGrow={1} bg={"background.600"} display={{xs: 'none', sm: 'none', md: 'block'}} >
 						<Orders pair={pair} />
 					</Box>
 				</Flex>
+
+				
 			</Flex>
+		</>
+	);
+}
+
+function ResponsiveDivider() {
+	return (
+		<>
+			<Box display={{ sm: "none", md: "block" }}>
+				<Divider orientation={"vertical"} h='100%' />
+			</Box>
+			<Box display={{ sm: "block", md: "none" }}>
+				<Divider orientation={"horizontal"} />
+			</Box>
 		</>
 	);
 }

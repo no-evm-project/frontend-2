@@ -43,7 +43,7 @@ const tabStyle = {
 	rounded: 0,
 }
 
-export default function TokenSelector({ pair }: any) {
+export default function TokenSelector({ pair, width = '400px', headingSize = '2xl' }: any) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { pairs } = useContext(DataContext);
 
@@ -59,7 +59,7 @@ export default function TokenSelector({ pair }: any) {
 	});
 
 	return (
-		<>
+		<Flex justify={"center"} flexDir="column" h={"100%"}>
 			<motion.nav
 				initial={false}
 				animate={isOpen ? "open" : "closed"}
@@ -97,7 +97,7 @@ export default function TokenSelector({ pair }: any) {
 											alt={pair.symbol}
 										/>
 										<Heading
-											fontSize={"2xl"}
+											fontSize={headingSize}
 											className="name-group"
 										>
 											{pair.symbol
@@ -116,7 +116,7 @@ export default function TokenSelector({ pair }: any) {
 							) : (
 								<SlideFade in={isOpen} offsetY="20px">
 									<Flex gap={2} align="center">
-										<Heading fontSize={"2xl"}>Markets</Heading>
+										<Heading fontSize={headingSize}>Markets</Heading>
 									</Flex>
 								</SlideFade>
 							)}
@@ -171,7 +171,7 @@ export default function TokenSelector({ pair }: any) {
 						display: "flex",
 						flexDirection: "column",
 						position: "relative",
-						width: "400px",
+						width: width,
 						// height: '72vh',
 						padding: "12px",
 						backgroundColor: "#1A0F30",
@@ -274,7 +274,7 @@ export default function TokenSelector({ pair }: any) {
 					</motion.div>
 				</motion.ul>
 			</motion.nav>
-		</>
+		</Flex>
 	);
 }
 

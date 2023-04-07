@@ -30,11 +30,11 @@ export default function Rewards() {
 				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
 
-			<Flex minH={"90vh"}>
+			<Flex minH={{xs: '0', sm: '0', md: '90vh'}} flexDir={{xs: 'column', sm: 'column', md: 'row'}}>
 				<Flex bg="background.600">
 					<PortfolioNavBar />
 				</Flex>
-				<Divider orientation="vertical" minH={'90vh'} />
+				<ResponsiveDivider/>
 				<Flex w={"80%"} flexDir={"column"} bg={"background.600"}>
 					<Flex align={"start"} justify="space-between">
 						<Flex
@@ -90,3 +90,13 @@ export default function Rewards() {
 		</>
 	);
 }
+
+const ResponsiveDivider = () => ( <>
+	<Box display={{xs: 'none', sm: 'none', md: 'block'}}>
+	<Divider orientation="vertical" h={'90vh'}/>
+	</Box>
+	<Box display={{xs: 'block', sm: 'block', md: 'none'}}>
+	<Divider orientation="horizontal" w={'100vw'}/>
+	</Box>
+	</>
+)

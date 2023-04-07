@@ -34,7 +34,7 @@ export default function OpenedOrder({ order, pair }: any) {
 	return (
 		<>
 			<Tr>
-				<Td borderColor={"whiteAlpha.100"}>
+				<Td borderColor={"whiteAlpha.100"} maxW='100px'>
 				<Tooltip label={moment(order.created_time).format('MMMM Do YYYY, h:mm:ss a')} bg='background.400' color={'white'} m={0} >
 					<Box fontSize={"sm"}>
 						<Text>

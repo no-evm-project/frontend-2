@@ -57,28 +57,12 @@ export default function Header() {
 				pl={6}
 				pr={2}
 			>
-				<Flex
-					flex={{ base: 1, md: "auto" }}
-					ml={{ base: -2 }}
-					display={{ base: "flex", md: "none" }}
-				>
-					<IconButton
-						onClick={onToggle}
-						icon={
-							isOpen ? (
-								<CloseIcon w={3} h={3} />
-							) : (
-								<HamburgerIcon w={5} h={5} />
-							)
-						}
-						variant={"ghost"}
-						aria-label={"Toggle Navigation"}
-					/>
-				</Flex>
+				
 				<Flex
 					flex={{ base: 1 }}
-					justify={{ base: "center", md: "start" }}
+					justify={{ base: "start", md: "start" }}
 					align="center"
+					
 				>
 					<Link href={"/"} as="/">
 						<Box py={2}>
@@ -94,6 +78,25 @@ export default function Header() {
 					<Flex display={{ base: "none", md: "flex" }} ml={6}>
 						<DesktopNav />
 					</Flex>
+				</Flex>
+				<Flex
+					flex={{ base: 1, md: "auto" }}
+					ml={{ base: -2 }}
+					display={{ base: "flex", md: "none" }}
+					justify='end'
+				>
+					<IconButton
+						onClick={onToggle}
+						icon={
+							isOpen ? (
+								<CloseIcon w={3} h={3} />
+							) : (
+								<HamburgerIcon w={5} h={5} />
+							)
+						}
+						variant={"ghost"}
+						aria-label={"Toggle Navigation"}
+					/>
 				</Flex>
 
 				<Stack
@@ -210,16 +213,15 @@ const DesktopNav = () => {
 
 const MobileNav = ({}: any) => {
 	return (
-		<Stack bg="background.700" p={4} display={{ md: "none" }}>
+		<Stack bg="background.600" p={0} display={{ md: "none" }}>
 			<MenuOption href={"/spot"} title={"Spot"} />
-			{/* <MenuOption href={'/lend'} title={'Money Market'} /> */}
-			{/* <MenuOption href={"/margin"} title={"Margin"} disabled={true} /> */}
-			{/* <MenuOption href={'/'} title={'Options'} disabled={true} /> */}
-			{/* {isConnected && <MenuOption href={'/faucet'} title={'💰 Faucet'} />} */}
-			<MenuOption href={"/portfolio"} title={"Portfolio"} />
-			{/* <Box width={"100%"}>
-				<ConnectButton />
-			</Box> */}
+			{/* <Divider orientation="vertical" /> */}
+			<MenuOption href={"/swap"} title={"Swap"} disabled={true} />
+			{/* <Divider orientation="vertical" /> */}
+			<MenuOption href={"/perps"} title={"Perps"} disabled={true} />
+
+			{/* <Divider orientation='vertical'/> */}
+			<MenuOption href={'/portfolio'} title={'Portfolio'} />
 		</Stack>
 	);
 };
