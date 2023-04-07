@@ -20,6 +20,8 @@ import { isValidAndPositiveNS } from "@/utils";
 import { tickToPrecision } from '../../utils';
 import Big from "big.js";
 
+const SLIDER_COLOR = '#4F4860';
+
 export default function NumberInputWithSlider({
 	onUpdate,
 	max,
@@ -46,7 +48,7 @@ export default function NumberInputWithSlider({
 			zIndex: '1',
 			opacity: '1',
 			borderRadius: 100,
-			bgColor: __value > limit ? color : "gray.800",
+			bgColor: __value > limit ? color : SLIDER_COLOR,
 			// border: "1px solid",
 			// borderColor: __value > limit ? color : "background.800",
 		}
@@ -78,17 +80,13 @@ export default function NumberInputWithSlider({
 		<Box>
 			<InputGroup>
 				<NumberInput
-					bg={'background.500'}
 					width={"100%"}
 					value={value}
 					onChange={handleChange}
 					precision={4}
 					placeholder={placeholder}
-					variant="filled"
-					border={"1px"}
-					borderColor={"gray.700"}
 				>
-					<NumberInputField rounded={0} placeholder={placeholder} />
+					<NumberInputField bg={'transparent'} rounded={0} placeholder={placeholder} />
 					<NumberInputStepper>
 						<NumberIncrementStepper />
 						<NumberDecrementStepper />
@@ -123,13 +121,14 @@ export default function NumberInputWithSlider({
 					<Box {...boxStyle(100)}></Box>
 				</SliderMark>
 
-				<SliderTrack bg='gray.800'>
+				<SliderTrack bg={SLIDER_COLOR}>
 					<SliderFilledTrack bgColor={color} />
 				</SliderTrack>
 				<Tooltip
 					bg={'background.400'}
 					color='white'
 					fontSize={"sm"}
+					closeDelay={1000}
 					label={
 						(isNaN((value * 100) / max)
 							? 0

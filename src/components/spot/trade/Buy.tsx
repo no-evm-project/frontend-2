@@ -29,8 +29,6 @@ import { Radio, RadioGroup, Stack, SlideFade, Divider } from "@chakra-ui/react";
 import { ORDERTYPES, ORDER_DESCRIPTIONS, BROKER_ID } from '../../../constants';
 import BuyButton from "./BuyButton";
 
-
-
 export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: any) {
 	const token0 = pair?.symbol?.split("_")[1];
 	const token1 = pair?.symbol?.split("_")[2];
@@ -77,7 +75,6 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 
 	const updateBaseAmount = (e: string) => {
 		setBaseAmount(e);
-		console.log(tickToPrecision(pair?.quote_tick));
 		if (isValidNS(e)) {
 			if (Number(price) > 0) {
 				setQuoteAmount(
@@ -93,18 +90,19 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 
 	useEffect(() => {
 		if (
-			trades[pair.symbol]
+			trades[pair.symbol] && balances[token1]
 		) {
 			const _price = trades[pair.symbol][0].executed_price.toFixed(
 				tickToPrecision(pair?.quote_tick)
 			);
 			setPrice(_price);
 			onPriceChange(_price);
+			updateQuoteAmount((Number(balance())/4).toFixed(tickToPrecision(pair?.quote_tick)));
 			setInitialCheck(pair.symbol);
 		} else {
 			onPriceChange(price);
 		}
-	}, [pair, trades, initalCheck]);
+	}, [pair, trades, initalCheck, balances]);
 
 	const onPriceChange = (e: string) => {
 		setPrice(e);
@@ -127,17 +125,12 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 				<Flex flexDir={"column"} gap={1}>
 					<Text fontSize={"sm"}>Price ({token1})</Text>
 					<NumberInput
-						bg={'background.500'}
 						isDisabled={market}
-						min={0}
 						precision={tickToPrecision(pair?.quote_tick)}
 						value={!market ? price : "Place order at market price"}
 						onChange={onPriceChange}
-						variant="filled"
-						border={"1px"}
-						borderColor={"gray.700"}
 					>
-						<NumberInputField rounded={0} />
+						<NumberInputField bg={'transparent'} rounded={0} />
 						<NumberInputStepper>
 							<NumberIncrementStepper />
 							<NumberDecrementStepper />
@@ -154,16 +147,11 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 							</Text>
 						</Flex>
 						<NumberInput
-							bg={'background.500'}
-							min={0}
 							precision={tickToPrecision(pair.base_tick)}
 							value={baseAmount}
 							onChange={updateBaseAmount}
-							variant="filled"
-							border="1px"
-							borderColor={"gray.700"}
 						>
-							<NumberInputField rounded={0} />
+							<NumberInputField bg={'transparent'} rounded={0} />
 							<NumberInputStepper>
 								<NumberIncrementStepper />
 								<NumberDecrementStepper />

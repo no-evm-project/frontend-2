@@ -137,11 +137,11 @@ export default function Pair() {
 function ResponsiveDivider() {
 	return (
 		<>
-			<Box display={{ sm: "none", md: "block" }}>
+			<Box display={{ sm: "none", md: "block" }} h='100%'>
 				<Divider orientation={"vertical"} h='100%' />
 			</Box>
 			<Box display={{ sm: "block", md: "none" }}>
-				<Divider orientation={"horizontal"} />
+				<Divider orientation={"horizontal"}  />
 			</Box>
 		</>
 	);

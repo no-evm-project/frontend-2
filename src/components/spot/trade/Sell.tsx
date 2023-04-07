@@ -95,15 +95,16 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 	};
 
 	useEffect(() => {
-		if(price == '0' && trades[pair.symbol] && pair.symbol !== initalCheck){
+		if(trades[pair.symbol] && balances[token1]){
 			const _price = trades[pair.symbol][0].executed_price.toFixed(tickToPrecision(pair?.quote_tick));
 			setPrice(_price);
 			onPriceChange(_price);
+			updateBaseAmount((balance()/4).toFixed(tickToPrecision(pair?.base_tick)));
 			setInitialCheck(pair.symbol);
 		} else {
 			onPriceChange(price);
 		}
-	}, [price, pair, initalCheck])
+	}, [pair, trades, initalCheck, balances])
 
 	const onPriceChange = (e: string) => {
 		setPrice(e);
@@ -124,15 +125,10 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 				<Flex flexDir={"column"} gap={1}>
 					<Text fontSize={"sm"}>Price ({token1})</Text>
 					<NumberInput
-						bg={'background.500'}
 						isDisabled={market}
-						min={0}
 						precision={tickToPrecision(pair?.quote_tick)}
 						value={!market ? price : "Place order at market price"}
 						onChange={onPriceChange}
-						variant="filled"
-						border={"1px"}
-						borderColor={"gray.700"}
 					>
 						<NumberInputField rounded={0} />
 						<NumberInputStepper>
@@ -150,14 +146,9 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 						</Text>
 					</Flex>
 						<NumberInput
-							bg={'background.500'}
-							min={0}
 							precision={tickToPrecision(pair.base_tick)}
 							value={quoteAmount}
 							onChange={updateQuoteAmount}
-							variant="filled"
-							border="1px"
-							borderColor={"gray.700"}
 						>
 							<NumberInputField rounded={0} />
 							<NumberInputStepper>

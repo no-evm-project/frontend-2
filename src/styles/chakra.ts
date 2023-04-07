@@ -142,11 +142,16 @@ const theme = extendTheme({
     NumberInput: {
       baseStyle: {
         borderRadius: '0px',
+        border: '1px',
+        borderColor: 'whiteAlpha.400',
+        min: 0,
+        bgColor: 'whiteAlpha.400',
+        variant: 'filled',
       }
     },
     NumberInputField: {
       baseStyle: {
-        borderRadius: '0px',
+        borderRadius: '0px'
       }
     },
     InputGroup: {
