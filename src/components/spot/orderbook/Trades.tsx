@@ -83,7 +83,8 @@ export default function Trades({ pair }: any) {
 					</>
 				) : (
 					<>
-						<Progress isIndeterminate />
+						<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
+						<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
 					</>
 				)}
 			</Box>

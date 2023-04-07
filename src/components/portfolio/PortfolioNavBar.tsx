@@ -22,9 +22,9 @@ export default function PortfolioNavBar() {
         <Divider/>
         <NavLink link={'/portfolio/activity'} text={'Activity'} icon={<VscActivateBreakpoints />}/>
         <Divider/>
-        <NavLink link={'/portfolio/refer'} text={'Refer and Earn'} icon={<FaUserFriends/>}/>
+        <NavLink link={'/portfolio/refer'} text={'Referrals'} icon={<FaUserFriends/>}/>
         <Divider/>
-        <NavLink link={'/portfolio/rewards'} text={'Rewards'} icon={<GiTwoCoins/>}/>
+        <NavLink link={'/portfolio/rewards'} text={'Trade-To-Earn'} icon={<GiTwoCoins/>}/>
         <Divider/>
     </Flex>
     </>
