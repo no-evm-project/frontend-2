@@ -21,7 +21,7 @@ export default function Account() {
 
 	return (
 		<>
-			<Flex px={4} align={'center'}>
+			<Flex px={4} pr={8} align={'center'}>
 				<Avatar
 					bgGradient={"linear(to-r, #E11860, #CB1DC3)"}
 					icon={

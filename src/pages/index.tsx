@@ -1,5 +1,4 @@
 import {
-	Link as ChakraLink,
 	Text,
 	Code,
 	List,
@@ -25,17 +24,18 @@ import { RiExchangeFundsFill } from "react-icons/ri";
 import { GiBank, GiCardExchange } from "react-icons/gi";
 import { useContext } from "react";
 import { AiOutlineInfoCircle } from "react-icons/ai";
+import '@fontsource/silkscreen'
 
 const featuresTitle = {
 	fontSize: "xl",
 	fontWeight: "bold",
 	mt: 2,
-	fontFamily: "Poppins",
+	// fontFamily: "Poppins",
 };
 
 const featuresText = {
 	fontSize: "sm",
-	fontFamily: "Poppins",
+	// fontFamily: "Poppins",
 };
 
 const featuresIcon = {
@@ -44,8 +44,11 @@ const featuresIcon = {
 
 import { NextSeo } from "next-seo";
 import SocialFollow from "@/components/SocialFollow";
+import { DataContext } from '@/contexts/DataProvider';
 
 const Index = () => {
+	const {volumeStat} = useContext(DataContext);
+
 	const dividerStyle = {
 		borderColor: { xs: "transparent", sm: "transparent", md: "#E50EC0" },
 		mx: 4,
@@ -89,7 +92,7 @@ const Index = () => {
 				<title>
 					ZEXE | Buy and Sell Crypto with Low Fees and High Liquidity
 				</title>
-				<link rel="icon" type="image/x-icon" href="/favicon.png"></link>
+				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
 
 			<Flex
@@ -99,14 +102,14 @@ const Index = () => {
 				bgRepeat={"no-repeat"}
 				bgSize={{ xs: "0", sm: "contain", md: "contain" }}
 				bgPosition={"center top"}
-				h={'100vh'}
+				// h={'100vh'}
 			>
 				<Box
 					bgImage="/Rectangle2.png"
 					bgRepeat={"no-repeat"}
 					bgSize={{ xs: "0", sm: "1000px", md: "contain" }}
 					bgPosition={"center bottom"}
-					h={'100vh'}
+					// h={'100vh'}
 				>
 					<Box mr={"10%"} ml={"10%"}>
 						<Flex align={"center"} justify="space-between">
@@ -129,20 +132,20 @@ const Index = () => {
 							justify={"center"}
 							mt={{ xs: "80px", sm: "120px", md: "180px" }}
 							mb={"60px"}
-							fontFamily={"BG"}
 							fontSize={{ xs: "38", sm: "40px", md: "68.5px" }}
 							lineHeight={"121%"}
 							mr={"10%"}
 						>
-							<Text fontWeight="bold">ORDERBOOK DEX</Text>
+							<Text fontWeight="bold" fontFamily={"BG"}>ORDERBOOK DEX</Text>
 							<Text
 								className={"stroke"}
 								color="transparent"
 								fontWeight="bold"
+								fontFamily={"BG"}
 							>
 								WITH SPOT AND
 							</Text>
-							<Text fontWeight="bold">DERIVATIVES MARKETS</Text>
+							<Text fontWeight="bold" fontFamily={"BG"}>DERIVATIVES MARKETS</Text>
 						</Flex>
 
 						<Flex wrap={"wrap"} gap={5}>
@@ -218,7 +221,7 @@ const Index = () => {
 						</Flex>
 
 						<Flex gap={2} mt={"60px"} mb={"20px"} wrap={"wrap"}>
-							<Link href={"/spot"}>
+							<Link href={"/spot"} as='/spot'>
 								<Button
 									size={"lg"}
 									bgColor="#E50EC0"
@@ -244,20 +247,20 @@ const Index = () => {
 
 						<Divider mt={{ xs: 16, sm: 20, md: 28 }} mb={10} />
 					</Box>
-					<Box py={5} pb={20}>
+					<Box py={0} pb={20}>
 						<Flex ml="10%" gap={10}>
 							<Flex align={"center"} gap={4} color="gray.400">
 								<Image
 									src="/built_on_rev.png"
 									alt="zexe"
 									rounded={"full"}
-									height={10}
+									height={8}
 								/>
 							</Flex>
 
 							<Divider
 								orientation="vertical"
-								h={20}
+								h={12}
 								borderColor={"white"}
 							/>
 
@@ -266,18 +269,18 @@ const Index = () => {
 									src="https://pbs.twimg.com/profile_images/1610066785025523713/2iij3ydV_400x400.jpg"
 									alt="zexe"
 									rounded={"full"}
-									height={16}
+									height={12}
 								/>
 								<Box>
 									<Text
-										fontSize={"sm"}
+										fontSize={"xs"}
 										color="gray.300"
 										mb={0}
 									>
 										Powered by
 									</Text>
 									<Text
-										fontSize={"2xl"}
+										fontSize={"xl"}
 										color="white"
 										fontWeight={"bold"}
 									>

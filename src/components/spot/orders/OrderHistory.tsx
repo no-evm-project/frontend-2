@@ -1,5 +1,5 @@
 import { DataContext } from "@/contexts/DataProvider";
-import { Box, Flex, IconButton, Tag } from "@chakra-ui/react";
+import { Box, Flex, IconButton, Tag, Tooltip } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useContext } from "react";
 
@@ -28,6 +28,7 @@ import {
 } from "@ajna/pagination";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import { tickToPrecision } from '../../../utils';
+import moment from "moment";
 
 
 export default function OrderHistory() {
@@ -60,8 +61,8 @@ export default function OrderHistory() {
 								<Th borderColor={'whiteAlpha.100'}>Pair</Th>
 								<Th borderColor={'whiteAlpha.100'}>Type</Th>
 								<Th borderColor={'whiteAlpha.100'}>Status</Th>
-								<Th borderColor={'whiteAlpha.100'}>Executed Price</Th>
-								<Th borderColor={'whiteAlpha.100'} h='40.5px' isNumeric>Quantity</Th>
+								<Th borderColor={'whiteAlpha.100'}>Price</Th>
+								<Th borderColor={'whiteAlpha.100'} isNumeric>Quantity</Th>
 							</Tr>
 						</Thead>
 						<Tbody>
@@ -71,19 +72,14 @@ export default function OrderHistory() {
 									).map((order: any, index: number) => {
                                 if(order.status === "FILLED" || order.status == "CANCELLED") return (
 									<Tr key={index} h='57px'>
-										<Td borderColor={'whiteAlpha.100'}>
+										<Td borderColor={'whiteAlpha.100'} maxW='100px'>
+											<Tooltip label={moment(order.created_time).format('MMMM Do YYYY, h:mm:ss a')} bg='background.400' color={'white'} m={0} >
                                             <Box fontSize={'sm'}>
                                         <Text>
-											{new Date(
-                                                order.created_time
-                                                ).toDateString().slice(4)}
-                                        </Text>
-                                        <Text>
-											{new Date(
-                                                order.created_time
-                                                ).toLocaleString().slice(12)}
+										{moment(order.created_time).calendar()}
                                         </Text>
                                                 </Box>
+												</Tooltip>
 										</Td>
 										<Td borderColor={'whiteAlpha.100'}>
 										<Flex align={'center'} gap={1}>
@@ -115,13 +111,18 @@ export default function OrderHistory() {
 												alt={order.symbol}
 											/>
                                             </Flex>
-                                            <Text fontWeight={'medium'}>
-					{order.symbol.split("_").slice(1).join("/")}
-                                            </Text>
+                                            <Box>
+						<Text fontWeight={"medium"}>
+							{order.symbol.split("_")[1]}
+						</Text>
+						<Text fontSize={'xs'}>
+							{order.symbol.split("_")[2]}
+						</Text>
+						</Box>
                     </Flex>
 										</Td>
 										<Td borderColor={'whiteAlpha.100'}><Flex gap={2} align='center'>
-                        <Tag bg={order.side == 'BUY' ? 'green2': 'red2'}>
+                        <Tag bg={order.side == 'BUY' ? 'buy.700': 'sell.400'}>
                             <Text fontSize={'xs'} >{order.side}</Text>
                         </Tag>
                         <Text fontSize={'sm'}>{order.type}</Text>

@@ -8,7 +8,7 @@ function Order({ trade, pair }: any) {
 
 	return (
 		<Flex justify="space-between"
-			color={trade.side == 'BUY' ? 'green2' : 'red2'}
+			color={trade.side == 'BUY' ? 'buy.400' : 'sell.400'}
 			py={'2.5px'}
 			px={4}
 			mb={0}
@@ -83,7 +83,8 @@ export default function Trades({ pair }: any) {
 					</>
 				) : (
 					<>
-						<Progress isIndeterminate />
+						<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
+						<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
 					</>
 				)}
 			</Box>

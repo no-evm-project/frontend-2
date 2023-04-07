@@ -11,19 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import Head from "next/head";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { FaKey } from "react-icons/fa";
-import { BiExit, BiStats, BiTag } from "react-icons/bi";
-import { RiDashboardFill } from "react-icons/ri";
-import { useWalletSelector } from "@/contexts/WalletSelectorContext";
-import Overview from "@/components/account/Overview";
-import SignOut from "@/components/account/SignOut";
-import ComingSoon from "@/components/account/ComingSoon";
 import { useContext } from "react";
 import { DataContext, DataProvider } from "@/contexts/DataProvider";
-import BN from "bn.js";
-import Volume from "@/components/account/Volume";
-import Account from "@/components/account/Account";
 import Balances from "@/components/account/Balances";
 import PortfolioPie from "@/components/account/PortfolioPie";
 import { dollarFormatter } from "@/utils";
@@ -66,25 +55,28 @@ export default function Portfolio() {
 				<title>Portfolio | ZEXE | Buy & Sell Crypto on ZEXE</title>
 				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
-
-			<Flex>
-				<Flex bg='background2' mx={1} my={1}>
+			<Flex minH={{xs: '0', sm: '0', md: '90vh'}} flexDir={{xs: 'column', sm: 'column', md: 'row'}}>
+				<Flex bg='background.600' mx={0} my={0}>
 					<PortfolioNavBar/>
 				</Flex>
-				<Flex w={'80%'} flexDir={'column'} my={1} bg={'background2'}>
-					<Heading size={'md'} mt={10} px={6}>Overview</Heading>
-					<Flex align={'center'}>
-						<Box w={'40%'}>
-							<Heading size={'sm'} mt={6} px={6} color='whiteAlpha.700'>Trading Balance</Heading>
-							<Text mt={1} px={6} fontSize={"2xl"}>
-								{dollarFormatter.format(totalUSDC)}
-							</Text>
-						</Box>
-						<Flex justify={'end'} h={250} w={'60%'}>
-							<PortfolioPie tokenBalances={tokenBalances}/>
+				<ResponsiveDivider/>
+				
+				<Flex flexGrow={1} flexDir={'column'} my={0} bg={'background.600'}>
+					<Flex align={'start'} justify='space-between'>
+						<Flex flexDir={'column'} mb='50px' justify='space-between'>
+							<Heading size={'md'} px={6} mt={'50px'}>Overview</Heading>
+							<Box mt={8}>
+								<Heading size={'sm'} px={6} color='whiteAlpha.700'>Trading Balance</Heading>
+								<Text mt={1} px={6} fontSize={"2xl"}>
+									{dollarFormatter.format(totalUSDC)}
+								</Text>
+							</Box>
 						</Flex>
+						{/* <Flex justify={'end'} h={300} w={'60%'}>
+							<PortfolioPie tokenBalances={tokenBalances}/>
+						</Flex> */}
 					</Flex>
-					<Box mt={0}>
+					<Box maxW={'1000px'}>
 						<Balances tokenBalances={tokenBalances} />
 					</Box>
 				</Flex>
@@ -92,3 +84,13 @@ export default function Portfolio() {
 		</>
 	);
 }
+
+const ResponsiveDivider = () => ( <>
+	<Box display={{xs: 'none', sm: 'none', md: 'block'}}>
+	<Divider orientation="vertical" h={'90vh'}/>
+	</Box>
+	<Box display={{xs: 'block', sm: 'block', md: 'none'}}>
+	<Divider orientation="horizontal" w={'100vw'}/>
+	</Box>
+	</>
+)

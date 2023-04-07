@@ -4,12 +4,16 @@ import {useContext} from 'react';
 import { DataContext } from '@/contexts/DataProvider';
 import { Image } from '@chakra-ui/react';
 
-const data = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
+const TOKEN_COLORS: any = {
+  'WBTC': '#F5B300',
+  'USDC': '#005DB2',
+  'ETH': '#FFF',
+  'SWEAT': '#D40CA8',
+  'REF': '#292929',
+  'WOO': '#606060',
+  'AURORA': '#00953C',
+  'NEAR': '#08E086'
+}
 
 export default function PortfolioPie ({tokenBalances}: any) {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -18,9 +22,11 @@ export default function PortfolioPie ({tokenBalances}: any) {
         setActiveIndex(index);
     };
 
+
+
     return (
       <ResponsiveContainer width="60%" height="100%" maxHeight={300}>
-        <PieChart width={200} height={400}>
+        <PieChart width={300} height={400}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
@@ -30,9 +36,8 @@ export default function PortfolioPie ({tokenBalances}: any) {
             }))}
             cx="50%"
             cy="50%"
-            innerRadius={60}
-            outerRadius={80}
-            fill="#8884d8"
+            innerRadius={45}
+            outerRadius={60}
             dataKey="value"
             onMouseEnter={onPieEnter}
           />
@@ -44,7 +49,7 @@ export default function PortfolioPie ({tokenBalances}: any) {
 
 const renderActiveShape = (props: any) => {
     const RADIAN = Math.PI / 180;
-    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value, name } = props;
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, payload, percent, value } = props;
     const sin = Math.sin(-RADIAN * midAngle);
     const cos = Math.cos(-RADIAN * midAngle);
     const sx = cx + (outerRadius + 10) * cos;
@@ -54,10 +59,14 @@ const renderActiveShape = (props: any) => {
     const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
     const textAnchor = cos >= 0 ? 'start' : 'end';
+
+    const fill = TOKEN_COLORS[payload.name] ?? '#000';
   
     return (
       <g>
-        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}
+        style={{fontWeight: 'bold'}}
+        >
           {payload.name}
         </text>
         <Sector
@@ -80,8 +89,8 @@ const renderActiveShape = (props: any) => {
         />
         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#999">{`$ ${value}`}</text>
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#444">
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill={fill}>{`$ ${Number(value).toFixed(2)}`}</text>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
           {`(${(percent * 100).toFixed(2)}%)`}
         </text>
       </g>

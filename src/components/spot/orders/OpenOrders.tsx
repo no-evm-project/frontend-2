@@ -30,12 +30,12 @@ import {
 import OpenedOrder from "./OpenedOrder";
 
 export default function OpenOrders({pair}: any) {
-	const { orders } = useContext(DataContext);
+	const { orders, refresh } = useContext(DataContext);
 	const [_orders, setOrders] = React.useState<any>([]);
 
 	useEffect(() => {
 		setOrders(orders.filter((order: any) => order.status == "NEW"));
-	}, [orders])
+	}, [orders, refresh])
 
 	const { currentPage, setCurrentPage, pagesCount, pages } = usePagination({
 		initialState: { currentPage: 1 },
@@ -56,7 +56,7 @@ export default function OpenOrders({pair}: any) {
 								<Th borderColor={'whiteAlpha.100'}>Price</Th>
 								<Th borderColor={'whiteAlpha.100'}>Filled | Total</Th>
 								<Th borderColor={'whiteAlpha.100'} isNumeric>
-									<Button size='sm' px={4} variant={'unstyled'}>Cancel All</Button>
+									{/* <Button size='sm' px={4} variant={'unstyled'}>Cancel All</Button> */}
 								</Th>
 							</Tr>
 						</Thead>

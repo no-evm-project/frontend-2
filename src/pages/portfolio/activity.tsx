@@ -1,32 +1,14 @@
 import React from "react";
 import {
-	Avatar,
 	Box,
-	Button,
 	Divider,
 	Flex,
-	Heading,
-	Progress,
-	Text,
 } from "@chakra-ui/react";
 
 import Head from "next/head";
-import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
-import { FaKey } from "react-icons/fa";
-import { BiExit, BiStats, BiTag } from "react-icons/bi";
-import { RiDashboardFill } from "react-icons/ri";
-import { useWalletSelector } from "@/contexts/WalletSelectorContext";
-import Overview from "@/components/account/Overview";
-import SignOut from "@/components/account/SignOut";
-import ComingSoon from "@/components/account/ComingSoon";
 import { useContext } from "react";
 import { DataContext, DataProvider } from "@/contexts/DataProvider";
-import BN from "bn.js";
 import Volume from "@/components/account/Volume";
-import Account from "@/components/account/Account";
-import Balances from "@/components/account/Balances";
-import PortfolioPie from "@/components/account/PortfolioPie";
-import { dollarFormatter } from "@/utils";
 import PortfolioNavBar from "@/components/portfolio/PortfolioNavBar";
 
 export default function Portfolio() {
@@ -67,14 +49,27 @@ export default function Portfolio() {
 				<link rel="icon" type="image/x-icon" href="/x.png"></link>
 			</Head>
 
-			<Flex>
-				<Flex bg='background2' mx={1} my={1}>
+			<Flex minH={{xs: '0', sm: '0', md: '90vh'}} flexDir={{xs: 'column', sm: 'column', md: 'row'}}>
+				<Flex bg='background.600' mx={0} my={0}>
 					<PortfolioNavBar/>
 				</Flex>
-				<Flex w={'80%'} minH='90vh' flexDir={'column'} my={1} bg={'background2'}>
+				<ResponsiveDivider/>
+
+				<Divider orientation="vertical" />
+				<Flex flexGrow={1} minH='90vh' flexDir={'column'} bg={'background.600'}>
 					<Volume  />
 				</Flex>
 			</Flex>
 		</>
 	);
 }
+
+const ResponsiveDivider = () => ( <>
+	<Box display={{xs: 'none', sm: 'none', md: 'block'}}>
+	<Divider orientation="vertical" h={'90vh'}/>
+	</Box>
+	<Box display={{xs: 'block', sm: 'block', md: 'none'}}>
+	<Divider orientation="horizontal" w={'100vw'}/>
+	</Box>
+	</>
+)

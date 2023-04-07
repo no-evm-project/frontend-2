@@ -103,13 +103,13 @@ export default function DepositModal({ _tokenSymbol }: any) {
 
 	return (
 		<>
-			<Button size={"sm"} rounded={"full"} onClick={onOpen}>
+			<Button size={"sm"} rounded={"full"} bg='background.400' _hover={{opacity: '0.6'}} onClick={onOpen}>
 				Deposit
 			</Button>
 
 			<Modal isCentered isOpen={isOpen} onClose={onClose}>
-				<ModalOverlay bg="whiteAlpha.50" backdropFilter="blur(30px)" />
-				<ModalContent bg={"background2"}>
+				<ModalOverlay bg="blackAlpha.400" backdropFilter="blur(30px)" />
+				<ModalContent bg={"background.600"}>
 					<ModalHeader>Deposit</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
@@ -144,7 +144,7 @@ export default function DepositModal({ _tokenSymbol }: any) {
 											<Flex
 												align={"center"}
 												justify="space-between"
-												bg="background2"
+												bg="background.600"
 												h={"100%"}
 											>
 												<Flex gap={2} align="center">
@@ -264,123 +264,76 @@ export default function DepositModal({ _tokenSymbol }: any) {
 												},
 											}}
 										>
-											{Object.keys(balances).map(
-												(token) => (
-													<motion.li
-														whileHover={{
-															scale: 1.02,
-														}}
-														whileTap={{
-															scale: 0.98,
-														}}
-														key={token}
-														style={{
-															marginBottom:
-																"12px",
-														}}
-													>
-														<Flex
-															align={"center"}
-															justify="space-between"
-															bg="background2"
-															h={"100%"}
-															rounded={"lg"}
-															p={2}
-															onClick={() => {
-																setTokenSymbol(
-																	token
-																);
-																setSelectOpen(
-																	false
-																);
-															}}
-															cursor="pointer"
+											{Object.keys(tokens).map((token) => (
+										<motion.li
+											whileHover={{ scale: 1.02 }}
+											whileTap={{ scale: 0.98 }}
+											key={token}
+											style={{ marginBottom: "12px" }}
+										>
+											<Flex
+												align={"center"}
+												justify="space-between"
+												h={"100%"}
+												rounded={"lg"}
+												p={2}
+												onClick={() => {
+													setTokenSymbol(token);
+													setSelectOpen(false);
+												}}
+												cursor="pointer"
+											>
+												<Flex gap={2} align="center">
+													<Image
+														className="name-group"
+														rounded={"full"}
+														src={`https://oss.woo.network/static/symbol_logo/${token}.png`}
+														w={8}
+														alt={token}
+													/>
+													<Box>
+														<Heading
+															fontSize={"lg"}
+															className="name-group"
 														>
-															<Flex
-																gap={2}
-																align="center"
-															>
-																<Image
-																	className="name-group"
-																	rounded={
-																		"full"
-																	}
-																	src={`https://oss.woo.network/static/symbol_logo/${token}.png`}
-																	w={8}
-																	alt={token}
-																/>
-																<Box>
-																	<Heading
-																		fontSize={
-																			"lg"
-																		}
-																		className="name-group"
-																	>
-																		{
-																			ASSET_NAMES[
-																				token
-																			]
-																		}
-																	</Heading>
-																	<Text
-																		fontSize={
-																			"sm"
-																		}
-																	>
-																		{token}
-																	</Text>
-																</Box>
-															</Flex>
-															<Box
-																textAlign={
-																	"right"
-																}
-															>
-																<Text
-																	fontSize={
-																		"xs"
-																	}
-																>
-																	Balance
-																</Text>
-																<Text
-																	fontSize={
-																		"sm"
-																	}
-																	color={
-																		balances[
-																			token
-																		]
-																			?.wallet ==
-																		0
-																			? "whiteAlpha.400"
-																			: "white"
-																	}
-																>
-																	{(
-																		balances[
-																			token
-																		]
-																			?.wallet /
-																		10 **
-																			tokens[
-																				token
-																			]
-																				.decimals
-																	).toFixed(
-																		tickToPrecision(
-																			tokens[
-																				token
-																			]
-																				.minimum_increment
-																		)
-																	)}
-																</Text>
-															</Box>
-														</Flex>
-													</motion.li>
-												)
-											)}
+															{ASSET_NAMES[token]}
+														</Heading>
+														<Text fontSize={"sm"}>
+															{token}
+														</Text>
+													</Box>
+												</Flex>
+												<Box textAlign={"right"}>
+													<Text fontSize={"xs"}>
+														Balance
+													</Text>
+													<Text
+														fontSize={"sm"}
+														color={
+															(balances[token]
+																?.wallet ??
+																0) == 0
+																? "whiteAlpha.400"
+																: "white"
+														}
+													>
+														{(
+															(balances[token]
+																?.wallet ?? 0) /
+															10 **
+																tokens[token]
+																	.decimals
+														).toFixed(
+															tickToPrecision(
+																tokens[token]
+																	.minimum_increment
+															)
+														)}
+													</Text>
+												</Box>
+											</Flex>
+										</motion.li>
+									))}
 										</motion.div>
 									</motion.ul>
 								</motion.nav>
@@ -422,8 +375,8 @@ export default function DepositModal({ _tokenSymbol }: any) {
 							width={"100%"}
 							loadingText="Sign the transaction"
 							isLoading={loading}
-							_hover={{ opacity: "0.7" }}
-							colorScheme="primary"
+							_hover={{ opacity: "0.6" }}
+							bg="primary.400"
 							color={"white"}
 							mb={2}
 							onClick={deposit}

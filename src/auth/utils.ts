@@ -7,7 +7,7 @@ const eddsa = new EdDSA('ed25519');
 var secp256k1_ec = new EC('secp256k1');
 
 export function getOrderlySignature(_orderlyPrivateKey: string, method: string, request: string, timestamp: number, params = null) {
-    const orderlyPrivateKey = eddsa.keyFromSecret(base58.decode(_orderlyPrivateKey.slice('ed25519:'.length)).slice(0, 32));
+    const orderlyPrivateKey = eddsa.keyFromSecret(base58.decode(_orderlyPrivateKey.slice('ed25519:'.length)).subarray(0, 32));
     let normalizedOrderData = normalizeRequestContent(timestamp, method, request, params);
     console.log("normalizedOrderData", normalizedOrderData);
     const dataBytes = Buffer.from(normalizedOrderData);
@@ -31,11 +31,11 @@ export function getParamsSignature(_tradingKeySecret: string, params: any){
     let signatureData = keyPair.sign(msgHash);
     let signatureRHexStr = signatureData.r.toString(16);
     if (signatureRHexStr.length < 64) {
-        signatureRHexStr += '0'.repeat(64 - signatureRHexStr.length);
+        signatureRHexStr = '0'.repeat(64 - signatureRHexStr.length) + signatureRHexStr;
     }
     let signatureSHexStr = signatureData.s.toString(16);
     if (signatureSHexStr.length < 64) {
-        signatureSHexStr += '0'.repeat(64 - signatureSHexStr.length);
+        signatureSHexStr = '0'.repeat(64 - signatureSHexStr.length) + signatureSHexStr;
     }
     let recoveryParamHexStr;
     if (signatureData.recoveryParam === 0) {

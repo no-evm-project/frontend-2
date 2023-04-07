@@ -7,7 +7,9 @@ export default function Document() {
       <Head >
       <script src="/static/datafeeds/udf/dist/bundle.js" />
       </Head>
-      <body>
+      <body style={{
+        background: '#130B23',
+      }}>
         <Main />
         <NextScript />
       </body>

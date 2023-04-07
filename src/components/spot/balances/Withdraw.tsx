@@ -76,7 +76,7 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 				<Flex align={"center"}>
 					<Heading fontSize={"xl"}>Withdraw</Heading>
 					<IconButton
-						icon={<CloseButton />}
+						icon={<CloseButton rounded={0} />}
 						onClick={onClose}
 						ml={"auto"}
 						aria-label={""}
@@ -93,7 +93,7 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 							initial={false}
 							animate={isSelectOpen ? "open" : "closed"}
 							className="menu"
-							style={{ width: "100%", height: "100%" }}
+							style={{ width: "100%", height: "50px" }}
 							id="menu-list-123"
 						>
 							<Flex zIndex={2} h={"100%"}>
@@ -105,7 +105,7 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 									<Flex
 										align={"center"}
 										justify="space-between"
-										bg="background2"
+										bg="background.600"
 										h={"100%"}
 									>
 										<Flex gap={2} align="center">
@@ -120,8 +120,7 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 												fontSize={"xl"}
 												className="name-group"
 											>
-												{ASSET_NAMES[tokenSymbol]} (
-												{tokenSymbol})
+												{ASSET_NAMES[tokenSymbol]}
 											</Heading>
 										</Flex>
 
@@ -186,11 +185,11 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 									listStyle: "none",
 									display: "flex",
 									flexDirection: "column",
-									position: "fixed",
-									width: "400px",
+									position: "relative",
+									width: "100%",
 									padding: "12px",
 									paddingBottom: "18px",
-									backgroundColor: "#130B25",
+									backgroundColor: "#1E1238",
 									zIndex: 100,
 									marginTop: "2px",
 								}}
@@ -222,7 +221,6 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 											<Flex
 												align={"center"}
 												justify="space-between"
-												bg="background2"
 												h={"100%"}
 												rounded={"lg"}
 												p={2}
@@ -254,17 +252,30 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 												</Flex>
 												<Box textAlign={"right"}>
 													<Text fontSize={"xs"}>
-														Available
+														Balance
 													</Text>
 													<Text
 														fontSize={"sm"}
 														color={
-															max(token) == 0
+															(balances[token]
+																?.wallet ??
+																0) == 0
 																? "whiteAlpha.400"
 																: "white"
 														}
 													>
-														{max(token).toFixed(6)}
+														{(
+															(balances[token]
+																?.wallet ?? 0) /
+															10 **
+																tokens[token]
+																	.decimals
+														).toFixed(
+															tickToPrecision(
+																tokens[token]
+																	.minimum_increment
+															)
+														)}
 													</Text>
 												</Box>
 											</Flex>
@@ -298,8 +309,8 @@ export default function Withdraw({ pair, onClose, isOpen }: any) {
 					mt={10}
 					loadingText="Sign the transaction"
 					isLoading={loading}
-					_hover={{ opacity: "0.7" }}
-					colorScheme="primary"
+					_hover={{ opacity: "0.6" }}
+					bg="primary.400"
 					color={"white"}
 					mb={2}
 					onClick={withdraw}

@@ -51,6 +51,8 @@ export default function TestTokens() {
 					size={"sm"}
 					onClick={claim}
                     rounded='full'
+					bg={'background.400'}
+					_hover={{ bg: "background.300" }}
 				>
 					Claim
 				</Button>

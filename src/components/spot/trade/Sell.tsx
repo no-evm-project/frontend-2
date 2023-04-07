@@ -27,6 +27,7 @@ import {useEffect} from 'react';
 import { AxiosError, AxiosResponse } from "axios";
 import { BASIS_POINTS, ORDERTYPES, ORDER_DESCRIPTIONS } from "@/constants";
 import { HiOutlineReceiptPercent } from "react-icons/hi2";
+import SellButton from "./SellButton";
 
 interface ValidationResult {
 	valid: boolean;
@@ -51,7 +52,7 @@ interface ValidationResult {
  * 
  * price * quantity should greater than min_notional
  */
-export default function Sell({ pair, market }: any) {
+export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: any) {
 	const token0 = pair?.symbol?.split("_")[2];
 	const token1 = pair?.symbol?.split("_")[1];
 	const [initalCheck, setInitialCheck] = React.useState('');
@@ -65,111 +66,10 @@ export default function Sell({ pair, market }: any) {
 	const [quoteAmount, setQuoteAmount] = React.useState("0");
 	const [baseAmount, setBaseAmount] = React.useState("0");
 
-	const sell = () => {
-		let params: any;
-		if (market) {
-			params = {
-				order_quantity: Number(baseAmount).toString(),
-				order_type: "MARKET",
-				side: "SELL",
-				symbol: pair?.symbol,
-				broker_id: "zexe_dex",
-			};
-		} else {
-			let _orderType = 'LIMIT';
-			if(Number(orderType) > 1){
-				_orderType = ORDERTYPES[orderType];
-			}
-			
-			params = {
-				order_price: Number(price).toString(),
-				order_quantity: Number(baseAmount).toString(),
-				order_type: _orderType,
-				side: "SELL",
-				symbol: pair?.symbol,
-				broker_id: "zexe_dex",
-			};
-
-			if(hidden){
-				params.visibleQuantity = '0';
-			}
-		}
-		console.log(params);
-		account
-			?.createPostRequest("POST", "/v1/order", params)
-			.then((res: AxiosResponse) => {
-				addOrder(res.data.data.order_id);
-			})
-			.catch((err: AxiosError) => {
-				console.log(err.response?.data ?? err);
-			});
-	};
 
 	const balance = () => {
 		return (balances[token1]?.holding ?? 0) + (balances[token1]?.pending_short ?? 0);
 	};
-	
-	const validate = (): ValidationResult => {
-		if(Number(baseAmount) == 0 && Number(quoteAmount) == 0){
-			return {
-				valid: false,
-				message: `Enter an amount`,
-			};
-		} else if (Number(baseAmount) < pair?.base_min) {
-			return {
-				valid: false,
-				message: `Minimum order quantity is ${pair?.base_min} ${token1}`,
-			};
-		} else if (Number(baseAmount) > pair?.base_max) {
-			return {
-				valid: false,
-				message: `Maximum order quantity is ${pair?.base_max} ${token1}`,
-			};
-		} else if (Number(baseAmount) > balance()) {
-			return {
-				valid: false,
-				message: `Insufficient ${token1} balance`,
-			};
-		} else if(market) {
-			return {
-				valid: true,
-				message: `Place Market Order`,
-			}
-		} else if (Number(price) < pair?.base_min * price) {
-			return {
-				valid: false,
-				message: `Minimum order amount is ${(pair?.base_min * price).toFixed(tickToPrecision(pair?.base_tick))} ${token1}`,
-			};
-		} else if (Number(price) > pair?.quote_max) {
-			return {
-				valid: false,
-				message: `Maximum order amount is ${pair?.quote_max} ${token1}`,
-			};
-		} 
-		// (price - quote_min) % quote_tick should equal to zero
-		else if (pair?.quote_min > 0 && Number(price) - pair?.quote_min % pair?.quote_tick !== 0) {
-			return {
-				valid: false,
-				message: `Price must be a multiple of ${pair?.quote_tick}`,
-			};
-		}
-		else if (Number(price) < orderbook[pair?.symbol]?.bids[0][0] * (1 - pair?.price_range)) {
-			return {
-				valid: false,
-				message: `Price is too high`,
-			};
-		} else if(Number(price) * Number(baseAmount) < pair?.min_notional){
-			return {
-				valid: false,
-				message: `Minimum notional is ${pair?.min_notional} ${token1}`,
-			};
-		} else {
-			return {
-				valid: true,
-				message: "Place Buy Order",
-			};
-		}
-	}
 
 	const updateQuoteAmount = (e: string) => {
 		setQuoteAmount(e);
@@ -195,15 +95,16 @@ export default function Sell({ pair, market }: any) {
 	};
 
 	useEffect(() => {
-		if(price == '0' && trades[pair.symbol] && pair.symbol !== initalCheck){
+		if(trades[pair.symbol] && balances[token1]){
 			const _price = trades[pair.symbol][0].executed_price.toFixed(tickToPrecision(pair?.quote_tick));
 			setPrice(_price);
 			onPriceChange(_price);
+			updateBaseAmount((balance()/4).toFixed(tickToPrecision(pair?.base_tick)));
 			setInitialCheck(pair.symbol);
 		} else {
 			onPriceChange(price);
 		}
-	}, [price, pair, initalCheck])
+	}, [pair, trades, initalCheck, balances])
 
 	const onPriceChange = (e: string) => {
 		setPrice(e);
@@ -225,13 +126,9 @@ export default function Sell({ pair, market }: any) {
 					<Text fontSize={"sm"}>Price ({token1})</Text>
 					<NumberInput
 						isDisabled={market}
-						min={0}
 						precision={tickToPrecision(pair?.quote_tick)}
 						value={!market ? price : "Place order at market price"}
 						onChange={onPriceChange}
-						variant="filled"
-						border={"1px"}
-						borderColor={"gray.700"}
 					>
 						<NumberInputField rounded={0} />
 						<NumberInputStepper>
@@ -249,13 +146,9 @@ export default function Sell({ pair, market }: any) {
 						</Text>
 					</Flex>
 						<NumberInput
-							min={0}
 							precision={tickToPrecision(pair.base_tick)}
 							value={quoteAmount}
 							onChange={updateQuoteAmount}
-							variant="filled"
-							border="1px"
-							borderColor={"gray.700"}
 						>
 							<NumberInputField rounded={0} />
 							<NumberInputStepper>
@@ -279,13 +172,13 @@ export default function Sell({ pair, market }: any) {
 						asset={token1}
 						onUpdate={updateBaseAmount}
 						value={baseAmount}
-						color="green2"
+						color="sell.400"
 					/>
 				</Flex>
 
 				{!market && <>
 				<Divider mt={1} mb={2} />
-				<Flex mb={4} justify={"space-between"}>
+				<Flex mb={2} justify={"space-between"}>
 					<CheckboxGroup>
 						<Stack direction="row">
 							{Object.keys(ORDERTYPES).map((key) => (
@@ -300,20 +193,20 @@ export default function Sell({ pair, market }: any) {
 									isChecked={orderType == key}
 								>
 									<Tooltip
-							label={ORDER_DESCRIPTIONS[key]}
-							bg={"background1"}
-							maxW="200px"
-							color="white"
-						>
-									<Text
-										cursor={'help'}
-										fontSize={"sm"}
-										textDecor={"underline"}
-										textUnderlineOffset="2px"
-										textDecorationStyle={"dotted"}
+										label={ORDER_DESCRIPTIONS[key]}
+										bg={"background.700"}
+										maxW="200px"
+										color="white"
 									>
-										{ORDERTYPES[key].split("_").join(" ")}
-									</Text>
+										<Text
+											cursor={'help'}
+											fontSize={"sm"}
+											textDecor={"underline"}
+											textUnderlineOffset="2px"
+											textDecorationStyle={"dotted"}
+										>
+											{ORDERTYPES[key].split("_").join(" ")}
+										</Text>
 									</Tooltip>
 								</Checkbox>
 							))}
@@ -328,7 +221,7 @@ export default function Sell({ pair, market }: any) {
 						/>
 						<Tooltip
 							label="Order would be hidden from the orderbook"
-							bg={"background1"}
+							bg={"background.700"}
 							maxW="200px"
 							color="white"
 						>
@@ -345,19 +238,27 @@ export default function Sell({ pair, market }: any) {
 					</Flex>
 				</Flex></>}
 
-				<Button 
-					onClick={sell} 
-					size='md'
-					isDisabled={!validate().valid}
-				>
-					{validate().message}
-				</Button>
+				<SellButton
+					quoteAmount={quoteAmount}
+					baseAmount={baseAmount}
+					price={price}
+					pair={pair}
+					token0={token0}
+					token1={token1}
+					balance={balance}
+					market={market}
+					orderType={orderType}
+					hidden={hidden}
+					dontShow={dontShow}
+					setDontShow={setDontShow}
+					checkIt={checkIt}
+				/>
 
-				<Box w={"32%"}>
+				<Flex justify={'space-between'}>
 					<Tooltip
 						placement="bottom"
 						p={0}
-						bg="background2"
+						bg="background.600"
 						// closeDelay={1000}
 						label={
 							<>
@@ -371,18 +272,11 @@ export default function Sell({ pair, market }: any) {
 										<Box textAlign={"right"}>
 											<Text
 												fontWeight={"bold"}
-												color={"primary.100"}
+												color={"primary.400"}
 											>
 												Tier {accountInfo.tier}
 											</Text>
 										</Box>
-										{/* <Box >
-									<Link href={'/fees'} as={'/fees'}>
-										<Text textAlign={'right'} cursor='pointer' color={'primary.100'}>
-											Level Up
-										</Text>
-									</Link>
-								</Box> */}
 									</Flex>
 									<Text fontSize={"xs"}>
 										Maker Fee:{" "}
@@ -409,7 +303,9 @@ export default function Sell({ pair, market }: any) {
 							<Text fontSize={"sm"}>Fees</Text>
 						</Flex>
 					</Tooltip>
-				</Box>
+
+					<Checkbox size={'sm'} isChecked={!dontShow as boolean} onChange={checkIt} colorScheme='primary'>Show Confirmation</Checkbox>
+				</Flex>
 			</Flex>
 		</>
 	);

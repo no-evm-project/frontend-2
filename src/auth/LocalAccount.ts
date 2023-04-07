@@ -86,13 +86,7 @@ export class LocalAccount {
      * @param network 
      */
     async setWallet(wallet: Wallet, network = NETWORK_ID) {
-        let keyStore: KeyStore;
-		if (wallet.type == "browser") {
-			keyStore = new keyStores.BrowserLocalStorageKeyStore();
-		} else {
-			throw new Error("Wallet type not supported");
-		}
-
+		
         this.wallet = wallet;
 
         let _orderlyKey = localStorage.getItem(
@@ -103,6 +97,16 @@ export class LocalAccount {
         ) ?? undefined;
 
         if (!_orderlyKey || !_orderlyKeySecret) {
+            let keyStore: KeyStore;
+            if (wallet.type == "browser") {
+                try{
+                    keyStore = new keyStores.BrowserLocalStorageKeyStore();
+                } catch (err) {
+                    throw new Error("Browser key store not supported");
+                }
+            } else {
+                throw new Error("Wallet type not supported");
+            }
             const _key = await keyStore.getKey(network, this.accountId);
             _orderlyKey = _key?.getPublicKey().toString();
             _orderlyKeySecret = _key?.toString();
@@ -149,7 +153,7 @@ export class LocalAccount {
 
         const config = {
             headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/json;charset=utf-8",
                 "orderly-account-id": this.accountId,
                 "orderly-key": this.orderlyPublicKey,
                 "orderly-trading-key": this.tradingKey.slice(2),

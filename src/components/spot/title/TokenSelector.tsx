@@ -24,6 +24,7 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import { AppDataContext } from "@/contexts/AppData";
 import { SearchIcon } from "@chakra-ui/icons";
 import { ASSET_NAMES } from "../../../constants";
+import { SlideFade } from '@chakra-ui/react';
 
 const itemVariants: Variants = {
 	open: {
@@ -38,7 +39,11 @@ const DeFiTokenSymbols = ["REF", "WOO"];
 const BlockchainSymbols = ["ETH", "WBTC", "AURORA", "NEAR"];
 const GamingSymbols = ["SWEAT"];
 
-export default function TokenSelector({ pair }: any) {
+const tabStyle = {
+	rounded: 0,
+}
+
+export default function TokenSelector({ pair, width = '400px', headingSize = '2xl' }: any) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { pairs } = useContext(DataContext);
 
@@ -52,8 +57,9 @@ export default function TokenSelector({ pair }: any) {
 			else setIsOpen(false);
 		}
 	});
+
 	return (
-		<>
+		<Flex justify={"center"} flexDir="column" h={"100%"}>
 			<motion.nav
 				initial={false}
 				animate={isOpen ? "open" : "closed"}
@@ -70,30 +76,28 @@ export default function TokenSelector({ pair }: any) {
 						<Flex
 							align={"center"}
 							justify="space-between"
-							bg="background2"
+							bg="background.600"
 							h={"100%"}
 							pl={5}
 							pr={2}
 						>
 							{!isOpen ? (
 								pair ? (
-									<Flex gap={2} align="center">
-										<Flex>
-											<Image
-												className="name-group"
-												rounded={"full"}
-												src={`https://oss.woo.network/static/symbol_logo/${
-													pair.symbol
-														.replace("SPOT_", "")
-														.split("_")[0]
-												}.png`}
-												w={8}
-												zIndex={1}
-												alt={pair.symbol}
-											/>
-										</Flex>
+									<Flex gap={2} align="center" className="name-group">
+										<Image
+											className="name-group"
+											rounded={"full"}
+											src={`https://oss.woo.network/static/symbol_logo/${
+												pair.symbol
+													.replace("SPOT_", "")
+													.split("_")[0]
+											}.png`}
+											w={8}
+											zIndex={1}
+											alt={pair.symbol}
+										/>
 										<Heading
-											fontSize={"2xl"}
+											fontSize={headingSize}
 											className="name-group"
 										>
 											{pair.symbol
@@ -110,14 +114,17 @@ export default function TokenSelector({ pair }: any) {
 									/>
 								)
 							) : (
-								<Flex gap={2} align="center">
-									<Heading fontSize={"2xl"}>Markets</Heading>
-								</Flex>
+								<SlideFade in={isOpen} offsetY="20px">
+									<Flex gap={2} align="center">
+										<Heading fontSize={headingSize}>Markets</Heading>
+									</Flex>
+								</SlideFade>
 							)}
 
 							<Flex align={"center"} color="whiteAlpha.600">
 								<Text fontSize={"sm"}>
-									{isOpen ? "Tap to close" : "All Markets"}
+									{isOpen ? "Tap to close" : "View All"} 
+									{/* All Markets */}
 								</Text>
 								<motion.div
 									variants={{
@@ -163,13 +170,13 @@ export default function TokenSelector({ pair }: any) {
 						listStyle: "none",
 						display: "flex",
 						flexDirection: "column",
-						position: "fixed",
-						width: "400px",
+						position: "relative",
+						width: width,
+						// height: '72vh',
 						padding: "12px",
-						paddingBottom: "18px",
-						backgroundColor: "#130B25",
+						backgroundColor: "#1A0F30",
+						border: "1px solid #2A1652",
 						zIndex: 100,
-						marginTop: "2px",
 					}}
 				>
 					<motion.div
@@ -197,7 +204,7 @@ export default function TokenSelector({ pair }: any) {
 							</InputLeftElement>
 							<Input
 								placeholder="Search Crypto Pairs"
-								bg={"whiteAlpha.200"}
+								bg={"background.400"}
 								border="0"
 								my={2}
 								h="44px"
@@ -206,68 +213,32 @@ export default function TokenSelector({ pair }: any) {
 							/>
 						</InputGroup>
 
-						<Tabs isFitted size={"sm"} variant="soft-rounded">
-							<TabList mx={0} mb={2}>
-								<Tab
-									rounded={0}
-									bg="background2"
-									_selected={{
-										bg: "whiteAlpha.100",
-										color: "white",
-									}}
-								>
+						<Tabs isFitted size={"sm"} colorScheme='primary'>
+							<TabList mx={0} mr={2} mb={2}>
+								<Tab {...tabStyle}>
 									All
 								</Tab>
-								<Tab
-									rounded={0}
-									bg="background2"
-									_selected={{
-										bg: "whiteAlpha.100",
-										color: "white",
-									}}
-								>
+								<Tab {...tabStyle}>
 									DeFi
 								</Tab>
-								<Tab
-									rounded={0}
-									bg="background2"
-									_selected={{
-										bg: "whiteAlpha.100",
-										color: "white",
-									}}
-								>
+								<Tab {...tabStyle}>
 									Blockchain
 								</Tab>
-								<Tab
-									rounded={0}
-									bg="background2"
-									_selected={{
-										bg: "whiteAlpha.100",
-										color: "white",
-									}}
-								>
+								<Tab {...tabStyle}>
 									Gaming
 								</Tab>
-								<Tab
-									rounded={0}
-									bg="background2"
-									_selected={{
-										bg: "whiteAlpha.100",
-										color: "white",
-									}}
-									isDisabled={true}
-								>
+								<Tab {...tabStyle} isDisabled={true}>
 									More <RiArrowDropDownLine size={"25px"} />
 								</Tab>
 							</TabList>
 							<TabPanels>
-								<TabPanel px={0} m={0}>
+								<TabPanel p={0} py={2} m={0}>
 									<ListedPairs
 										pairs={pairs}
 										setIsOpen={setIsOpen}
 									/>
 								</TabPanel>
-								<TabPanel px={0} m={0}>
+								<TabPanel px={0} py={2} m={0}>
 									<ListedPairs
 										pairs={pairs.filter((pair: any) =>
 											DeFiTokenSymbols.includes(
@@ -277,7 +248,7 @@ export default function TokenSelector({ pair }: any) {
 										setIsOpen={setIsOpen}
 									/>
 								</TabPanel>
-								<TabPanel px={0} m={0}>
+								<TabPanel px={0} py={2} m={0}>
 									<ListedPairs
 										pairs={pairs.filter((pair: any) =>
 											BlockchainSymbols.includes(
@@ -287,7 +258,7 @@ export default function TokenSelector({ pair }: any) {
 										setIsOpen={setIsOpen}
 									/>
 								</TabPanel>
-								<TabPanel px={0} m={0}>
+								<TabPanel px={0} py={2} m={0}>
 									<ListedPairs
 										pairs={pairs.filter((pair: any) =>
 											GamingSymbols.includes(
@@ -297,13 +268,13 @@ export default function TokenSelector({ pair }: any) {
 										setIsOpen={setIsOpen}
 									/>
 								</TabPanel>
-								<TabPanel px={0} m={0}></TabPanel>
+								<TabPanel px={0} py={2} m={0}></TabPanel>
 							</TabPanels>
 						</Tabs>
 					</motion.div>
 				</motion.ul>
 			</motion.nav>
-		</>
+		</Flex>
 	);
 }
 
@@ -327,7 +298,7 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 						key={index}
 					>
 						<Flex
-							_hover={{ bg: "whiteAlpha.100" }}
+							_hover={{ bg: "background.500" }}
 							cursor="pointer"
 							mx={-3}
 							py={4}
@@ -350,7 +321,7 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 								<Box>
 									<Heading
 										fontSize={"md"}
-										fontWeight="medium"
+										fontFamily="Space Grotesk"
 									>
 										{
 											ASSET_NAMES[
@@ -392,8 +363,8 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 											trades[_pair.symbol][0]
 												?.executed_price >=
 											tickers[_pair.symbol].open
-												? "green2"
-												: "red2"
+												? "buy.700"
+												: "sell.400"
 										}
 									>
 										{(
@@ -402,8 +373,8 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 													?.executed_price -
 													tickers[_pair.symbol]
 														.open)) /
-											trades[_pair.symbol][0]
-												?.executed_price
+														tickers[_pair.symbol]
+														.open
 										).toFixed(2) + "%"}
 									</Text>
 								)}

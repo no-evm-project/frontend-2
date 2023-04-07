@@ -4,7 +4,7 @@ import Orders from "@/components/spot/orders";
 import Title from "@/components/spot/title";
 import Trade from "@/components/spot/trade";
 import { DataContext } from "@/contexts/DataProvider";
-import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Divider, Flex, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
@@ -54,9 +54,7 @@ export default function Pair() {
 			<Head>
 				<title>
 					{" "}
-					{trades[pair?.symbol]?.[0]?.executed_price.toFixed(
-						tickToPrecision(pair?.quote_tick)
-					)}{" "}
+					{trades[pair?.symbol]?.[0]?.executed_price}{" "}
 					{pair?.symbol.split("_")[1]}/{pair?.symbol.split("_")[2]} |
 					ZEXE
 				</title>
@@ -65,9 +63,12 @@ export default function Pair() {
 			<Box>
 				<Title pair={pair} />
 			</Box>
-			<Flex>
-				<Flex flexDir={"column"} gap={1} minW="400px">
-					<Box bg="background2">
+			<Box>
+				<Divider />
+			</Box>
+			<Flex flexDir={{xs: 'column', sm: 'column', md: 'row'}} justify={"stretch"}>
+				<Flex order={{ xs: 3, sm: 3, md: 1}} flexDir={"column"} minW="400px">
+					<Box bg="background.600" px={1}>
 						{isDepositOpen ? (
 							<Deposit
 								pair={pair}
@@ -87,7 +88,10 @@ export default function Pair() {
 							/>
 						)}
 					</Box>
-					<Box bg="background2" flexGrow={1}>
+					<Box>
+						<Divider />
+					</Box>
+					<Box bg="background.600" flexGrow={1} px={1}>
 						<Balances
 							pair={pair}
 							isDepositOpen={isDepositOpen}
@@ -99,19 +103,46 @@ export default function Pair() {
 						/>
 					</Box>
 				</Flex>
-				<Box minW="300px" bg="background2" mx={1}>
+
+				<Box order={{ xs: 2, sm: 2, md: 2}}>
+					<ResponsiveDivider />
+				</Box>
+
+				<Box order={{ xs: 5, sm: 5, md: 3}} minW="300px" bg="background.600">
 					<Orderbook pair={pair} />
 				</Box>
 
-				<Flex flexDir={'column'} flexGrow={1}>
-					<Box mb={1} mt={"0.5px"} >
+				<Box order={{ xs: 4, sm: 4, md: 4}}>
+					<ResponsiveDivider />
+				</Box>
+
+				<Flex order={{xs: 1, sm: 1, md: 5}} flexDir={"column"} flexGrow={1}>
+					<Box mt={"0.5px"}>
 						<Graph pair={pair} />
 					</Box>
-					<Box flexGrow={1} bg={"background2"}>
+					<Box display={{xs: 'none', sm: 'none', md: 'block'}} >
+						<Divider />
+					</Box>
+					<Box flexGrow={1} bg={"background.600"} display={{xs: 'none', sm: 'none', md: 'block'}} >
 						<Orders pair={pair} />
 					</Box>
 				</Flex>
+
+				
 			</Flex>
+		</>
+	);
+}
+
+function ResponsiveDivider() {
+	return (
+		<>
+			<Box display={{ sm: "none", md: "block" }} h='100%'>
+				<Divider orientation={"vertical"} h='100%' />
+			</Box>
+			<Box display={{ sm: "block", md: "none" }}>
+				<Divider orientation={"horizontal"}  />
+			</Box>
 		</>
 	);
 }
