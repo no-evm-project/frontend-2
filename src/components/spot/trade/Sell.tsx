@@ -245,7 +245,7 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 					pair={pair}
 					token0={token0}
 					token1={token1}
-					balance={balance}
+					balance={balance()}
 					market={market}
 					orderType={orderType}
 					hidden={hidden}

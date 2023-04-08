@@ -37,13 +37,9 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 	const [hidden, setHidden] = React.useState(false);
 
 	const {
-		account,
-		addOrder,
 		balances,
-		tokens,
 		accountInfo,
 		trades,
-		orderbook,
 	} = useContext(DataContext);
 	const { exchangeRate: price, setExchangeRate: setPrice } =
 		useContext(AppDataContext);
@@ -254,7 +250,7 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 					pair={pair}
 					token0={token0}
 					token1={token1}
-					balance={balance}
+					balance={balance()}
 					market={market}
 					orderType={orderType}
 					hidden={hidden} 
