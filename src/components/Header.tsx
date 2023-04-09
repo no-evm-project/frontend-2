@@ -126,9 +126,9 @@ export default function Header() {
 							)}
 							</Box>
 							<ConnectButton />
-							<Box display={{ base: "none", md: "flex" }}>
+							{/* <Box display={{ base: "none", md: "flex" }}>
 								<Notifications />
-							</Box>
+							</Box> */}
 						</Flex>
 					</Flex>
 				</Stack>
