@@ -111,14 +111,14 @@ const Index = () => {
 				bgColor={"#09001F"}
 				bgImage="/Rectangle.png"
 				bgRepeat={"no-repeat"}
-				bgSize={{ xs: "0", sm: "contain", md: "contain" }}
+				bgSize={"contain"}
 				bgPosition={"center top"}
 				// h={'100vh'}
 			>
 				<Box
 					bgImage="/Rectangle2.png"
 					bgRepeat={"no-repeat"}
-					bgSize={{ xs: "0", sm: "1000px", md: "contain" }}
+					bgSize={ "contain" }
 					bgPosition={"center bottom"}
 				>
 					<Box mr={"10%"} ml="10%">
@@ -224,10 +224,13 @@ const Index = () => {
 							bg="whiteAlpha.200"
 							mx="-12%"
 							px={"11%"}
-							opacity="1"
 							mb={20}
+							bgImage="/Rectangle3.png"
+							bgRepeat={"no-repeat"}
+							bgPosition={"center"}
+							bgSize={'cover'}
 						>
-							<Divider mt={{ xs: 16, sm: 16, md: 16 }} mb={10} />
+							<Divider mt={{ xs: 16, sm: 16, md: 32 }} mb={10} />
 
 							<Flex
 								flexDir={{
@@ -248,7 +251,14 @@ const Index = () => {
 
 								<Divider
 									orientation="vertical"
-									h={{ xs: 0, sm: 12, md: 12, lg: 12 }}
+									h={12}
+									display={{ xs: 'none', sm: 'block', md: 'block' }}
+									borderColor={"white"}
+								/>
+
+								<Divider
+									orientation="horizontal"
+									display={{ xs: 'block', sm: 'none', md: 'none' }}
 									borderColor={"white"}
 								/>
 
@@ -295,10 +305,9 @@ const Index = () => {
 									User First <br /> Trading Experience
 								</Heading>
 								<Text mt={6}>
-									We are building a trading platform that is
-									accessible to everyone. We are building a
-									trading platform that is accessible to
-									everyone.
+									Trade on ZEXE with a simple, intuitive
+									and easy to use interface, on web and mobile.
+									Bringing the power of DeFi to the masses.
 								</Text>
 
 								<Flex gap={10} my={24} wrap="wrap">
@@ -417,17 +426,17 @@ function MainFeature({ icon, title, text }: any) {
 function Feature({ icon, title, text, isComingSoon = false }: any) {
 	return (
 		<>
-			<Box maxW={"300px"}>
+			<Box maxW={"280px"}>
 				<Flex gap={3}>
 					{icon}
 					{isComingSoon && (
 						<Tag bg={"background.400"}>Coming Soon</Tag>
 					)}
 				</Flex>
-				<Heading mt={4} mb={2} size={"sm"}>
+				<Heading mt={4} mb={2} size={"md"}>
 					{title}
 				</Heading>
-				<Text fontSize={"sm"}>{text}</Text>
+				<Text fontSize={"md"}>{text}</Text>
 			</Box>
 		</>
 	);
@@ -487,7 +496,7 @@ function TokensTable({}) {
 					<TableCaption>
 						<Text>Note: Testnet Figures</Text>
 
-						<StatGroup justifyContent={"start"} my={10} gap={10}>
+						<StatGroup justifyContent={"start"} my={5} gap={10}>
 							<VolumeStat
 								title="Volume 7d"
 								value={volumeStat.volume_last_7_days}

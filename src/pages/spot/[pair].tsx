@@ -66,7 +66,7 @@ export default function Pair() {
 			<Box>
 				<Divider />
 			</Box>
-			<Flex flexDir={{xs: 'column', sm: 'column', md: 'row'}} justify={"stretch"}>
+			<Flex flexDir={{xs: 'column', sm: 'column', md: 'row'}} justify={"stretch"} >
 				<Flex order={{ xs: 3, sm: 3, md: 1}} flexDir={"column"} minW="400px">
 					<Box bg="background.600" px={1}>
 						{isDepositOpen ? (

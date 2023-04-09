@@ -58,7 +58,7 @@ function Order({
 				borderLeft='2px'
 				borderLeftColor={exists ? orderType == "BID" ? 'buy.400' : 'sell.400' : 'transparent'}
 			>
-				<Text w={"30%"}>
+				<Text  w={"30%"}>
 					{order[0].toFixed(tickToPrecision(pair?.quote_tick))}
 				</Text>
 				<Text w={"36%"} textAlign="right">

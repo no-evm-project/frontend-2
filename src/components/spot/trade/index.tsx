@@ -18,7 +18,7 @@ const OrderTabStyle = (color: string) => {
 		h: 10,
 		fontSize: 'md',
 		bg: "background.500",
-		rounded: 8,
+		rounded: 22,
 		_selected: { bg: color, color: "white"},
 	}
 }
@@ -38,7 +38,7 @@ export default function Trade({ pair, isOpen }: any) {
 	return (
 		<SlideFade offsetY={"20px"} in={isOpen}>
 			<Tabs isFitted size={"md"} variant="soft-rounded">
-				<TabList mt={4} mb={2} px={4}>
+				<TabList mt={4} mb={2} mx={4} bg='background.500' rounded={'full'}>
 					<Tab {...OrderTabStyle("buy.700")}>
 						Buy
 					</Tab>
