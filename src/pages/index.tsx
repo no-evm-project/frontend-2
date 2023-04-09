@@ -10,6 +10,7 @@ import {
 	Box,
 	Divider,
 	Heading,
+	Tag,
 } from "@chakra-ui/react";
 
 import { useColorMode } from "@chakra-ui/react";
@@ -18,14 +19,16 @@ import Head from "next/head";
 import {
 	BsCurrencyExchange,
 	BsDiscord,
+	BsFillLightningChargeFill,
 	BsGithub,
+	BsGoogle,
 	BsTwitter,
 } from "react-icons/bs";
 import { RiExchangeFundsFill } from "react-icons/ri";
 import { GiBank, GiCardExchange } from "react-icons/gi";
 import { useContext, useState } from "react";
-import { AiOutlineInfoCircle } from "react-icons/ai";
-import '@fontsource/silkscreen'
+import { TbGasStationOff } from "react-icons/tb";
+import "@fontsource/silkscreen";
 
 const featuresTitle = {
 	fontSize: "xl",
@@ -45,17 +48,17 @@ const featuresIcon = {
 
 import { NextSeo } from "next-seo";
 import SocialFollow from "@/components/SocialFollow";
-import { DataContext } from '@/contexts/DataProvider';
-import { useEffect } from 'react';
-import { dollarFormatter } from '../utils';
-import { ASSET_NAMES } from '../constants';
+import { DataContext } from "@/contexts/DataProvider";
+import { useEffect } from "react";
+import { dollarFormatter } from "../utils";
+import { ASSET_NAMES } from "../constants";
 
 const Index = () => {
-	const {volumeStat, initMarket} = useContext(DataContext);
+	const { volumeStat, initMarket } = useContext(DataContext);
 
 	useEffect(() => {
 		initMarket();
-	}, [])
+	}, []);
 
 	const dividerStyle = {
 		borderColor: { xs: "transparent", sm: "transparent", md: "#E50EC0" },
@@ -119,247 +122,316 @@ const Index = () => {
 					bgPosition={"center bottom"}
 				>
 					<Box mr={"10%"} ml="10%">
-					<Box >
-						<Flex align={"center"} justify="space-between">
-							<Text
-								fontFamily={"Silkscreen"}
-								fontSize={"56.53px"}
-								letterSpacing="-10px"
-								color={"#F60DC9"}
-								mt={10}
+						<Box>
+							<Flex align={"center"} justify="space-between">
+								<Text
+									fontFamily={"Silkscreen"}
+									fontSize={"56.53px"}
+									letterSpacing="-10px"
+									color={"#F60DC9"}
+									mt={10}
+								>
+									zexe
+								</Text>
+								<Box mt={4}>
+									<SocialFollow />
+								</Box>
+							</Flex>
+
+							<Flex
+								flexDir={"column"}
+								justify={"center"}
+								mt={{ xs: "80px", sm: "120px", md: "180px" }}
+								mb={"60px"}
+								fontSize={{
+									xs: "38",
+									sm: "40px",
+									md: "68.5px",
+								}}
+								lineHeight={"121%"}
+								mr={"10%"}
 							>
-								zexe
-							</Text>
-							<Box mt={4}>
-								<SocialFollow />
+								<Text fontWeight="bold" fontFamily={"BG"}>
+									ORDERBOOK DEX
+								</Text>
+								<Text
+									className={"stroke"}
+									color="transparent"
+									fontWeight="bold"
+									fontFamily={"BG"}
+								>
+									WITH SPOT AND
+								</Text>
+								<Text fontWeight="bold" fontFamily={"BG"}>
+									DERIVATIVES MARKETS
+								</Text>
+							</Flex>
+
+							<Flex wrap={"wrap"} gap={5}>
+								<MainFeature icon={<BsCurrencyExchange {...featuresIcon} />} title='Spot Trading' text='Market and limit orders with conditional execution' />
+
+								<Divider
+									{...dividerStyle}
+									orientation="vertical"
+								/>
+
+								<MainFeature icon={<RiExchangeFundsFill {...featuresIcon} />} title='Margin Trading' text='With upto 10x leverage on all major tokens' />
+
+
+								<Divider
+									{...dividerStyle}
+									orientation="vertical"
+								/>
+
+								<MainFeature icon={<GiCardExchange {...featuresIcon} />} title='Perpetual Futures' text='With upto 100x leverage for limitless trading' />
+
+								<Divider
+									{...dividerStyle}
+									orientation="vertical"
+								/>
+
+								<MainFeature icon={<GiBank {...featuresIcon} />} title='Money Market' text='Lend/Borrow assets with attractive yields' />
+
+							</Flex>
+
+							<Flex gap={2} mt={"60px"} wrap={"wrap"}>
+								<Link href={"/spot"} as="/spot">
+									<Button
+										size={"lg"}
+										bgColor="#E50EC0"
+										color="white"
+										// color={"black"}
+										_hover={{ opacity: "0.6" }}
+										disabled={true}
+									>
+										Trade Now
+									</Button>
+								</Link>
+								<Link
+									href={
+										"https://drive.google.com/file/d/1Jkc0QIvCIiMqdFbl0g39NF5bQIF0cnmZ/view?usp=sharing"
+									}
+									target="_blank"
+								>
+									<Button size={"lg"} variant={"outline"}>
+										Learn More
+									</Button>
+								</Link>
+							</Flex>
+						</Box>
+
+						<Box
+							bg="whiteAlpha.200"
+							mx="-12%"
+							px={"11%"}
+							opacity="1"
+							mb={20}
+						>
+							<Divider mt={{ xs: 16, sm: 16, md: 16 }} mb={10} />
+
+							<Flex
+								flexDir={{
+									xs: "column",
+									sm: "row",
+									md: "row",
+								}}
+								gap={10}
+							>
+								<Flex align={"center"} gap={4} color="gray.400">
+									<Image
+										src="/built_on_rev.png"
+										alt="zexe"
+										rounded={"full"}
+										height={9}
+									/>
+								</Flex>
+
+								<Divider
+									orientation="vertical"
+									h={{ xs: 0, sm: 12, md: 12, lg: 12 }}
+									borderColor={"white"}
+								/>
+
+								<Flex
+									align={"center"}
+									gap={4}
+									fontFamily="Poppins"
+								>
+									<Image
+										src="https://pbs.twimg.com/profile_images/1610066785025523713/2iij3ydV_400x400.jpg"
+										alt="zexe"
+										rounded={"full"}
+										height={14}
+									/>
+									<Box>
+										<Text
+											fontSize={"xs"}
+											color="gray.300"
+											mb={0}
+										>
+											Powered by
+										</Text>
+										<Text
+											fontSize={"xl"}
+											color="white"
+											fontWeight={"bold"}
+										>
+											Orderly Network
+										</Text>
+									</Box>
+								</Flex>
+							</Flex>
+
+							<Divider mt={10} />
+						</Box>
+
+						<Flex
+							flexDir={{ xs: "column", sm: "column", md: "row" }}
+							justify={"space-between"}
+							gap={10}
+						>
+							<Box w={{ xs: "100%", sm: "100%", md: "60%" }}>
+								<Heading>
+									User First <br /> Trading Experience
+								</Heading>
+								<Text mt={6}>
+									We are building a trading platform that is
+									accessible to everyone. We are building a
+									trading platform that is accessible to
+									everyone.
+								</Text>
+
+								<Flex gap={10} my={24} wrap="wrap">
+									<Feature
+										icon={<TbGasStationOff size={"30"} />}
+										title="Gas Less"
+										text="
+									Trade on ZEXE without paying any gas fees.
+								"
+									/>
+									<Feature
+										icon={
+											<BsFillLightningChargeFill
+												size={"30"}
+											/>
+										}
+										title="Lightening Fast"
+										text="
+									State of the art matching engine scaling throughput beyond L1s
+								"
+									/>
+									<Feature
+										icon={<BsGoogle size={"30"} />}
+										title="Account Abstraction"
+										text="
+									Create accounts with Social Sign In (Google/Twitter), or Metamask
+								"
+										isComingSoon
+									/>
+									<Feature
+										icon={<IoIosAppstore size={"30"} />}
+										title="Mobile First"
+										text="
+									Trade on the go with our mobile app for Android and iOS
+								"
+										isComingSoon
+									/>
+								</Flex>
+							</Box>
+							<Box w={{ xs: "100%", sm: "100%", md: "40%" }}>
+								<TokensTable />
 							</Box>
 						</Flex>
 
 						<Flex
-							flexDir={"column"}
-							justify={"center"}
-							mt={{ xs: "80px", sm: "120px", md: "180px" }}
-							mb={"60px"}
-							fontSize={{ xs: "38", sm: "40px", md: "68.5px" }}
-							lineHeight={"121%"}
-							mr={"10%"}
+							mt={20}
+							mb={20}
+							justify="space-between"
+							align={"center"}
 						>
-							<Text fontWeight="bold" fontFamily={"BG"}>ORDERBOOK DEX</Text>
-							<Text
-								className={"stroke"}
-								color="transparent"
-								fontWeight="bold"
-								fontFamily={"BG"}
-							>
-								WITH SPOT AND
-							</Text>
-							<Text fontWeight="bold" fontFamily={"BG"}>DERIVATIVES MARKETS</Text>
-						</Flex>
-
-						<Flex wrap={"wrap"} gap={5}>
-							<Box w={"200px"} my={5}>
-								<BsCurrencyExchange {...featuresIcon} />
-								<Text {...featuresTitle}>Spot Trading</Text>
-								<Box
-									h={"2px"}
+							<Box>
+								<Image src="/x.png" alt="zexe" w={20} h={20} />
+								<Text mt={5} fontSize={"xs"}>
+									Copyright @ 2023
+								</Text>
+								<Text
 									mt={2}
-									mb={4}
-									w={"100%"}
-									bgGradient="linear(to-r, #F60DC9, #1AE5C8)"
-								></Box>
-								<Text {...featuresText}>
-									Market and limit orders with conditional
-									execution
-								</Text>
-							</Box>
-
-							<Divider {...dividerStyle} orientation="vertical" />
-
-							<Box w={"250px"} my={5}>
-								<RiExchangeFundsFill {...featuresIcon} />
-								<Text {...featuresTitle}>Margin Trading</Text>
-								<Box
-									h={"2px"}
-									mt={2}
-									mb={4}
-									w={"100%"}
-									bgGradient="linear(to-r, #F60DC9, #1AE5C8)"
-								></Box>
-								<Text {...featuresText}>
-									With upto 10x leverage on all major tokens
-								</Text>
-							</Box>
-
-							<Divider {...dividerStyle} orientation="vertical" />
-
-							<Box w={"200px"} my={5}>
-								<GiCardExchange {...featuresIcon} />
-								<Text {...featuresTitle}>
-									Perpetual Futures
-								</Text>
-								<Box
-									h={"2px"}
-									mt={2}
-									mb={4}
-									w={"100%"}
-									bgGradient="linear(to-r, #F60DC9, #1AE5C8)"
-								></Box>
-								<Text {...featuresText}>
-									With upto 100x leverage for limitless
-									trading
-								</Text>
-							</Box>
-
-							<Divider {...dividerStyle} orientation="vertical" />
-
-							<Box w={"200px"} my={5}>
-								<GiBank {...featuresIcon} />
-								<Text {...featuresTitle}>Money Market</Text>
-								<Box
-									h={"2px"}
-									mt={2}
-									mb={4}
-									w={"100%"}
-									bgGradient="linear(to-r, #F60DC9, #1AE5C8)"
-								></Box>
-								<Text {...featuresText}>
-									Lend/Borrow assets with attractive yields
-								</Text>
-							</Box>
-						</Flex>
-
-						<Flex gap={2} mt={"60px"} mb={"20px"} wrap={"wrap"}>
-							<Link href={"/spot"} as='/spot'>
-								<Button
-									size={"lg"}
-									bgColor="#E50EC0"
-									color="white"
-									// color={"black"}
-									_hover={{ opacity: "0.6" }}
-									disabled={true}
+									color="whiteAlpha.700"
+									fontSize={"xs"}
+									maxW="400px"
 								>
-									Trade Now
-								</Button>
-							</Link>
-							<Link
-								href={
-									"https://drive.google.com/file/d/1Jkc0QIvCIiMqdFbl0g39NF5bQIF0cnmZ/view?usp=sharing"
-								}
-								target="_blank"
-							>
-								<Button size={"lg"} variant={"outline"}>
-									Learn More
-								</Button>
-							</Link>
-						</Flex>
+									ZEXE.io All Rights Reserved. Community of traders, developers,
+									and entrepreneurs; building the future of
+									DeFi.
+								</Text>
+							</Box>
+							<Flex flexDir={"column"} gap={4} p={6}>
+								<Link
+									href={"https://discord.gg/wwzNMndQr6"}
+									target="_blank"
+								>
+									<Flex align={"center"} gap={2}>
+										<FaDiscord size={30} />
+										<Heading size={"sm"}>
+											Join Our Community On Discord
+										</Heading>
+									</Flex>
+								</Link>
 
-					</Box>
-					<Box py={0} bg='whiteAlpha.200' mx='-12%' px={'11%'} opacity='0.8' mb={20}>
-					<Divider mt={{ xs: 16, sm: 20, md: 28 }} mb={10} />
-
-						<Flex  gap={10}>
-							<Flex align={"center"} gap={4} color="gray.400">
-								<Image
-									src="/built_on_rev.png"
-									alt="zexe"
-									rounded={"full"}
-									height={8}
-								/>
-							</Flex>
-
-							<Divider
-								orientation="vertical"
-								h={12}
-								borderColor={"white"}
-							/>
-
-							<Flex align={"center"} gap={4} fontFamily='Poppins'>
-								<Image
-									src="https://pbs.twimg.com/profile_images/1610066785025523713/2iij3ydV_400x400.jpg"
-									alt="zexe"
-									rounded={"full"}
-									height={12}
-								/>
-								<Box>
-									<Text
-										fontSize={"xs"}
-										color="gray.300"
-										mb={0}
-									>
-										Powered by
-									</Text>
-									<Text
-										fontSize={"xl"}
-										color="white"
-										fontWeight={"bold"}
-									>
-										Orderly Network
-									</Text>
-								</Box>
+								<Link
+									href={"https://twitter.com/zexeio"}
+									target="_blank"
+								>
+									<Flex align={"center"} gap={2}>
+										<FaTwitter size={30} />
+										<Heading size={"sm"}>
+											Follow Us On Twitter
+										</Heading>
+									</Flex>
+								</Link>
 							</Flex>
 						</Flex>
-
-						<Divider mt={10}/>
-					</Box>
-
-					<Flex justify={'space-between'} gap={20}>
-						<Box w={'50%'} >
-							<Heading>Leading DEX on NEAR</Heading>
-							<Text mt={6}>
-								ZEXE is the leading exchange on NEAR. We offer
-								competitive fees, high liquidity, and a
-								transparent and secure trading experience.
-							</Text>
-
-						<StatGroup justifyContent={'start'} mt={20}>
-							<VolumeStat title='Volume 7d' value={volumeStat.volume_last_7_days} compare={volumeStat.volume_last_30_days/4} />
-							<VolumeStat title='Volume 30d' value={volumeStat.volume_last_30_days} compare={volumeStat.volume_ytd/12}/>
-							<VolumeStat title='Volume YTD' value={volumeStat.volume_ytd} compare={0} />
-						</StatGroup>
-
-						
-						</Box>
-						<Box my={0} w='40%'>
-							<TokensTable/>
-						</Box>
-					</Flex>
-					
-					<Flex mt={20} mb={20} justify='space-between' align={'center'}>
-						<Box>
-					<Image src='/x.png' alt='zexe' w={20} h={20} />
-					<Text mt={5} fontSize={'xs'}>Copyright @ 2023</Text>
-					<Text mt={2} color='whiteAlpha.700' fontSize={'xs'} maxW='400px'>
-						We are a community of traders, developers, and
-						entrepreneurs; building the future of
-						DeFi.
-					</Text>
-						</Box>
-					<Flex flexDir={'column'} gap={4} p={6}>
-							<Link href={'https://discord.gg/wwzNMndQr6'} target='_blank'>
-							<Flex align={'center'} gap={2}>
-							<FaDiscord size={30}/>
-							<Heading size={'sm'}>
-							Join Our Community On Discord
-							</Heading>
-							</Flex>
-							</Link>
-
-							<Link href={'https://twitter.com/zexeio'} target='_blank'>
-							<Flex align={'center'} gap={2}>
-							<FaTwitter size={30}/>
-							<Heading size={'sm'}>
-							Follow Us On Twitter
-							</Heading>
-							</Flex>
-							</Link>
-						</Flex>
-					</Flex>
 					</Box>
 				</Box>
 			</Flex>
 		</>
 	);
 };
+
+function MainFeature({ icon, title, text }: any) {
+	return (
+		<Box w={"200px"} my={5}>
+			{icon}
+			<Text {...featuresTitle}>{title}</Text>
+			<Box
+				h={"2px"}
+				mt={2}
+				mb={4}
+				w={"100%"}
+				bgGradient="linear(to-r, #F60DC9, #1AE5C8)"
+			></Box>
+			<Text {...featuresText}>{text}</Text>
+		</Box>
+	);
+}
+function Feature({ icon, title, text, isComingSoon = false }: any) {
+	return (
+		<>
+			<Box maxW={"300px"}>
+				<Flex gap={3}>
+					{icon}
+					{isComingSoon && (
+						<Tag bg={"background.400"}>Coming Soon</Tag>
+					)}
+				</Flex>
+				<Heading mt={4} mb={2} size={"sm"}>
+					{title}
+				</Heading>
+				<Text fontSize={"sm"}>{text}</Text>
+			</Box>
+		</>
+	);
+}
 
 import {
 	Stat,
@@ -368,10 +440,9 @@ import {
 	StatHelpText,
 	StatArrow,
 	StatGroup,
-  } from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
-
-  import {
+import {
 	Table,
 	Thead,
 	Tbody,
@@ -381,41 +452,71 @@ import {
 	Td,
 	TableCaption,
 	TableContainer,
-  } from '@chakra-ui/react'
+} from "@chakra-ui/react";
 import { FaDiscord, FaTwitter } from "react-icons/fa";
+import ComingSoon from "../components/account/ComingSoon";
+import { IoIosAppstore } from "react-icons/io";
 
-function VolumeStat ({title, value, compare}: any) {
+function VolumeStat({ title, value, compare }: any) {
 	return (
 		<Stat>
 			<StatLabel>{title}</StatLabel>
 			<StatNumber>{dollarFormatter.format(value)}</StatNumber>
 			<StatHelpText>
 				<StatArrow type={value > compare ? "increase" : "decrease"} />
-				{(100*(value - compare) / value).toFixed(2)} %
+				{((100 * (value - compare)) / value).toFixed(2)} %
 			</StatHelpText>
 		</Stat>
-	)
+	);
 }
 
-function TokensTable ({}) {
-	const { tokenList, tokens, trades } = useContext(DataContext);
+function TokensTable({}) {
+	const { tokenList, tokens, trades, volumeStat } = useContext(DataContext);
 
-	return (<>
-		<TableContainer bg={'whiteAlpha.50'} border='2px' borderColor={'whiteAlpha.100'}>
-			<Table variant='simple'>
-				<TableCaption>Note: Testnet Figures</TableCaption>
-				<Thead>
-				<Tr>
-					<Th>Market</Th>
-					<Th isNumeric>Price</Th>
-				</Tr>
-				</Thead>
-				<Tbody>
-					{tokenList.map((tokenSymbol: any, index: number) => (
-						<Tr key={index}>
-							<Td>
-								<Flex gap={2}>
-								<Image
+	return (
+		<>
+			<Heading size={"sm"} mb={6} color="whiteAlpha.800">
+				All Markets
+			</Heading>
+			<TableContainer
+				bg={"whiteAlpha.50"}
+				border="2px"
+				borderColor={"whiteAlpha.100"}
+			>
+				<Table variant="simple">
+					<TableCaption>
+						<Text>Note: Testnet Figures</Text>
+
+						<StatGroup justifyContent={"start"} my={10} gap={10}>
+							<VolumeStat
+								title="Volume 7d"
+								value={volumeStat.volume_last_7_days}
+								compare={volumeStat.volume_last_30_days / 4}
+							/>
+							<VolumeStat
+								title="Volume 30d"
+								value={volumeStat.volume_last_30_days}
+								compare={volumeStat.volume_ytd / 12}
+							/>
+							<VolumeStat
+								title="Volume YTD"
+								value={volumeStat.volume_ytd}
+								compare={0}
+							/>
+						</StatGroup>
+					</TableCaption>
+					<Thead>
+						<Tr>
+							<Th>Market</Th>
+							<Th isNumeric>Price</Th>
+						</Tr>
+					</Thead>
+					<Tbody>
+						{tokenList.map((tokenSymbol: any, index: number) => (
+							<Tr key={index}>
+								<Td>
+									<Flex gap={2}>
+										<Image
 											className="name-group"
 											rounded={"full"}
 											src={`https://oss.woo.network/static/symbol_logo/${tokenSymbol}.png`}
@@ -424,18 +525,27 @@ function TokensTable ({}) {
 											alt={tokenSymbol}
 										/>
 										<Box>
-											<Text fontFamily={'Space Grotesk'}>{ASSET_NAMES[tokenSymbol]}</Text>
-											<Text fontSize={'sm'}>{tokenSymbol}</Text>
+											<Text fontFamily={"Space Grotesk"}>
+												{ASSET_NAMES[tokenSymbol]}
+											</Text>
+											<Text fontSize={"sm"}>
+												{tokenSymbol}
+											</Text>
 										</Box>
-								</Flex>
+									</Flex>
 								</Td>
-							<Td isNumeric>{dollarFormatter.format(trades[`SPOT_${tokenSymbol}_USDC`]?.[0]?.executed_price ?? 1)}</Td>
-						</Tr>
-					))}
-				
-				</Tbody>
-			</Table>
-		</TableContainer>
-	</>)
+								<Td isNumeric>
+									{dollarFormatter.format(
+										trades[`SPOT_${tokenSymbol}_USDC`]?.[0]
+											?.executed_price ?? 1
+									)}
+								</Td>
+							</Tr>
+						))}
+					</Tbody>
+				</Table>
+			</TableContainer>
+		</>
+	);
 }
 export default Index;
