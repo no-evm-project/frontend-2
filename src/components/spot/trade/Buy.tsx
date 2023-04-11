@@ -40,6 +40,7 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 		balances,
 		accountInfo,
 		trades,
+		feeInfo
 	} = useContext(DataContext);
 	const { exchangeRate: price, setExchangeRate: setPrice } =
 		useContext(AppDataContext);
@@ -285,14 +286,14 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 									</Flex>
 									<Text fontSize={"xs"}>
 										Maker Fee:{" "}
-										{(100 * accountInfo.maker_fee_rate) /
-											BASIS_POINTS}{" "}
+										{((100 * accountInfo.maker_fee_rate) /
+											BASIS_POINTS) || feeInfo[0]?.maker_fee.slice(0, -1)}{" "}
 										%
 									</Text>
 									<Text fontSize={"xs"}>
 										Taker Fee:{" "}
-										{(100 * accountInfo.taker_fee_rate) /
-											BASIS_POINTS}{" "}
+										{((100 * accountInfo.taker_fee_rate) /
+											BASIS_POINTS) || feeInfo[0]?.taker_fee.slice(0, -1)}{" "}
 										%
 									</Text>
 								</Box>

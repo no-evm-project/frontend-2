@@ -483,7 +483,8 @@ function VolumeStat({ title, value, compare }: any) {
 }
 
 const TableThStyle = {
-	pt: 2,
+	pt: 3,
+	pb: 2,
 	borderColor: 'whiteAlpha.300'
 }
 
@@ -498,7 +499,7 @@ function TokensTable({}) {
 
 	return (
 		<>
-			<Heading size={"sm"} mb={4} color="whiteAlpha.800">
+			<Heading display={{xs: 'block', sm: 'block', md: 'none', lg: 'none'}} size={"sm"} mb={4} color="whiteAlpha.800">
 				All Markets
 			</Heading>
 			<TableContainer
