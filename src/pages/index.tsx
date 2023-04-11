@@ -54,7 +54,7 @@ import { dollarFormatter } from "../utils";
 import { ASSET_NAMES } from "../constants";
 
 const Index = () => {
-	const { volumeStat, initMarket } = useContext(DataContext);
+	const { networkStatus, initMarket } = useContext(DataContext);
 
 	useEffect(() => {
 		initMarket();
@@ -113,7 +113,6 @@ const Index = () => {
 				bgRepeat={"no-repeat"}
 				bgSize={"contain"}
 				bgPosition={"center top"}
-				// h={'100vh'}
 			>
 				<Box
 					bgImage="/Rectangle2.png"
@@ -348,7 +347,11 @@ const Index = () => {
 								</Flex>
 							</Box>
 							<Box w={{ xs: "100%", sm: "100%", md: "40%" }}>
-								<TokensTable />
+								{networkStatus.status == 0 ? <TokensTable /> : <>
+										<Box>
+											<Text textAlign={'center'}>{networkStatus.msg}</Text>
+										</Box>
+								</>}
 							</Box>
 						</Flex>
 

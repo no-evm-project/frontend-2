@@ -36,6 +36,7 @@ interface DataValue {
 	refresh: number;
 	volumeStat: any;
 	notifications: any;
+	networkStatus: any;
 }
 
 function DataProvider({ children }: any) {
@@ -85,7 +86,11 @@ function DataProvider({ children }: any) {
 				.then(async (res) => {
 					const _pairs = res[0].data.data.rows;
 					setPairs(_pairs);
-					setNetworkStatus(res[1].data);	
+					// setNetworkStatus(res[1].data);	
+					setNetworkStatus({
+						status: 2,
+						msg: "System is under maintenance."
+					})
 					// 1 sec wait
 					await new Promise((resolve) => setTimeout(resolve, 1500));	
 					_setTrades(_pairs);	
@@ -104,9 +109,20 @@ function DataProvider({ children }: any) {
 					resolve({pairs: _pairs, tokens: _tokens});
 				})
 				.catch(async (err) => {
-					console.log("Error init:", err, "Trying again...");
 					setStatus("error");
-					await new Promise(() => setTimeout(initMarket, 2500));
+					if(err.response?.data?.message == 'System is under maintenance.'){
+						console.log("System is under maintenance.");
+						setMessage("System is under maintenance.");
+						setStatus("not-fetching");
+						setNetworkStatus({
+							status: 2,
+							msg: "System is under maintenance."
+						})
+						reject("System is under maintenance.");
+					} else {
+						console.log("Error init:", err, "Trying again...");
+						await new Promise(() => setTimeout(initMarket, 2500));
+					}
 				})
 		})
 	};
@@ -463,7 +479,7 @@ function DataProvider({ children }: any) {
 
 	return (
 		<DataContext.Provider
-			value={{ notifications, volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
+			value={{ networkStatus, notifications, volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
 		>
 			{children}
 		</DataContext.Provider>

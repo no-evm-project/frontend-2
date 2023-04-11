@@ -38,7 +38,6 @@ export default function ConnectButton() {
 		useContext(DataContext);
 
 	const init = useCallback(async (): Promise<LocalAccount> => {
-		
 		return new Promise(async (resolve, reject) => {
 			if (!accountId) {
 				setLoading(false);
@@ -91,6 +90,9 @@ export default function ConnectButton() {
 						console.log(err);
 					});
 			})
+			.catch((err) => {
+				setLoading(false);
+			});
 		}
 	}, [_init]);
 

@@ -4,7 +4,7 @@ import Orders from "@/components/spot/orders";
 import Title from "@/components/spot/title";
 import Trade from "@/components/spot/trade";
 import { DataContext } from "@/contexts/DataProvider";
-import { Box, Divider, Flex, useDisclosure } from "@chakra-ui/react";
+import { Box, Divider, Flex, Image, useDisclosure, Text, Heading } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
@@ -17,7 +17,7 @@ import Withdraw from "@/components/spot/balances/Withdraw";
 export default function Pair() {
 	const router = useRouter();
 	const { pair: pairId } = router.query;
-	const { pairs, trades } = useContext(DataContext);
+	const { pairs, trades, networkStatus } = useContext(DataContext);
 	const [pair, setPair] = React.useState<any>(null);
 
 	const {
@@ -48,6 +48,15 @@ export default function Pair() {
 	}, [pairs, pairId]);
 
 	if (pair == null) return <></>;
+
+	if(networkStatus.status == 2) return <>
+	<Flex gap={10} flexDir={'column'} align={'center'} justify='center' h={'80vh'} w='100vw'>
+		<Image src='https://media.tenor.com/hVRzRZnx-YsAAAAC/pepe-the-frog-sitting-chillin.gif' w={60} />
+		<Heading size={'sm'}>
+		{networkStatus.msg}
+		</Heading>
+		</Flex>
+		</>
 
 	return (
 		<>
