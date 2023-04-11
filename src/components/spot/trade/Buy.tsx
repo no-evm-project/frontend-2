@@ -127,7 +127,7 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 						value={!market ? price : "Place order at market price"}
 						onChange={onPriceChange}
 					>
-						<NumberInputField bg={'transparent'} rounded={0} />
+						<NumberInputField bg={'background.500'} rounded={0} />
 						<NumberInputStepper>
 							<NumberIncrementStepper />
 							<NumberDecrementStepper />
@@ -148,7 +148,7 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 							value={baseAmount}
 							onChange={updateBaseAmount}
 						>
-							<NumberInputField bg={'transparent'} rounded={0} />
+							<NumberInputField bg={'background.500'} rounded={0} />
 							<NumberInputStepper>
 								<NumberIncrementStepper />
 								<NumberDecrementStepper />

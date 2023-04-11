@@ -92,7 +92,7 @@ export default function BuyButton({
 				valid: false,
 				message: `Maximum order quantity is ${pair?.base_max} ${token1}`,
 			};
-		} else if (Number(baseAmount) > balance()) {
+		} else if (Number(baseAmount) > balance) {
 			return {
 				valid: false,
 				message: `Insufficient ${token1} balance`,

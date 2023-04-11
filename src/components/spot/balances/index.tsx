@@ -127,14 +127,14 @@ function TokenBalance({ token }: any) {
 						</Text>
 						{account && <Flex gap={1}>
 							<Text fontWeight={"normal"} fontSize={"sm"}>
-								{balances[token]?.wallet ? (
-									balances[token]?.wallet /
+								{(
+									(balances[token]?.wallet ?? 0) /
 									10 ** tokens[token].decimals
 								).toFixed(
 									tickToPrecision(
-										tokens[token].minimum_increment
+										tokens[token]?.minimum_increment
 									)
-								) : '...'}
+								)}
 							</Text>
 
 							<Text color={"whiteAlpha.600"} fontSize={"sm"}>
@@ -148,9 +148,9 @@ function TokenBalance({ token }: any) {
 						Available
 					</Text>
 					<Text fontSize={"sm"}>
-					{account ? balances[token]?.holding ? Number(balances[token]?.holding).toFixed(
-							tickToPrecision(tokens[token].minimum_increment)
-						) : '...' : '-'}
+					{Number(balances[token]?.holding ?? 0).toFixed(
+							tickToPrecision(tokens[token]?.minimum_increment)
+						)}
 					</Text>
 				</Box>
 			</Flex>

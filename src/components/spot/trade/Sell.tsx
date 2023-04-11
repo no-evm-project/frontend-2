@@ -84,7 +84,6 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 
 	const updateBaseAmount = (e: string) => {
 		setBaseAmount(e);
-		console.log(tickToPrecision(pair?.quote_tick));
 		if (isValidNS(e)) {
 			if (Number(price) > 0) {
 				setQuoteAmount(Big(Number(e)).times(price).toFixed(tickToPrecision(pair?.quote_tick)));
@@ -130,7 +129,7 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 						value={!market ? price : "Place order at market price"}
 						onChange={onPriceChange}
 					>
-						<NumberInputField rounded={0} />
+						<NumberInputField bg={'background.500'} rounded={0} />
 						<NumberInputStepper>
 							<NumberIncrementStepper />
 							<NumberDecrementStepper />
@@ -150,7 +149,7 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 							value={quoteAmount}
 							onChange={updateQuoteAmount}
 						>
-							<NumberInputField rounded={0} />
+							<NumberInputField bg={'background.500'} rounded={0} />
 							<NumberInputStepper>
 								<NumberIncrementStepper />
 								<NumberDecrementStepper />

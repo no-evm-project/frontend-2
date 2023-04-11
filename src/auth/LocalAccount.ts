@@ -198,8 +198,6 @@ export class LocalAccount {
             },
             data: {}
         };
-
-        console.log(`https://testnet-api.orderly.org${request}`);
         return axios.delete(`https://testnet-api.orderly.org${request}`, {...config});
     }
 

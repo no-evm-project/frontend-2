@@ -101,7 +101,6 @@ function DataProvider({ children }: any) {
 						_tokens[res[2].data.data.rows[i].token] = res[2].data.data.rows[i];
 						_tokenList.push(res[2].data.data.rows[i].token);
 					}
-					console.log(_tokens, _tokenList, _pairs);
 					setTokens(_tokens);
 					setTokenList(_tokenList);
 					setFeeInfo(res[3].data.data.rows);
@@ -173,7 +172,6 @@ function DataProvider({ children }: any) {
 			})
 		)
 		.then((res) => {
-			console.log("tickers", res);
 			const _24Tickers: any = {};
 			res.map((pairData: any, index: number) => {
 				_24Tickers[index] = {
@@ -189,7 +187,7 @@ function DataProvider({ children }: any) {
 			setRefresh(Math.random());
 		})
 		.catch((err) => {
-			console.log(err?.response?.data?.message);
+			console.log(err);
 		})
 	}
 

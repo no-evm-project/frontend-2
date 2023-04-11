@@ -86,7 +86,7 @@ export default function NumberInputWithSlider({
 					precision={4}
 					placeholder={placeholder}
 				>
-					<NumberInputField bg={'transparent'} rounded={0} placeholder={placeholder} />
+					<NumberInputField bg={'background.500'} rounded={0} placeholder={placeholder} />
 					<NumberInputStepper>
 						<NumberIncrementStepper />
 						<NumberDecrementStepper />
