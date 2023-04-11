@@ -55,7 +55,7 @@ export default function StatsTitle({ pair }: any) {
             <Divider orientation="vertical" {...DividerStyle} />
             <Param
                 title="24H Volume"
-                subtitle={(tickers[pair?.symbol]?.volume ?? 0).toFixed(
+                subtitle={'$ ' + ((tickers[pair?.symbol]?.volume ?? 0) * (trades[pair?.symbol]?.[0]?.executed_price ?? 0)).toFixed(
                     tickToPrecision(pair?.quote_tick)
                 )}
             />
@@ -98,7 +98,7 @@ const Param = ({ title, subtitle }: any) => {
 			<Text fontSize={"xs"} color="gray.500">
 				{title}
 			</Text>
-			<Text fontSize={"sm"}>{Number(subtitle) == 0 ? '...' : subtitle}</Text>
+			<Text fontSize={"sm"}>{subtitle}</Text>
 		</Box>
 	);
 };

@@ -471,10 +471,10 @@ import { IoIosAppstore } from "react-icons/io";
 
 function VolumeStat({ title, value, compare }: any) {
 	return (
-		<Stat>
-			<StatLabel>{title}</StatLabel>
-			<StatNumber>{dollarFormatter.format(value)}</StatNumber>
-			<StatHelpText>
+		<Stat size={'sm'}>
+			<StatLabel fontSize={'xs'}>{title}</StatLabel>
+			<StatNumber fontSize={'lg'}>{dollarFormatter.format(value)}</StatNumber>
+			<StatHelpText fontSize={'xs'}>
 				<StatArrow type={value > compare ? "increase" : "decrease"} />
 				{((100 * (value - compare)) / value).toFixed(2)} %
 			</StatHelpText>
@@ -482,12 +482,23 @@ function VolumeStat({ title, value, compare }: any) {
 	);
 }
 
+const TableThStyle = {
+	pt: 2,
+	borderColor: 'whiteAlpha.300'
+}
+
+const TableTdStyle = {
+	borderColor: 'whiteAlpha.200',
+	py: '3'
+}
+
+
 function TokensTable({}) {
-	const { tokenList, tokens, trades, volumeStat } = useContext(DataContext);
+	const { tokenList, tickers, trades, volumeStat } = useContext(DataContext);
 
 	return (
 		<>
-			<Heading size={"sm"} mb={6} color="whiteAlpha.800">
+			<Heading size={"sm"} mb={4} color="whiteAlpha.800">
 				All Markets
 			</Heading>
 			<TableContainer
@@ -495,7 +506,7 @@ function TokensTable({}) {
 				border="2px"
 				borderColor={"whiteAlpha.100"}
 			>
-				<Table variant="simple">
+				<Table variant="simple" size={'sm'}>
 					<TableCaption>
 						<Text>Note: Testnet Figures</Text>
 
@@ -518,22 +529,23 @@ function TokensTable({}) {
 						</StatGroup>
 					</TableCaption>
 					<Thead>
-						<Tr>
-							<Th>Market</Th>
-							<Th isNumeric>Price</Th>
+						<Tr >
+							<Th {...TableThStyle}>Market</Th>
+							<Th {...TableThStyle}>Price</Th>
+							<Th {...TableThStyle} isNumeric>24H Volume</Th>
 						</Tr>
 					</Thead>
 					<Tbody>
 						{tokenList.map((tokenSymbol: any, index: number) => (
 							<Tr key={index}>
-								<Td>
+								<Td {...TableTdStyle}>
 									<Flex gap={2}>
 										<Image
 											className="name-group"
 											rounded={"full"}
 											src={`https://oss.woo.network/static/symbol_logo/${tokenSymbol}.png`}
-											w={9}
-											h={9}
+											w={7}
+											h={7}
 											alt={tokenSymbol}
 										/>
 										<Box>
@@ -546,10 +558,15 @@ function TokensTable({}) {
 										</Box>
 									</Flex>
 								</Td>
-								<Td isNumeric>
+								<Td {...TableTdStyle}>
 									{dollarFormatter.format(
 										trades[`SPOT_${tokenSymbol}_USDC`]?.[0]
-											?.executed_price ?? 1
+											?.executed_price ?? 0
+									)}
+								</Td>
+								<Td {...TableTdStyle} isNumeric>
+									{dollarFormatter.format(
+										(tickers[`SPOT_${tokenSymbol}_USDC`]?.volume ?? 0) * (trades[`SPOT_${tokenSymbol}_USDC`]?.[0]?.executed_price ?? 0)
 									)}
 								</Td>
 							</Tr>

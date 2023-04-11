@@ -346,10 +346,9 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 
 							<Box textAlign={"right"}>
 								<Text fontWeight="medium">
-									{(trades[_pair.symbol]
-										? trades[_pair.symbol][0]
+									{(trades[_pair.symbol]?.[0]
 												?.executed_price
-										: 0
+										?? 0
 									).toFixed(
 										(_pair?.quote_tick ?? 0.001).toString()
 											.length - 2
@@ -360,7 +359,7 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 									<Text
 										fontSize={"sm"}
 										color={
-											trades[_pair.symbol][0]
+											trades[_pair.symbol]?.[0]
 												?.executed_price >=
 											tickers[_pair.symbol].open
 												? "buy.700"
@@ -369,7 +368,7 @@ const ListedPairs = ({ pairs, setIsOpen }: any) => {
 									>
 										{(
 											(100 *
-												(trades[_pair.symbol][0]
+												(trades[_pair.symbol]?.[0]
 													?.executed_price -
 													tickers[_pair.symbol]
 														.open)) /

@@ -11,7 +11,9 @@ import Buy from "./Buy";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import Sell from "./Sell";
 
-const OrderTypeStyle = {};
+const OrderTypeStyle = {
+	fontWeight: 'medium'
+};
 
 const OrderTabStyle = (color: string) => {
 	return {

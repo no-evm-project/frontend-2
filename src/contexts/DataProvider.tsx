@@ -63,11 +63,16 @@ function DataProvider({ children }: any) {
 	const [notifications, setNotifications] = React.useState<any>([]);
 
 	const [isSubscribedToMarket, setIsSubscribedToMarket] = React.useState<boolean>(false);
+	const [isSubscribedToUser, setIsSubscribedToUser] = React.useState<boolean>(false);
 
 	React.useEffect(() => {
-		if(pairs.length > 0 && Object.keys(balances).length > 0 && account && !isSubscribedToMarket){
-			subscribeMarket(account);
+		if(pairs.length > 0  && !isSubscribedToMarket){
+			subscribeMarket();
 			setIsSubscribedToMarket(true);
+		}
+		if(pairs.length > 0 && Object.keys(balances).length > 0 && account && !isSubscribedToUser){
+			subscribeUser(account);
+			setIsSubscribedToUser(true);
 		}
 	}, [account, pairs, balances]);
 
@@ -86,11 +91,7 @@ function DataProvider({ children }: any) {
 				.then(async (res) => {
 					const _pairs = res[0].data.data.rows;
 					setPairs(_pairs);
-					// setNetworkStatus(res[1].data);	
-					setNetworkStatus({
-						status: 2,
-						msg: "System is under maintenance."
-					})
+					setNetworkStatus(res[1].data.data);
 					// 1 sec wait
 					await new Promise((resolve) => setTimeout(resolve, 1500));	
 					_setTrades(_pairs);	
@@ -105,6 +106,7 @@ function DataProvider({ children }: any) {
 					setTokenList(_tokenList);
 					setFeeInfo(res[3].data.data.rows);
 					setVolumeStat(res[4].data.data);
+					_setInitialTickers(_pairs);
 					setStatus("fetched");
 					resolve({pairs: _pairs, tokens: _tokens});
 				})
@@ -164,6 +166,33 @@ function DataProvider({ children }: any) {
 		)
 	}
 
+	const _setInitialTickers = async (_pairs: any) => {
+		Promise.all(
+			_pairs.map((pair: any) => {
+				return axios.get(API_ENDPOINT + `/tv/history?symbol=${pair.symbol}&resolution=1D&to=${(Date.now()/1000).toFixed(0)}&from=${Number((Date.now()/1000).toFixed(0)) - 24*3600}`)
+			})
+		)
+		.then((res) => {
+			console.log("tickers", res);
+			const _24Tickers: any = {};
+			res.map((pairData: any, index: number) => {
+				_24Tickers[index] = {
+					symbol: _pairs[index].symbol,
+					open: pairData.data.o[0],
+					high: pairData.data.h[0],
+					low: pairData.data.l[0],
+					close: pairData.data.c[0],
+					volume: pairData.data.v[0],
+				}
+			});
+			setTickers(_24Tickers);
+			setRefresh(Math.random());
+		})
+		.catch((err) => {
+			console.log(err?.response?.data?.message);
+		})
+	}
+
 	const _setOrders = async (_account: LocalAccount) => {
 		_account.createGetRequest("GET", `/v1/orders`).then((res) => {
 			const _orders = res.data.data.rows;
@@ -221,10 +250,10 @@ function DataProvider({ children }: any) {
 		})
 	}
 
-	const subscribeMarket = async (account: LocalAccount) => {
+	const subscribeMarket = async () => {
 		console.log("Subscribing to market");
 		const marketWS = new WebSocket(
-			"wss://testnet-ws.orderly.org/ws/stream/" + account.accountId
+			"wss://testnet-ws.orderly.org/ws/stream/OqdphuyCtYWxwzhxyLLjOWNdFP7sQt8RPWzmb5xY"
 		);
 
 		marketWS.addEventListener("open", function (event) {
@@ -331,6 +360,10 @@ function DataProvider({ children }: any) {
 				console.log(`Unknown data: ${JSON.stringify(data)}`);
 			}
 		});
+	};
+
+	const subscribeUser = async (account: LocalAccount) => {
+		console.log("Subscribing to user");
 		
 		const userWS = new WebSocket(
 			"wss://testnet-ws-private.orderly.org/v2/ws/private/stream/" +

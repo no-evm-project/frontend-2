@@ -33,12 +33,12 @@ export default function PriceTitle({ pair }: any) {
             </Flex>
 
             <Box textAlign={"right"}>
-                <Text color={"whiteAlpha.700"} fontSize="xs">
+                {/* <Text color={"whiteAlpha.700"} fontSize="xs">
                     Index Price
                 </Text>
                 <Text mt={-1} color={"whiteAlpha.800"} fontSize="sm">
                     -
-                </Text>
+                </Text> */}
             </Box>
         </Flex>
 	);

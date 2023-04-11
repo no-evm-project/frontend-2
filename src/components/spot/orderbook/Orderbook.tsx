@@ -112,185 +112,171 @@ export default function Orderbook({ pair }: any) {
 
 	return (
 		<>
-			{!accountId ? (
-				<>
-					<Flex justify='center' m={5}>
-						{/* <ConnectButton /> */}
-						<Text>Connect your wallet</Text>
-					</Flex>
-				</>
-			) : (
-				<>
-					<Box>
-						<Flex justify="space-between" px={4} py={2} >
-							<Text
-								w={"30%"}
-								fontSize={"xs"}
-								color="whiteAlpha.700"
-								fontWeight={"bold"}
+			<Box>
+				<Flex justify="space-between" px={4} py={2} >
+					<Text
+						w={"30%"}
+						fontSize={"xs"}
+						color="whiteAlpha.700"
+						fontWeight={"bold"}
+					>
+						Price
+					</Text>
+					<Text
+						w={"36%"}
+						fontSize={"xs"}
+						color="whiteAlpha.700"
+						fontWeight={"bold"}
+						textAlign="right"
+					>
+						{pair?.symbol.split("_")[2]}
+					</Text>
+					<Text
+						w={"33%"}
+						fontSize={"xs"}
+						color="whiteAlpha.700"
+						fontWeight={"bold"}
+						textAlign="right"
+					>
+						{pair?.symbol.split("_")[1]}
+					</Text>
+				</Flex>
+
+				{orderbook[pair.symbol] && bbos[pair.symbol] ? (
+					<>
+						{[...orderbook[pair.symbol].asks]
+							.reverse()
+							.slice(-15)
+							.map((ask: any, index: number) => (
+								// <Order order={ask} key={ask[0]} orderType='ASK' total={maxAsk} pair={pair} />
+								<Tooltip
+									bg={"background.300"}
+									hasArrow
+									placement="right"
+									p={0}
+									m={0}
+									key={index}
+									label={
+										<HoveredState
+											orderIndex={index}
+											pair={pair}
+											side="ASKS"
+										/>
+									}
+									// animation="none"
+								>
+									<Box
+										onMouseEnter={() =>
+											setHoveredSellOrder(index)
+										}
+										onMouseLeave={() =>
+											setHoveredSellOrder(100)
+										}
+									>
+										<Order
+											order={ask}
+											key={index}
+											orderIndex={index}
+											hoveredOrder={
+												hoveredSellOrder
+											}
+											orderType="ASK"
+											total={maxAsk}
+											pair={pair}
+										/>
+									</Box>
+								</Tooltip>
+							))}
+						<Flex py={4} px={4} justify="space-between" bg={'background.500'}>
+							{/* <Flex
+								color={
+									trades[pair.symbol]?.[0]?.side ==
+									"BUY"
+										? "buy.400"
+										: "sell.400"
+								}
+								align="center"
 							>
-								Price
-							</Text>
+								<Text fontSize={"xl"} fontWeight="bold">
+									{(trades[pair.symbol]?.[0]?.executed_price ?? 0
+									).toFixed(
+										tickToPrecision(
+											pair?.quote_tick
+										)
+									)}
+								</Text>
+								{trades[pair.symbol]?.[0]?.side !==
+								"BUY" ? (
+									<AiFillCaretDown />
+								) : (
+									<AiFillCaretUp />
+								)}
+							</Flex> */}
+
 							<Text
-								w={"36%"}
 								fontSize={"xs"}
-								color="whiteAlpha.700"
-								fontWeight={"bold"}
-								textAlign="right"
+								mt={1}
+								color="whiteAlpha.800"
 							>
-								{pair?.symbol.split("_")[2]}
-							</Text>
-							<Text
-								w={"33%"}
-								fontSize={"xs"}
-								color="whiteAlpha.700"
-								fontWeight={"bold"}
-								textAlign="right"
-							>
-								{pair?.symbol.split("_")[1]}
+								Spread{" "}
+								{(
+									(100 *
+										(bbos[pair.symbol].ask -
+											bbos[pair.symbol].bid)) /
+									bbos[pair.symbol].ask
+								).toFixed(2)}{" "}
+								%
 							</Text>
 						</Flex>
-
-						{orderbook[pair.symbol] && bbos[pair.symbol] ? (
-							<>
-								{[...orderbook[pair.symbol].asks]
-									.reverse()
-									.slice(-15)
-									.map((ask: any, index: number) => (
-										// <Order order={ask} key={ask[0]} orderType='ASK' total={maxAsk} pair={pair} />
-										<Tooltip
-											bg={"background.300"}
-											hasArrow
-											placement="right"
-											p={0}
-											m={0}
-											key={index}
-											label={
-												<HoveredState
-													orderIndex={index}
-													pair={pair}
-													side="ASKS"
-												/>
-											}
-											// animation="none"
-										>
-											<Box
-												onMouseEnter={() =>
-													setHoveredSellOrder(index)
-												}
-												onMouseLeave={() =>
-													setHoveredSellOrder(100)
-												}
-											>
-												<Order
-													order={ask}
-													key={index}
-													orderIndex={index}
-													hoveredOrder={
-														hoveredSellOrder
-													}
-													orderType="ASK"
-													total={maxAsk}
-													pair={pair}
-												/>
-											</Box>
-										</Tooltip>
-									))}
-								<Flex py={4} px={4} justify="space-between" bg={'background.500'}>
-									<Flex
-										color={
-											trades[pair.symbol][0]?.side ==
-											"BUY"
-												? "buy.400"
-												: "sell.400"
+						{orderbook[pair.symbol].bids
+							.slice(0, 15)
+							.map((bid: any, index: number) => (
+								<Tooltip
+									bg={"background.300"}
+									hasArrow
+									placement="right"
+									p={0}
+									m={0}
+									key={index}
+									label={
+										<HoveredState
+											orderIndex={index}
+											pair={pair}
+											side="BIDS"
+										/>
+									}
+									animation="none"
+								>
+									<Box
+										onMouseEnter={() =>
+											setHoveredBuyOrder(index)
 										}
-										align="center"
+										onMouseLeave={() =>
+											setHoveredBuyOrder(-1)
+										}
 									>
-										<Text fontSize={"xl"} fontWeight="bold">
-											{(trades[pair.symbol]
-												? trades[pair.symbol][0]
-														.executed_price
-												: 0
-											).toFixed(
-												tickToPrecision(
-													pair?.quote_tick
-												)
-											)}
-										</Text>
-										{trades[pair.symbol][0]?.side !==
-										"BUY" ? (
-											<AiFillCaretDown />
-										) : (
-											<AiFillCaretUp />
-										)}
-									</Flex>
-
-									<Text
-										fontSize={"xs"}
-										mt={1}
-										color="whiteAlpha.800"
-									>
-										Spread{" "}
-										{(
-											(100 *
-												(bbos[pair.symbol].ask -
-													bbos[pair.symbol].bid)) /
-											bbos[pair.symbol].ask
-										).toFixed(2)}{" "}
-										%
-									</Text>
-								</Flex>
-								{orderbook[pair.symbol].bids
-									.slice(0, 15)
-									.map((bid: any, index: number) => (
-										<Tooltip
-											bg={"background.300"}
-											hasArrow
-											placement="right"
-											p={0}
-											m={0}
+										<Order
+											order={bid}
 											key={index}
-											label={
-												<HoveredState
-													orderIndex={index}
-													pair={pair}
-													side="BIDS"
-												/>
+											orderIndex={index}
+											hoveredOrder={
+												hoveredBuyOrder
 											}
-											animation="none"
-										>
-											<Box
-												onMouseEnter={() =>
-													setHoveredBuyOrder(index)
-												}
-												onMouseLeave={() =>
-													setHoveredBuyOrder(-1)
-												}
-											>
-												<Order
-													order={bid}
-													key={index}
-													orderIndex={index}
-													hoveredOrder={
-														hoveredBuyOrder
-													}
-													orderType="BID"
-													total={maxBid}
-													pair={pair}
-												/>
-											</Box>
-										</Tooltip>
-									))}
-							</>
-						) : (
-							<>
-								<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
-								<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
-							</>
-						)}
-					</Box>
-				</>
-			)}
+											orderType="BID"
+											total={maxBid}
+											pair={pair}
+										/>
+									</Box>
+								</Tooltip>
+							))}
+					</>
+				) : (
+					<>
+						<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
+						<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
+					</>
+				)}
+			</Box>
 		</>
 	);
 }

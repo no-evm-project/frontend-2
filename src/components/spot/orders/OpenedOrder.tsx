@@ -37,9 +37,13 @@ export default function OpenedOrder({ order, pair }: any) {
 				<Td borderColor={"whiteAlpha.100"} maxW='100px'>
 				<Tooltip label={moment(order.created_time).format('MMMM Do YYYY, h:mm:ss a')} bg='background.400' color={'white'} m={0} >
 					<Box fontSize={"sm"}>
-						<Text>
+						<Text maxW='100px' wordBreak={'break-word'}>
 							{moment(order.created_time)
-								.calendar()}
+								.calendar().split(" at ")[0]}
+						</Text>
+						<Text maxW='100px' wordBreak={'break-word'}>
+							{moment(order.created_time)
+								.calendar().split(" at ")[1]}
 						</Text>
 					</Box>
 				</Tooltip>

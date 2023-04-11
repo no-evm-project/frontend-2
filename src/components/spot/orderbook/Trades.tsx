@@ -28,68 +28,56 @@ function Order({ trade, pair }: any) {
 
 export default function Trades({ pair }: any) {
 	const { orderbook, bbos, trades } = useContext(DataContext);
-
-	const {accountId} = useWalletSelector();
 	
 	return (
 		<>
-		{!accountId ? (
-				<>
-					<Box>
-						<Text textAlign={"center"} mt={5}>
-							Connect Your Wallet
+			<SlideFade in={true} offsetY='-20px'>
+				<Box>
+					<Flex justify="space-between" px={4} py={2}>
+						<Text
+						w={'30%'}
+							fontSize={"xs"}
+							color="whiteAlpha.700"
+							fontWeight={"bold"}
+						>
+							Price
 						</Text>
-					</Box>
-				</>
-			) : (
-				<SlideFade in={true} offsetY='-20px'>
-			<Box>
-				<Flex justify="space-between" px={4} py={2}>
-					<Text
-					w={'30%'}
-						fontSize={"xs"}
-						color="whiteAlpha.700"
-						fontWeight={"bold"}
-					>
-						Price
-					</Text>
-					<Text
-					w={'36%'}
-						fontSize={"xs"}
-						color="whiteAlpha.700"
-						fontWeight={"bold"}
-						textAlign='right'
-					>
-						{pair?.symbol.split('_')[2]}
-					</Text>
-					<Text
-					w={'33%'}
-						fontSize={"xs"}
-						color="whiteAlpha.700"
-						fontWeight={"bold"}
-						textAlign='right'
-					>
-						{pair?.symbol.split('_')[1]}
-					</Text>
-				</Flex>
+						<Text
+						w={'36%'}
+							fontSize={"xs"}
+							color="whiteAlpha.700"
+							fontWeight={"bold"}
+							textAlign='right'
+						>
+							{pair?.symbol.split('_')[2]}
+						</Text>
+						<Text
+						w={'33%'}
+							fontSize={"xs"}
+							color="whiteAlpha.700"
+							fontWeight={"bold"}
+							textAlign='right'
+						>
+							{pair?.symbol.split('_')[1]}
+						</Text>
+					</Flex>
 
-				{trades[pair.symbol] && bbos[pair.symbol] ? (
-					<>
-						{trades[pair.symbol].slice(0, 15).map((trade: any) => (
-							<>
-                                <Order trade={trade} pair={pair} />
-                            </>
-						))}
-					</>
-				) : (
-					<>
-						<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
-						<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
-					</>
-				)}
-			</Box>
+					{trades[pair.symbol] && bbos[pair.symbol] ? (
+						<>
+							{trades[pair.symbol].slice(0, 15).map((trade: any) => (
+								<>
+									<Order trade={trade} pair={pair} />
+								</>
+							))}
+						</>
+					) : (
+						<>
+							<Progress size="xs" bg={'transparent'} colorScheme='background' isIndeterminate />
+							<Text fontSize={'sm'} mt={2} textAlign='center' color={'whiteAlpha.600'}>Loading</Text>
+						</>
+					)}
+				</Box>
 			</SlideFade>
-		)}
 		</>
 	);
 }
