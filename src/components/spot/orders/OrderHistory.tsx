@@ -1,5 +1,5 @@
 import { DataContext } from "@/contexts/DataProvider";
-import { Box, Flex, IconButton, Tag, Tooltip } from "@chakra-ui/react";
+import { Badge, Box, Flex, IconButton, Tag, Tooltip } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useContext } from "react";
 
@@ -97,7 +97,7 @@ export default function OrderHistory() {
 														.replace("SPOT_", "")
 														.split("_")[0]
 												}.png`}
-												w={7}
+												w={8}
 												zIndex={1}
 												alt={order.symbol}
 											/>
@@ -117,7 +117,7 @@ export default function OrderHistory() {
 											/>
                                             </Flex>
                                             <Box>
-						<Text fontWeight={"medium"}>
+						<Text fontSize={'sm'}>
 							{order.symbol.split("_")[1]}
 						</Text>
 						<Text fontSize={'xs'}>
@@ -127,10 +127,10 @@ export default function OrderHistory() {
                     </Flex>
 										</Td>
 										<Td borderColor={'whiteAlpha.100'}><Flex gap={2} align='center'>
-                        <Tag bg={order.side == 'BUY' ? 'buy.700': 'sell.400'}>
-                            <Text fontSize={'xs'} >{order.side}</Text>
-                        </Tag>
                         <Text fontSize={'sm'}>{order.type}</Text>
+                        <Badge bg={order.side == 'BUY' ? 'buy.700': 'sell.400'}>
+                            {order.side}
+                        </Badge>
                     </Flex></Td>
 										<Td borderColor={'whiteAlpha.100'}>
 											 {order.status}
@@ -189,7 +189,7 @@ export default function OrderHistory() {
 				
 				</>) : (<>
 				<Box mx={4}>
-					<Text color={"gray"}>No order history</Text>
+					<Text color={"gray"}>No Order History</Text>
 				</Box></>)
 
 		}

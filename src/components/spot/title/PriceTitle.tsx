@@ -1,5 +1,6 @@
 import { DataContext } from "@/contexts/DataProvider";
 import { Flex, Text, Box, Divider } from "@chakra-ui/react";
+import Big from "big.js";
 import React, { useContext } from "react";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
@@ -39,6 +40,26 @@ export default function PriceTitle({ pair }: any) {
                 <Text mt={-1} color={"whiteAlpha.800"} fontSize="sm">
                     -
                 </Text> */}
+                <Box>
+                    <Text fontSize={"xs"} color="gray.500">
+                        24H Change
+                    </Text>
+                    <Text fontSize={"sm"}>{(trades[pair?.symbol] && tickers[pair?.symbol])
+                            ? (
+                                    Big(trades[pair?.symbol]?.[0]?.executed_price ?? 0).sub(
+                                        (tickers[pair?.symbol]?.open ?? 0)
+                                        ).toNumber()
+                                ) +
+                                " (" +
+                                (
+                                    (100 *
+                                        (trades[pair?.symbol]?.[0]?.executed_price -
+                                            (tickers[pair?.symbol]?.open ?? 0))) /
+                                            (tickers[pair?.symbol]?.open ?? 1)
+                                ).toFixed(2) +
+                                "%)"
+                            : "-"}</Text>
+                </Box>
             </Box>
         </Flex>
 	);

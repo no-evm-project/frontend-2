@@ -5,6 +5,8 @@ export const BROKER_ID = "zexe_dex";
 export const API_ENDPOINT = "https://testnet-api.orderly.org";
 export const BASIS_POINTS = 10000;
 
+export const EXPLORER_URL = "https://explorer.testnet.near.org";
+
 export namespace WS_IDS {
     export const ORDERBOOK_REQUEST = "ob_req";
     export const ORDERBOOK_UPDATE = "ob_update";

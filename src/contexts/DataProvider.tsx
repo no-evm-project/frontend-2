@@ -37,6 +37,7 @@ interface DataValue {
 	volumeStat: any;
 	notifications: any;
 	networkStatus: any;
+	assetHistory: any;
 }
 
 function DataProvider({ children }: any) {
@@ -61,6 +62,7 @@ function DataProvider({ children }: any) {
 	const [userVolume, setUserVolume] = React.useState<any>({});
 	const [volumeStat, setVolumeStat] = React.useState<any>({});
 	const [notifications, setNotifications] = React.useState<any>([]);
+	const [assetHistory, setAssetHistory] = React.useState<any>([]);
 
 	const [isSubscribedToMarket, setIsSubscribedToMarket] = React.useState<boolean>(false);
 	const [isSubscribedToUser, setIsSubscribedToUser] = React.useState<boolean>(false);
@@ -139,6 +141,7 @@ function DataProvider({ children }: any) {
 				const _holdings = res.data.data.holding;
 				setAccountInfo(accountInfo.data.data);
 				setUserVolume(userVolume.data.data);
+				_setAssetHistory(_account);
 				for(let i in _holdings){
 					_balances[_holdings[i].token] = _holdings[i];
 					let tokenId = _tokens[_holdings[i].token].token_account_id;
@@ -188,6 +191,16 @@ function DataProvider({ children }: any) {
 		})
 		.catch((err) => {
 			console.log(err);
+		})
+	}
+
+	const _setAssetHistory = async (_account: LocalAccount) => {
+		_account.createGetRequest("GET", `/v1/asset/history`).then((res) => {
+			// setUserVolume(res.data.data);
+			setAssetHistory(res.data.data.rows);
+		})
+		.catch(err => {
+			console.log("Error fetching asset history:", err);
 		})
 	}
 
@@ -510,7 +523,7 @@ function DataProvider({ children }: any) {
 
 	return (
 		<DataContext.Provider
-			value={{ networkStatus, notifications, volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
+			value={{ assetHistory, networkStatus, notifications, volumeStat, refresh, feeInfo, userVolume, handleExecution, accountInfo, status, initMarket, initUser, account, setAccount, orderbook, bbos, tickers, message, pairs, block, trades, tokens, tokenList, balances, orders, addOrder }}
 		>
 			{children}
 		</DataContext.Provider>

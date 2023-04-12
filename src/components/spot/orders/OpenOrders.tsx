@@ -117,7 +117,7 @@ export default function OpenOrders({pair}: any) {
 
 				) : (
 				<Box mx={4}>
-					<Text color={"gray"}>No active orders</Text>
+					<Text color={"gray"}>No Active Orders</Text>
 				</Box>
 			)}
 

@@ -43,7 +43,7 @@ const tabStyle = {
 	rounded: 0,
 }
 
-export default function TokenSelector({ pair, width = '400px', headingSize = '2xl' }: any) {
+export default function TokenSelector({ pair, headingSize = '2xl' }: any) {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { pairs } = useContext(DataContext);
 
@@ -171,7 +171,7 @@ export default function TokenSelector({ pair, width = '400px', headingSize = '2x
 						display: "flex",
 						flexDirection: "column",
 						position: "relative",
-						width: width,
+						width: '100%',
 						// height: '72vh',
 						padding: "12px",
 						backgroundColor: "#1A0F30",

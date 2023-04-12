@@ -20,7 +20,7 @@ export default function StatsTitle({ pair }: any) {
             h={"100%"}
             align="center"
         >
-            <Box
+            {/* <Box
                 color={
                     trades[pair?.symbol]?.[0]?.executed_price >=
                     (tickers[pair?.symbol]?.open ?? 0)
@@ -50,9 +50,9 @@ export default function StatsTitle({ pair }: any) {
                             : "-"
                     }
                 />
-            </Box>
+            </Box> */}
 
-            <Divider orientation="vertical" {...DividerStyle} />
+            {/* <Divider orientation="vertical" {...DividerStyle} /> */}
             <Param
                 title="24H Volume"
                 subtitle={'$ ' + ((tickers[pair?.symbol]?.volume ?? 0) * (trades[pair?.symbol]?.[0]?.executed_price ?? 0)).toFixed(

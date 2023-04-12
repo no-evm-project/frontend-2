@@ -7,6 +7,7 @@ import { Heading } from "@chakra-ui/react";
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import OpenOrders from "./OpenOrders";
 import OrderHistory from "./OrderHistory";
+import AssetHistory from "./AssetHistory";
 
 const tabStyle = {
 	rounded: 0,
@@ -24,6 +25,8 @@ export default function Orders({ pair }: any) {
 					<TabList>
 						<Tab {...tabStyle}>Open Orders</Tab>
 						<Tab {...tabStyle}>Order History</Tab>
+						<Tab {...tabStyle}>Asset History</Tab>
+
 					</TabList>
 					<TabPanels>
 						<TabPanel py={2} px={0} m={0}>
@@ -31,6 +34,9 @@ export default function Orders({ pair }: any) {
 						</TabPanel>
 						<TabPanel py={2} px={0} m={0}>
 							<OrderHistory />
+						</TabPanel>
+						<TabPanel py={2} px={0} m={0}>
+							<AssetHistory />
 						</TabPanel>
 					</TabPanels>
 				</Tabs>

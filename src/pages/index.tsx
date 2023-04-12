@@ -299,7 +299,7 @@ const Index = () => {
 							justify={"space-between"}
 							gap={10}
 						>
-							<Box w={{ xs: "100%", sm: "100%", md: "60%" }}>
+							<Box flexGrow={1}>
 								<Heading>
 									User First <br /> Trading Experience
 								</Heading>
@@ -346,7 +346,7 @@ const Index = () => {
 									/>
 								</Flex>
 							</Box>
-							<Box w={{ xs: "100%", sm: "100%", md: "40%" }}>
+							<Box w={{ xs: "100%", sm: "100%", md: "40%" }} maxW='500px'>
 								{networkStatus.status == 0 ? <TokensTable /> : <>
 										<Box>
 											<Text textAlign={'center'}>{networkStatus.msg}</Text>
@@ -506,6 +506,7 @@ function TokensTable({}) {
 				bg={"whiteAlpha.50"}
 				border="2px"
 				borderColor={"whiteAlpha.100"}
+				
 			>
 				<Table variant="simple" size={'sm'}>
 					<TableCaption>

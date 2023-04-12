@@ -1,5 +1,5 @@
 import { EditIcon, CloseIcon, CheckIcon } from "@chakra-ui/icons";
-import { Box, Td, Tr, Text, Flex, IconButton, Tag, Tooltip } from "@chakra-ui/react";
+import { Box, Td, Tr, Text, Flex, IconButton, Tag, Tooltip, Badge } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -90,10 +90,10 @@ export default function OpenedOrder({ order, pair }: any) {
 				</Td>
 				<Td borderColor={"whiteAlpha.100"}>
 					<Flex gap={2} align="center">
-						<Tag bg={order.side == "BUY" ? "buy.700" : "sell.400"}>
-							<Text fontSize={"xs"}>{order.side}</Text>
-						</Tag>
 						<Text fontSize={"sm"}>{order.type}</Text>
+						<Badge bg={order.side == "BUY" ? "buy.700" : "sell.400"}>
+							{order.side}
+						</Badge>
 					</Flex>
 				</Td>
 
