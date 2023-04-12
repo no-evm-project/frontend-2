@@ -52,8 +52,8 @@ export default function OrderHistory() {
 					<Table variant="simple" size={"sm"}>
 						<Thead>
 							<Tr>
-								<Th borderColor={'whiteAlpha.100'}>Asset / Type</Th>
-								<Th borderColor={'whiteAlpha.100'}>Pair</Th>
+								<Th borderColor={'whiteAlpha.100'}>Created On</Th>
+								<Th borderColor={'whiteAlpha.100'}>Asset</Th>
 								<Th borderColor={'whiteAlpha.100'}>Type</Th>
 								<Th borderColor={'whiteAlpha.100'}>Amount</Th>
 								<Th borderColor={'whiteAlpha.100'}>Status</Th>

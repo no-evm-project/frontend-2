@@ -59,7 +59,7 @@ export default function OpenedOrder({ order, pair }: any) {
 										.replace("SPOT_", "")
 										.split("_")[0]
 								}.png`}
-								w={7}
+								w={8}
 								zIndex={1}
 								alt={pair.symbol}
 							/>
