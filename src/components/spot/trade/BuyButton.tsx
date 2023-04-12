@@ -153,7 +153,7 @@ export default function BuyButton({
 		) {
 			return {
 				valid: false,
-				message: `Price is too high`,
+				message: `Price is too high/low`,
 			};
 		} else {
 			return {

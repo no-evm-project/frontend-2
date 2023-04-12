@@ -55,13 +55,13 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 		);
 	};
 
-	const updateQuoteAmount = (e: string) => {
+	const updateQuoteAmount = (e: string, _price = price) => {
 		setQuoteAmount(e);
 		if (isValidNS(e)) {
-			if (Number(price) > 0) {
+			if (Number(_price) > 0) {
 				setBaseAmount(
 					Big(Number(e))
-						.div(price)
+						.div(_price)
 						.toFixed(tickToPrecision(pair?.base_tick))
 				);
 			} else {
@@ -86,6 +86,20 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 	};
 
 	useEffect(() => {
+		if (isValidNS(price)) {
+			if (Number(price) > 0) {
+				setBaseAmount(
+					Big(Number(quoteAmount))
+						.div(Number(price))
+						.toFixed(tickToPrecision(pair?.base_tick))
+				);
+			} else {
+				setBaseAmount("0");
+			}
+		}
+	}, [price])
+
+	useEffect(() => {
 		if (
 			trades[pair.symbol] && balances[token1]
 		) {
@@ -94,7 +108,7 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 			);
 			setPrice(_price);
 			onPriceChange(_price);
-			updateQuoteAmount((Number(balance())/4).toFixed(tickToPrecision(pair?.quote_tick)));
+			updateQuoteAmount((Number(balance())/4).toFixed(tickToPrecision(pair?.quote_tick)), _price);
 			setInitialCheck(pair.symbol);
 		} else {
 			onPriceChange(price);
@@ -103,17 +117,6 @@ export default function Buy({ pair, market, dontShow, setDontShow, checkIt }: an
 
 	const onPriceChange = (e: string) => {
 		setPrice(e);
-		if (isValidNS(e)) {
-			if (Number(e) > 0) {
-				setBaseAmount(
-					Big(Number(quoteAmount))
-						.div(Number(e))
-						.toFixed(tickToPrecision(pair?.base_tick))
-				);
-			} else {
-				setBaseAmount("0");
-			}
-		}
 	};
 
 	return (

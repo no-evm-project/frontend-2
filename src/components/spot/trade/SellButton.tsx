@@ -123,7 +123,7 @@ export default function BuyButton({
 		else if (Number(price) < orderbook[pair?.symbol]?.bids[0][0] * (1 - pair?.price_range)) {
 			return {
 				valid: false,
-				message: `Price is too high`,
+				message: `Price is too high/low`,
 			};
 		} else if(Number(price) * Number(baseAmount) < pair?.min_notional){
 			return {

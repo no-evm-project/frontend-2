@@ -107,16 +107,19 @@ export default function Sell({ pair, market, dontShow, setDontShow, checkIt }: a
 
 	const onPriceChange = (e: string) => {
 		setPrice(e);
-		if (isValidNS(e)) {
-			if (Number(e) > 0) {
-				setBaseAmount(
-					Big(Number(quoteAmount)).div(Number(e)).toFixed(tickToPrecision(pair?.base_tick))
+	};
+
+	useEffect(() => {
+		if (isValidNS(price)) {
+			if (Number(price) > 0) {
+				setQuoteAmount(
+					Big(Number(baseAmount)).mul(Number(price)).toFixed(tickToPrecision(pair?.base_tick))
 				);
 			} else {
 				setBaseAmount("0");
 			}
 		}
-	};
+	}, [price])
 
 	return (
 		<>
